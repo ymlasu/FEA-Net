@@ -1,0 +1,94 @@
+import tensorflow as tf
+slim = tf.contrib.slim
+from elast_1phase_2D_tf import load_data_elem
+import numpy as np
+from tqdm import tqdm
+import os
+batch_size = 6
+num_node = 13
+
+f = tf.placeholder(tf.float32, shape=(None, None, None, 2))
+u = tf.placeholder(tf.float32, shape=(None, None, None, 2))
+
+x = f
+if 0:
+    with tf.variable_scope('FCN') as scope:
+        for i in range(499):
+            x = slim.conv2d(x, kernel_size=3, num_outputs=2, scope='conv1')
+            tf.get_variable_scope().reuse_variables()
+            assert tf.get_variable_scope().reuse == True
+        x = slim.conv2d(x, kernel_size=3, num_outputs=2, activation_fn=None, scope='conv1')
+else:
+    x = slim.conv2d(x, kernel_size=3, num_outputs=64, scope='conv0')
+    with tf.variable_scope('FCN') as scope:
+        for i in range(5):
+            x = slim.conv2d(x, kernel_size=3, num_outputs=64, scope='conv1')
+            tf.get_variable_scope().reuse_variables()
+            assert tf.get_variable_scope().reuse == True
+    x = slim.conv2d(x, kernel_size=3, num_outputs=2, activation_fn=None, scope='conv2')
+
+l1_loss = tf.reduce_mean(tf.abs(x - u))
+l2_loss = tf.reduce_sum((x - u) ** 2)
+weighted_l2_loss = tf.reduce_sum((x - u) ** 2 * abs(u))
+loss = weighted_l2_loss
+
+# optimizer
+learning_rate = 1e-3
+optimizer = tf.train.AdamOptimizer(learning_rate)  #
+grads = optimizer.compute_gradients(loss)
+train_op = optimizer.apply_gradients(grads)
+
+# initialize
+FLAGS = tf.app.flags.FLAGS
+tfconfig = tf.ConfigProto(
+    allow_soft_placement=True,
+    log_device_placement=True,
+)
+tfconfig.gpu_options.allow_growth = True
+sess = tf.Session(config=tfconfig)
+init = tf.global_variables_initializer()
+sess.run(init)
+
+u_img, f_img = load_data_elem(num_node, noise_mag=0.0)
+u_img = u_img.transpose((0,2,1,3))
+f_img = f_img.transpose((0,2,1,3))
+import scipy.io as sio
+data = sio.loadmat('/home/hope-yao/Documents/MG_net/elasticity/data/block_case1.mat')
+num_node = 65
+ux = data['d_x'].reshape(num_node, num_node).transpose((1, 0))  # * 1e10
+uy = data['d_y'].reshape(num_node, num_node).transpose((1, 0))  # * 1e10
+test_u_img = np.concatenate([np.expand_dims(ux, 2), np.expand_dims(uy, 2)], 2)
+test_u_img = np.expand_dims(test_u_img, 0)
+fx = data['f_x'].reshape(num_node, num_node).transpose((1, 0))
+fy = data['f_y'].reshape(num_node, num_node).transpose((1, 0))
+test_f_img = -1. * np.concatenate([np.expand_dims(fx, 2), np.expand_dims(fy, 2)], 2)
+test_f_img = np.expand_dims(test_f_img, 0)
+
+loss_value_hist = []
+pred_error_hist = []
+pred_hist = []
+for itr in tqdm(range(10000)):
+    u_input = u_img
+    f_input = f_img
+    feed_dict_train = {f: f_input, u: u_input}
+    loss_value_i, _ = sess.run([loss, train_op], feed_dict_train)
+    pred_i = sess.run(x, {f: f_img})
+    pred_error_i = np.linalg.norm(pred_i[0] - u_img[0]) / np.linalg.norm(u_img[0])
+    test_pred_i = sess.run(x, {f: test_f_img})
+    test_pred_error_i = np.linalg.norm(test_pred_i[0] - test_u_img[0]) / np.linalg.norm(u_img[0])
+
+    pred_hist += [pred_i]
+    loss_value_hist += [loss_value_i]
+    pred_error_hist += [pred_error_i]
+    print(
+    "iter:{}  train_cost: {}  pred_er: {}  test_pred_er: {}".format(itr, loss_value_i, pred_error_i, test_pred_error_i))
+
+print('done')
+
+# import matplotlib.pyplot as plt
+# plt.subplot(1,2,1)
+# plt.imshow(test_pred_i[0,:,:,0], cmap='jet', interpolation='none')
+# plt.colorbar()
+# plt.subplot(1,2,2)
+# plt.imshow(test_pred_i[0,:,:,1], cmap='jet', interpolation='none')
+# plt.colorbar()

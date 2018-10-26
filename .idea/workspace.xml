@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="004af070-4a0a-4fb6-896d-48c838746d10" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/Heat_Transfer.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/ground_truth_u.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_convergence.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it612.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/heat_transfer_1phase/matrix.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_elasticity/0circle.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_elasticity/MeshRectanglularPlate.m" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_elasticity/Plane_Stress.m" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_elasticity/block.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_elasticity/crack.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/0circle.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/0circle_larger.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/1circle_center_25_25_rad_17.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/2circle_center_25_25_rad_17_center_55_55_rad_7.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/2phase_simpletest.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/data/new_heat_transfer_multi_inclusion/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/deriving_kernels.ext" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/deriving_kernels.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/elast_1phase_convergence.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/elast_1phase_heatmap.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_1phase_2D_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_1phase_convergence.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_1phase_heatmap.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_2phase_2D_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_2phase_convergence.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_np/thermal_2phase_heatmap.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_tf/custom_ops.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_tf/tf_utils.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_tf/thermal_1phase_2D_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/new_code_tf/thermal_2phase_2D_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/FMG.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/FMG_GAN.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/Jacobi_block.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/VMG.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/custom_ops_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/custom_ops_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/customize_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/data_loader.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/heat_1phase_2D_tf.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/heat_biphase_2D.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/inverse_flow.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/linear_elasticity_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/multi_phase.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/multi_phase_elast_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/multi_phase_np.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/precondition_filter.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/test_ops.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/testing_conv_fem.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/utils.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/testing_code/visualization.py" afterPath="" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="common_shapes.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/common_shapes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="683" column="29" lean-forward="false" selection-start-line="683" selection-start-column="29" selection-end-line="683" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="session.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="1120" column="0" lean-forward="false" selection-start-line="1120" selection-start-column="0" selection-end-line="1120" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>68</find>
+      <find>conv_result_x</find>
+      <find>_pad</find>
+      <find>boundar</find>
+      <find>masked_conv</find>
+      <find>load</find>
+      <find>LU_</find>
+      <find>zero_padded_resp_x</find>
+      <find>padded_resp_x</find>
+      <find>conv</find>
+      <find>elem_mask</find>
+      <find>reference_jacobi_solver</find>
+      <find>res</find>
+      <find>d_matrix</find>
+      <find>new_weight_variable</find>
+      <find>A_weights</find>
+      <find>66</find>
+      <find>np</find>
+      <find>numpy</find>
+      <find>LU_bias</find>
+      <find>LU</find>
+      <find>tf</find>
+      <find>np_get_D_matrix_elast</find>
+      <find>65</find>
+      <find>l1_loss</find>
+      <find>loss</find>
+      <find>num_node</find>
+      <find>block</find>
+      <find>load_data_elem</find>
+      <find>data</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>num_node</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/VMG_GAN.py" />
+        <option value="$PROJECT_DIR$/FMG_GAN.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/vis.py" />
+        <option value="$PROJECT_DIR$/FMG.py" />
+        <option value="$PROJECT_DIR$/visualization.py" />
+        <option value="$PROJECT_DIR$/VMG.py" />
+        <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/Jacobi_block.py" />
+        <option value="$PROJECT_DIR$/inverse_opt.py" />
+        <option value="$PROJECT_DIR$/inverse_flow.py" />
+        <option value="$PROJECT_DIR$/mask_conv.py" />
+        <option value="$PROJECT_DIR$/testing_conv_fem.py" />
+        <option value="$PROJECT_DIR$/customize_tf.py" />
+        <option value="$PROJECT_DIR$/ops.py" />
+        <option value="$PROJECT_DIR$/custom_ops.py" />
+        <option value="$PROJECT_DIR$/custom_ops_tf.py" />
+        <option value="$PROJECT_DIR$/multi_phase.py" />
+        <option value="$PROJECT_DIR$/utils.py" />
+        <option value="$PROJECT_DIR$/data_loader.py" />
+        <option value="$PROJECT_DIR$/linear_elasticity_np.py" />
+        <option value="$PROJECT_DIR$/multi_phase_elast_np.py" />
+        <option value="$PROJECT_DIR$/custom_ops_np.py" />
+        <option value="$PROJECT_DIR$/multi_phase_np.py" />
+        <option value="$PROJECT_DIR$/heat_single_phase_2D.py" />
+        <option value="$PROJECT_DIR$/heat_biphase_2D.py" />
+        <option value="$PROJECT_DIR$/heat_1phase_2D.py" />
+        <option value="$PROJECT_DIR$/heat_1phase_2D_tf.py" />
+        <option value="$PROJECT_DIR$/precondition_filter.py" />
+        <option value="$PROJECT_DIR$/heat_2phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/elast_1phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/heat_1phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/heat_1phase_2D_tf.py" />
+        <option value="$PROJECT_DIR$/new_code_np/heat_1phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/tf_utils.py" />
+        <option value="$PROJECT_DIR$/new_code_np/thermal_2phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/custom_ops.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/FCN.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py" />
+        <option value="$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py" />
+        <option value="$PROJECT_DIR$/new_code_tf/elast_FCN.py" />
+        <option value="$PROJECT_DIR$/data/new_elasticity/readme.md" />
+        <option value="$PROJECT_DIR$/new_code_tf/thermal_1phase_2D_tf.py" />
+        <option value="$PROJECT_DIR$/new_code_np/thermal_1phase_2D_np.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="2050" />
+    <option name="y" value="36" />
+    <option name="width" value="1778" />
+    <option name="height" value="1009" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MG_net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MG_net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MG_net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MG_net" type="462c0819:PsiDirectoryNode" />
+              <item name="thermal" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Sensor_Calibration" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/testing_code" />
+      <recent name="$PROJECT_DIR$/new_code_tf" />
+      <recent name="$PROJECT_DIR$/new_code_np" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/new_code_tf" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/data/heat_transfer_1phase" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.heat_1phase_2D">
+    <configuration name="elast_1phase_2D_np" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="elast_1phase_2D_tf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="elast_FCN" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_tf/elast_FCN.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="heat_1phase_2D" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_np/thermal_1phase_2D_np.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="thermal_1phase_2D_tf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_tf/thermal_1phase_2D_tf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Python.heat_1phase_2D" />
+      <item index="1" class="java.lang.String" itemvalue="Python.elast_1phase_2D_np" />
+      <item index="2" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_tf" />
+      <item index="3" class="java.lang.String" itemvalue="Python.elast_1phase_2D_tf" />
+      <item index="4" class="java.lang.String" itemvalue="Python.elast_FCN" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.heat_1phase_2D" />
+        <item index="1" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_tf" />
+        <item index="2" class="java.lang.String" itemvalue="Python.elast_1phase_2D_tf" />
+        <item index="3" class="java.lang.String" itemvalue="Python.elast_FCN" />
+        <item index="4" class="java.lang.String" itemvalue="Python.elast_1phase_2D_np" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="004af070-4a0a-4fb6-896d-48c838746d10" name="Default" comment="" />
+      <created>1523054928089</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1523054928089</updated>
+    </task>
+    <task id="LOCAL-00001" summary="finished Jacobi, V cycle, full cycle. waiting for Laplacian data to test.&#10;Also not sure pooling or smoothing which is better, need to be tested.">
+      <created>1523080509831</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1523080509831</updated>
+    </task>
+    <task id="LOCAL-00002" summary="jacobi block is converging to 1e-5 on solving Laplacian equation">
+      <created>1523164713096</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523164713096</updated>
+    </task>
+    <task id="LOCAL-00003" summary="conv_fem operator close to the boundary requires more consideration!!">
+      <created>1523250985341</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1523250985341</updated>
+    </task>
+    <task id="LOCAL-00004" summary="conv_fem passed its first test">
+      <created>1523297275191</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1523297275191</updated>
+    </task>
+    <task id="LOCAL-00005" summary="conv(w,x) for jacobi looks plausible, but seems to have padding issue needs to be solved!">
+      <created>1523332857016</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1523332857016</updated>
+    </task>
+    <task id="LOCAL-00006" summary="conv(w,x) for jacobi is converging now!!">
+      <created>1523335913597</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1523335913597</updated>
+    </task>
+    <task id="LOCAL-00007" summary="jacobi network is converging, but only to 3% error rate, and K is predicted as 8 instead of 16">
+      <created>1523341182138</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1523341182138</updated>
+    </task>
+    <task id="LOCAL-00008" summary="jacobi network is converging, but slow.">
+      <created>1523376883565</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1523376883565</updated>
+    </task>
+    <task id="LOCAL-00009" summary="2-level seems working at this parameter setting, but changing depth and alpha will cause problems for some reason">
+      <created>1523414350290</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1523414350290</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fixed a bug in the VMG prolongation correction, but still problematic.">
+      <created>1523426982602</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1523426982602</updated>
+    </task>
+    <task id="LOCAL-00011" summary="VMG is getting something now, but accuracy is relatively low than expected. Suspecting the boundary effect.&#10;Fixed: upsample and downsample affects nodal force!">
+      <created>1523494793472</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1523494793472</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Still have problem with new data. Need to looking into the problem.&#10;changed to box filter. may consider SOR accelerating jacobi iteration.">
+      <created>1523838143021</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1523838143021</updated>
+    </task>
+    <task id="LOCAL-00013" summary="1. inverse optimization doesn't work for heat transfer problem&#10;2. two phase material without edge can obtain equivalent conv result&#10;3. multi-grid hasn't passed debuging yet&#10;&#10;TODO:&#10;separate center value from the conv filter">
+      <created>1525022085087</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1525022085087</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Done:&#10;1. Able to convolve arbitary topology&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;2. adding gradient of the mask_conv operator&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet">
+      <created>1525841789411</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1525841789411</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Done:&#10;1. largely simplified the mask convolution operator&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1525961910763</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1525961910763</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Done:&#10;1. vanilla mask convolution operator passed test, fast and faster hasn't yet&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1525976913608</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1525976913608</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Done:&#10;1. vanilla , fast and faster mask convolution operator passed test&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1526081844684</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1526081844684</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Done:&#10;1. feedforward pass of Jacobi network in np is working&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1526223577657</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1526223577657</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Done:&#10;1. feedforward pass of Jacobi network in np for elasticity needs data for testing&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1526232744618</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1526232744618</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Done:&#10;1. feedforward pass of Jacobi network in np for elasticity needs data for testing&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;question:&#10;1. it seems that fixed sym_padding will have much slower convergence for some reason&#10;2. fixed the padding issue, but it is not converging.&#10;&#10;idea:&#10;upsampling in multigrid can be replaced by diluted convolution&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c">
+      <created>1528600749768</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1528600749768</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Heat transfer should be able to work, shear effect needs to be handled for linear elasticity">
+      <created>1536125584722</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1536125584722</updated>
+    </task>
+    <task id="LOCAL-00022" summary="organized simple 2d heat code in numpy for students to test">
+      <created>1537243373032</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1537243373033</updated>
+    </task>
+    <task id="LOCAL-00023" summary="code backup">
+      <created>1537460804133</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1537460804133</updated>
+    </task>
+    <task id="LOCAL-00024" summary="ready to release to students">
+      <created>1537462473185</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1537462473185</updated>
+    </task>
+    <task id="LOCAL-00025" summary="minor modifications with new data on single phase heat">
+      <created>1539824280605</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1539824280605</updated>
+    </task>
+    <task id="LOCAL-00026" summary="+new data on bi phase heat&#10;+weighted jacobi reference data">
+      <created>1540075046320</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1540075046320</updated>
+    </task>
+    <task id="LOCAL-00027" summary="single phase elasticity with simple BC passed test">
+      <created>1540097252262</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1540097252262</updated>
+    </task>
+    <task id="LOCAL-00028" summary="doing: single phase TF code under testing&#10;done: added result, re-orgnized code &#10;todo: speed up thermal convergence, BP in 2 phase">
+      <created>1540108517183</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1540108517183</updated>
+    </task>
+    <task id="LOCAL-00029" summary="elast tf forward is correct, but training won't converge. thermal tf hasn't tested yet.">
+      <created>1540195642727</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1540195642727</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="2050" y="36" width="1778" height="1009" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29011995" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37931034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3774359" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32805908" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30769232" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923076" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38358974" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3774359" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39599556" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32805908" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21302113" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923076" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35038933" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="conv(w,x) for jacobi looks plausible, but seems to have padding issue needs to be solved!" />
+    <MESSAGE value="conv(w,x) for jacobi is converging now!!" />
+    <MESSAGE value="jacobi network is converging, but only to 3% error rate, and K is predicted as 8 instead of 16" />
+    <MESSAGE value="jacobi network is converging, but slow." />
+    <MESSAGE value="2-level seems working at this parameter setting, but changing depth and alpha will cause problems for some reason" />
+    <MESSAGE value="fixed a bug in the VMG prolongation correction, but still problematic." />
+    <MESSAGE value="VMG is getting something now, but accuracy is relatively low than expected. Suspecting the boundary effect.&#10;Fixed: upsample and downsample affects nodal force!" />
+    <MESSAGE value="Still have problem with new data. Need to looking into the problem.&#10;changed to box filter. may consider SOR accelerating jacobi iteration." />
+    <MESSAGE value="1. inverse optimization doesn't work for heat transfer problem&#10;2. two phase material without edge can obtain equivalent conv result&#10;3. multi-grid hasn't passed debuging yet&#10;&#10;TODO:&#10;separate center value from the conv filter" />
+    <MESSAGE value="Done:&#10;1. Able to convolve arbitary topology&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;2. adding gradient of the mask_conv operator&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet" />
+    <MESSAGE value="Done:&#10;1. largely simplified the mask convolution operator&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Done:&#10;1. vanilla mask convolution operator passed test, fast and faster hasn't yet&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Done:&#10;1. vanilla , fast and faster mask convolution operator passed test&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Done:&#10;1. feedforward pass of Jacobi network in np is working&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Done:&#10;1. feedforward pass of Jacobi network in np for elasticity needs data for testing&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Done:&#10;1. feedforward pass of Jacobi network in np for elasticity needs data for testing&#10;2. wrapped up the gradient of the mask_conv operator, which requires further testing&#10;&#10;question:&#10;1. it seems that fixed sym_padding will have much slower convergence for some reason&#10;2. fixed the padding issue, but it is not converging.&#10;&#10;idea:&#10;upsampling in multigrid can be replaced by diluted convolution&#10;&#10;TODO:&#10;1. testing heat transfer with a hole, linear elastcity kernel&#10;3. training network weights&#10;4. compute sensitivity&#10;5. multi-grid hasn't passed debuging yet&#10;6. accelerate with cuda-c" />
+    <MESSAGE value="Heat transfer should be able to work, shear effect needs to be handled for linear elasticity" />
+    <MESSAGE value="organized simple 2d heat code in numpy for students to test" />
+    <MESSAGE value="code backup" />
+    <MESSAGE value="ready to release to students" />
+    <MESSAGE value="minor modifications with new data on single phase heat" />
+    <MESSAGE value="+new data on bi phase heat&#10;+weighted jacobi reference data" />
+    <MESSAGE value="single phase elasticity with simple BC passed test" />
+    <MESSAGE value="doing: single phase TF code under testing&#10;done: added result, re-orgnized code &#10;todo: speed up thermal convergence, BP in 2 phase" />
+    <MESSAGE value="elast tf forward is correct, but training won't converge. thermal tf hasn't tested yet." />
+    <option name="LAST_COMMIT_MESSAGE" value="elast tf forward is correct, but training won't converge. thermal tf hasn't tested yet." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/FMG.py</url>
+          <line>71</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/FMG_GAN.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/FMG.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="137" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/testing_conv_fem.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/Jacobi_block.py</url>
+          <line>103</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/Jacobi_block.py</url>
+          <line>93</line>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/VMG.py</url>
+          <line>205</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/Jacobi_block.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="227" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/testing_conv_fem.py</url>
+          <line>155</line>
+          <option name="timeStamp" value="236" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/testing_conv_fem.py</url>
+          <line>119</line>
+          <option name="timeStamp" value="240" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/testing_code/linear_elasticity_np.py</url>
+          <line>219</line>
+          <option name="timeStamp" value="521" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="575" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="586" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_np/thermal_2phase_2D_np.py</url>
+          <line>236</line>
+          <option name="timeStamp" value="607" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py</url>
+          <line>273</line>
+          <option name="timeStamp" value="644" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py</url>
+          <line>242</line>
+          <option name="timeStamp" value="647" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py</url>
+          <line>208</line>
+          <option name="timeStamp" value="652" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py</url>
+          <line>224</line>
+          <option name="timeStamp" value="653" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/new_code_tf/elast_FCN.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="679" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="682" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>f = data['f']
+u = np.linalg.solve(A, f)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>visualize(loss_hist, u_hist[-1], resp_gt)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string># plot out training data
+for i in range(6):
+    plt.subplot(3, 6, i + 1)
+    plt.imshow(f_img[i, :, :, 0], cmap='gray', interpolation='none')
+    plt.axis('off')
+for i in range(6):
+    plt.subplot(3, 6, 6 + i + 1)
+    plt.imshow(u_img[i, :, :, 0], cmap='jet', interpolation='bilinear')
+    plt.axis('off')
+for i in range(6):
+    plt.subplot(3, 6, 12 + i + 1)
+    plt.imshow(u_img[i, :, :, 1], cmap='jet', interpolation='bilinear')
+    plt.axis('off')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.save('FEANET_3000layers_blockcase1',u_hist[-1])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.save('FEANET_500layers_blockcase1',u_hist[500])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.save('./new_code_tf/FCN_7layer_64filter_blockcase1',pred_i)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.imshow(test_pred_i[0,:,:,0], cmap='jet', interpolation='none')
+plt.colorbar()
+plt.subplot(1,2,2)
+plt.imshow(test_pred_i[0,:,:,1], cmap='jet', interpolation='none')
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.save('./new_code_tf/FEANET_3000layers',u_hist[-1])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.save('./new_code_tf/FEANET_500layers',u_hist[500])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>BIGGER_SIZE = 12
+plt.rc('font', size=BIGGER_SIZE)  # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)  # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)  # fontsize of the x and y labels
+plt.rc('xtick', labelsize=BIGGER_SIZE)  # fontsize of the tick labels
+plt.rc('ytick', labelsize=BIGGER_SIZE)  # fontsize of the tick labels
+plt.rc('legend', fontsize=BIGGER_SIZE)  # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+plt.figure()
+plt.subplot(2, 3, 1)
+plt.imshow(resp_pred[:, :, 0], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.subplot(2, 3, 4)
+plt.imshow(resp_pred[:, :, 1], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.subplot(2, 3, 2)
+plt.imshow(resp_gt[:, :, 0], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.subplot(2, 3, 5)
+plt.imshow(resp_gt[:, :, 1], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.subplot(2, 3, 3)
+plt.imshow(resp_pred[:, :, 0] - resp_gt[:, :, 0], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.subplot(2, 3, 6)
+plt.imshow(resp_pred[:, :, 1] - resp_gt[:, :, 1], cmap='jet', interpolation='bilinear')
+plt.colorbar()
+plt.grid('off')
+plt.show()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>i==2</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>i==1 and j==65</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>i==1 and j==66</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>i=1 and j==2</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>depth_i==3</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="breakpointLogExpression">
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+    plt.imshow(np.squeeze(sess.run(resp['DLU_u'], feed_dict)))
+    plt.colorbar()
+    plt.show()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>plt.imshow(np.squeeze(aa))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>plt.imshow(sess.run(res['d_matrix']).reshape(10,10))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>plt.imshow(sess.run(res['d_matrix']).reshpae(10,10))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>f1.reshpae(66,68)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/tmp/Untitled Document 1">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/vmg_jacobi_cmp.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/fmg_net_complexity.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/multi_phase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/testing_conv_fem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2205">
+          <caret line="177" column="17" lean-forward="false" selection-start-line="177" selection-start-column="17" selection-end-line="177" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/multi_phase_elast_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="19" lean-forward="true" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/multi_phase_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/inverse_flow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="14" column="3" lean-forward="false" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it0.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it612.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/tensorflow/python/pywrap_tensorflow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="66" column="27" lean-forward="false" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/Jacobi_block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="34" column="114" lean-forward="false" selection-start-line="34" selection-start-column="114" selection-end-line="34" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/dist-packages/scipy/signal/signaltools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="492" column="8" lean-forward="false" selection-start-line="492" selection-start-column="8" selection-end-line="492" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/precondition_filter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/visualization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="106" column="20" lean-forward="false" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/twodim_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="204" column="0" lean-forward="false" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/arraypad.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/heat_biphase_2D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="60" column="48" lean-forward="true" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/data_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="57" column="77" lean-forward="true" selection-start-line="57" selection-start-column="77" selection-end-line="57" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/linear_elasticity_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="44" column="36" lean-forward="true" selection-start-line="44" selection-start-column="36" selection-end-line="44" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="256" column="0" lean-forward="false" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/linalg/linalg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7038">
+          <caret line="391" column="0" lean-forward="false" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/shape_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8514">
+          <caret line="485" column="38" lean-forward="false" selection-start-line="485" selection-start-column="34" selection-end-line="485" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/test_ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3006">
+          <caret line="78" column="37" lean-forward="false" selection-start-line="78" selection-start-column="37" selection-end-line="78" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/heat_1phase_2D_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-900">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/numpy/linalg/linalg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="658">
+          <caret line="2243" column="5" lean-forward="false" selection-start-line="2243" selection-start-column="4" selection-end-line="2243" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_convergence.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_heatmap.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_2D_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3470">
+          <caret line="200" column="16" lean-forward="true" selection-start-line="200" selection-start-column="16" selection-end-line="200" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/custom_ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/custom_ops_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6101">
+          <caret line="361" column="0" lean-forward="false" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/thermal_2phase_2D_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="101" column="62" lean-forward="false" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/dtypes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/clip_ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="32" column="35" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tqdm/_tqdm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1584">
+          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49464">
+          <caret line="2778" column="0" lean-forward="false" selection-start-line="2778" selection-start-column="0" selection-end-line="2778" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/variable_scope.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="866" column="22" lean-forward="false" selection-start-line="866" selection-start-column="13" selection-end-line="866" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="1120" column="0" lean-forward="false" selection-start-line="1120" selection-start-column="0" selection-end-line="1120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/elast_FCN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="591">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="2" selection-end-line="93" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/new_elasticity/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="288">
+            <caret line="16" column="39" lean-forward="false" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+            <folding />
+          </first_editor>
+          <second_editor>
+            <js_state />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/tf_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/elast_1phase_2D_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="94" column="4" lean-forward="false" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_np/elast_1phase_2D_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1116">
+          <caret line="59" column="32" lean-forward="false" selection-start-line="59" selection-start-column="32" selection-end-line="59" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_tf/thermal_1phase_2D_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing_code/custom_ops_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1224">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_1phase_2D_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="106" column="18" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/common_shapes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="683" column="29" lean-forward="false" selection-start-line="683" selection-start-column="29" selection-end-line="683" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

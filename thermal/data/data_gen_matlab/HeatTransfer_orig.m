@@ -1,0 +1,204 @@
+function [K] = HeatTransfer
+ %defines the conductivity matrix as a function of the mesh and heat conductivity
+ Element_size=0.005;
+ Nx=65; Ny=65; L = Element_size*Nx; H=Element_size*Ny; Num_simu=20;
+% Nx=; Ny=33; L = 0.2; H=0.2; Num_simu=200;
+
+ Lower=[20,10,5,1,100];
+ Upper=[60,100,15,6,200];
+ for i=1:5
+     a(i,:)=unifrnd(Lower(i),Upper(i),1,Num_simu);
+ end
+ 
+ 
+[coordinates,nodes] = MeshRectanglularPlate(L,H,Nx,Ny);
+ mesh.x=coordinates';
+ mesh.conn=nodes';
+ k=[16,205]; % Stainless Steel Titanium
+ for jj=1:size(a,2)
+ K = zeros(length(mesh.x),length(mesh.x));
+ f = zeros(length(mesh.x), 1);
+ [K,f] = conductivity_matrix(mesh, k,a(:,jj));
+ Body_f{jj,1} = f;
+ 
+ % Apply heat flux boundary condition.
+ mesh.top_nodes = find(mesh.x(2,:) == H);
+ Topedge_conn = [mesh.top_nodes(1:end-1); mesh.top_nodes(2:end)];
+ for c = Topedge_conn
+ xe = mesh.x(:, c);
+ le = norm(xe(:,2) - xe(:,1));
+ N = [0.5; 0.5];
+ f(c) = f(c) + N * (qbar(xe(1,1))+qbar(xe(1,2)))/2 * le; % Heat flux (into domain at top)
+ end
+ 
+ mesh.bottom_nodes = find(mesh.x(2,:) == 0);
+ Bottomedge_conn = [mesh.bottom_nodes(1:end-1); mesh.bottom_nodes(2:end)];
+for c = Bottomedge_conn
+ xe = mesh.x(:, c);
+ le = norm(xe(:,2) - xe(:,1));
+ N = [0.5; 0.5];
+ f(c) = f(c) - N * (qbar(xe(1,1))+qbar(xe(1,2)))/2 * le; % Heat flux (out of domain at bottom)
+end
+
+
+% Apply essential boundary condition.
+
+mesh.left_nodes = find(mesh.x(1,:) == 0);
+K(mesh.left_nodes,:) = 0;
+K(:,mesh.left_nodes) = 0;
+K(mesh.left_nodes,mesh.left_nodes) = eye(length(mesh.left_nodes));
+f(mesh.left_nodes) = 0;
+
+mesh.top_nodes = find(mesh.x(2,:) == H);
+K(mesh.top_nodes,:) = 0;
+K(:,mesh.top_nodes) = 0;
+K(mesh.top_nodes,mesh.top_nodes) = eye(length(mesh.left_nodes));
+f(mesh.top_nodes) = 0;
+
+mesh.bottom_nodes = find(mesh.x(2,:) == 0);
+K(mesh.bottom_nodes,:) = 0;
+K(:,mesh.bottom_nodes) = 0;
+K(mesh.bottom_nodes,mesh.bottom_nodes) = eye(length(mesh.left_nodes));
+f(mesh.bottom_nodes) = 0;
+
+mesh.right_nodes = find(mesh.x(1,:) == L);
+K(mesh.right_nodes,:) = 0;
+K(:,mesh.right_nodes) = 0;
+K(mesh.right_nodes,mesh.right_nodes) = eye(length(mesh.right_nodes));
+f(mesh.right_nodes) = 0;
+
+% Solve discrete system.
+ d = K\f;
+ ii=0;
+ for x = mesh.x
+     x = abs(x-[0;H]);
+     ii = ii+1;
+     j = int16(x(1)/(L/Nx))+1;
+     i = int16(x(2)/(H/Ny))+1;
+%      K1(i,j) = k1(ii);
+     u1(i,j) = d(ii);
+     f1(i,j) = f(ii);
+ end
+ 
+ U1(jj,:,:)=u1;
+ F1(jj,:,:)=f1;
+%  K1(jj,:,:)=K;
+%  u=zeros(66,66);
+%  u=u1(3:length(u1)-2,3:length(u1)-2);
+% aaa=zeros(66,66);
+% aaa(:,:)=U1(3,:,:);
+% figure
+% contour(aaa);
+% aaa=zeros(66,66);
+% aaa(:,:)=F1(3,:,:);
+% figure
+% contour(aaa);
+
+ 
+ end
+ 
+ 
+ 
+ 
+end
+
+
+function [K,f] = conductivity_matrix(mesh,k,u)
+ %defines the conductivity matrix as a function of the mesh and heat conductivity
+%  D = k(1) * eye(2); % W/m-K
+XE=[];
+C=[];
+ qpts = [-1 1 1 -1; -1 -1 1 1]/sqrt(3);
+%  w1 = [0.5556    0.8889    0.5556 ];
+%  qpts  = [-0.7746 0 0.7746 -0.7746 0 0.7746 -0.7746 0 0.7746;-0.7746 -0.7746 -0.7746 0 0 0 0.7746 0.7746 0.7746];
+%  qpts(3,:) =  [w1(1)*w1(1) w1(2)*w1(1) w1(3)*w1(1) w1(1)*w1(2) w1(2)*w1(2) w1(3)*w1(2) w1(1)*w1(3) w1(2)*w1(3) w1(3)*w1(3)];
+%  
+ % Compute conductivity matrix.
+ K=zeros(length(mesh.x),length(mesh.x));
+ f = zeros(length(mesh.x), 1);
+ for c = mesh.conn
+%  for c = mesh.part1 
+ xe = mesh.x(:,c);
+ xee1=mean(xe,2);
+ xee=xee1-[0.005*32;0.005*32];
+%  if (xee1(1)>0.005*15 & xee1(1)<0.005*49 & xee1(2)>0.005*15 & xee1(2)<0.005*49)
+ if  sum(xee.^2)^0.5<17*0.005   
+ D = k(2) * eye(2); % W/m-K
+ XE(:,end+1)=xee1;
+ C(end+1:end+4,1)=c;
+ else 
+     D = k(1) * eye(2); % W/m-K
+ end
+ Ke = zeros(4);
+ fe = zeros(4,1);
+ for q = qpts
+ [N, dNdp] = shape(q);
+ J = xe * dNdp;
+ B = dNdp/J;
+%  Ke = Ke + q(3)*B * D * B' * det(J);
+ Ke = Ke + B * D * B' * det(J);
+ fe = fe + N * N' * bbar(xe,u) * det(J);
+ end
+ K(c,c) = K(c,c) + Ke;
+ f(c,1) = f(c,1) + fe;
+ end
+ 
+end
+
+
+
+
+function [N, dNdp] = shape(p)
+% shape function
+ N = 0.25*[(1-p(1)).*(1-p(2));
+ (1+p(1)).*(1-p(2));
+ (1+p(1)).*(1+p(2));
+ (1-p(1)).*(1+p(2))];
+
+ dNdp = 0.25*[-(1-p(2)), -(1-p(1));
+ (1-p(2)), -(1+p(1));
+ (1+p(2)), (1+p(1));
+ -(1+p(2)), (1-p(1))];
+end
+
+
+function [N, dNdp] = shape48(p)
+% shape function
+ N = 0.25*[(1-p(1)).*(p(2)-1)*(p(1)+p(2)+1);
+ (1+p(1)).*(1-p(2));
+ (1+p(1)).*(1+p(2));
+ (1-p(1)).*(1+p(2))];
+
+ dNdp = 0.25*[-(1-p(2)), -(1-p(1));
+ (1-p(2)), -(1+p(1));
+ (1+p(2)), (1+p(1));
+ -(1+p(2)), (1-p(1))];
+end
+
+
+
+
+function f=qbar(x)
+%heat flux at the boundary
+f=0;% W/m2
+end
+
+function f=bbar(x,u)
+k=u(1);
+a=u(2);
+b=u(3);
+c=u(4);
+d=u(5);
+% f= k*(7*sin(a*x(1,:)+b*x(2,:))+210*exp(c*x(1))+x(1)*x(2).^2)+d;
+f= k*(sin(a*x(1,:)+b*x(2,:))+exp(c*x(1))+x(1)*x(2).^2)+d;
+f=f';
+end
+
+
+% function f=mplot
+% k1=[];
+% for kk=mesh.x
+% k1(end+1)=bbar(kk,a(:,1));
+% end
+% 
+% end

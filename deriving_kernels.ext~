@@ -1,0 +1,64 @@
+padded_resp[0, i-1, j-1, 0] * padded_mask[0, i-1, j-1, 0]*(diag_coef_1 - diag_coef_2) \
++ padded_resp[0, i-1, j, 0] * (padded_mask[0, i-1, j-1, 0] + padded_mask[0, i-1, j, 0]) *(side_coef_1 - side_coef_2) / 2. \
++ padded_resp[0, i-1, j+1, 0] * padded_mask[0, i-1, j, 0]*(diag_coef_1 - diag_coef_2) \
++ padded_resp[0, i, j-1, 0] * (padded_mask[0, i-1, j-1, 0] + padded_mask[0, i, j-1, 0]) *(side_coef_1 - side_coef_2) / 2. \
++ padded_resp[0, i, j + 1, 0] * (padded_mask[0, i-1, j, 0] + padded_mask[0, i, j, 0]) *(side_coef_1 - side_coef_2) / 2. \
++ padded_resp[0, i+1, j-1, 0] * padded_mask[0, i, j-1, 0]*(diag_coef_1 - diag_coef_2) \
++ padded_resp[0, i+1, j, 0] * (padded_mask[0, i, j-1, 0] + padded_mask[0, i, j, 0]) *(side_coef_1 - side_coef_2) / 2.
++ padded_resp[0, i+1, j+1, 0] * padded_mask[0, i, j, 0]*(diag_coef_1 - diag_coef_2) \
+
+
+
+
+
+
+
+padded_mask[0, i-1, j-1, 0] * padded_resp[0, i-1, j-1, 0] * diag_coef_diff \
+padded_mask[0, i-1, j-1, 0] * padded_resp[0, i-1, j, 0] *(side_coef_1 - side_coef_2) / 2. \
+padded_mask[0, i-1, j-1, 0] * padded_resp[0, i, j-1, 0] *(side_coef_1 - side_coef_2) / 2. \
+
+padded_mask[0, i-1, j, 0] * padded_resp[0, i-1, j, 0] * (side_coef_1 - side_coef_2) / 2. \
+padded_mask[0, i-1, j, 0] * padded_resp[0, i-1, j+1, 0] * (diag_coef_1 - diag_coef_2) \
+padded_mask[0, i-1, j, 0] * padded_resp[0, i, j + 1, 0] *(side_coef_1 - side_coef_2) / 2. \
+
+padded_mask[0, i, j-1, 0] * padded_resp[0, i, j-1, 0] * (side_coef_1 - side_coef_2) / 2. \
+padded_mask[0, i, j-1, 0] * padded_resp[0, i+1, j-1, 0] * (diag_coef_1 - diag_coef_2) \
+padded_mask[0, i, j-1, 0] * padded_resp[0, i+1, j, 0] * (side_coef_1 - side_coef_2) / 2.
+
+padded_mask[0, i, j, 0] * padded_resp[0, i, j + 1, 0] * (side_coef_1 - side_coef_2) / 2. \
+padded_mask[0, i, j, 0] * padded_resp[0, i+1, j, 0] * (side_coef_1 - side_coef_2) / 2.
+padded_mask[0, i, j, 0] * padded_resp[0, i+1, j+1, 0] *(diag_coef_1 - diag_coef_2) \
+
+
+
+
+
+
+diag_coef_diff = diag_coef_1 - diag_coef_2
+side_coef_diff = side_coef_1 - side_coef_2
+padded_mask[0, i-1, j-1, 0] * \
+(
+padded_resp[0, i-1, j-1, 0] * diag_coef_diff\
++ (padded_resp[0, i-1, j, 0] + padded_resp[0, i, j-1, 0]) * side_coef_diff/2.
+)
+
+padded_mask[0, i-1, j, 0] * \
+(
+(padded_resp[0, i-1, j, 0]+padded_resp[0, i, j + 1, 0]) * side_coef_diff/2. \
++padded_resp[0, i-1, j+1, 0] * diag_coef_diff \
+) 
+
+padded_mask[0, i, j-1, 0] * \
+(
+(padded_resp[0, i, j-1, 0]+ padded_resp[0, i+1, j, 0]) * side_coef_diff/2. \
++ padded_resp[0, i+1, j-1, 0] * diag_coef_diff\
+)
+
+padded_mask[0, i, j, 0] * \ 
+(
+(padded_resp[0, i, j + 1, 0]+ padded_resp[0, i+1, j, 0])/2. * side_coef_diff \
++ padded_resp[0, i+1, j+1, 0] * diag_coef_diff\
+)
+
+
+
