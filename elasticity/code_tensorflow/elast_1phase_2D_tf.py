@@ -105,7 +105,7 @@ def load_data_elem(num_node, noise_mag=0):
         f_img = -1. * np.concatenate([np.expand_dims(fx, 3), np.expand_dims(fy, 3)], 3)
         return u_img, f_img
 
-    data_dir = '/home/hope-yao/Documents/MG_net/elasticity/data'
+    data_dir = '/home/hope-yao/Documents/FEA_Net/elasticity/data'
     data_fn = ['crack_size13.mat',
                'crack_size13_case1.mat',
                'crack_size13_case2.mat',
