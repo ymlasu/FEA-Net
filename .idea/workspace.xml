@@ -7,61 +7,18 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/Drawing.m" />
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/HeatTransfer.m" />
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/MeshRectanglularPlate.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc1.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc1.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc2.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_FCN.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/utils.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/0circle.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/0circle_larger.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/1circle_center_25_25_rad_17.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/2circle_center_25_25_rad_17_center_55_55_rad_7.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/2phase_simpletest.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc1/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/case1.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/case2.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/case3.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/case4.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/case5.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/data.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/n12_case1.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/bc2/n66_case1.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc1/Drawing.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc1/HeatTransfer.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc1/HeatTransfer_orig.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc1/K_two_circles.mat" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc1/MeshRectanglularPlate.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc2/Drawing.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc2/HeatTransfer.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/data_gen_matlab_bc2/MeshRectanglularPlate.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/data/readme.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/FCN.npy" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/FEA_NET.npy" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/FEA_NET6x.npy" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/REF.npy" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/pred.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/result/thermal_result_plotting.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_python/multigrid_thermal_1phase_2D_np_bc2.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/result_py.npy" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/result_tf.npy" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_1phase_2D_tf.py" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_1phase_2D_tf.py" />
-      <change beforePath="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/0circle.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/0circle_larger.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/1circle_center_25_25_rad_17.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/2circle_center_25_25_rad_17_center_55_55_rad_7.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/2phase_simpletest.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/data_gen_matlab/Drawing.m" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/data_gen_matlab/HeatTransfer.m" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/data_gen_matlab/HeatTransfer_orig.m" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/data_gen_matlab/K_two_circles.mat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/data_gen_matlab/MeshRectanglularPlate.m" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/thermal/data/loss_3circle.npy" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" afterPath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -75,8 +32,8 @@
       <file leaf-file-name="thermal_1phase_2D_tf_bc2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="121" column="43" lean-forward="false" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
+            <state relative-caret-position="72">
+              <caret line="125" column="22" lean-forward="false" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -84,12 +41,56 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thermal_FCN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_FCN.py">
+      <file leaf-file-name="thermal_2phase_2D_tf_bc1.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom_ops_tf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code_testing/custom_ops_tf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1850">
+              <caret line="270" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="270" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customize_tf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code_testing/customize_tf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heat_1phase_2D_tf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code_testing/heat_1phase_2D_tf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1322">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heat_biphase_2D.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code_testing/heat_biphase_2D.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2474">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,8 +98,18 @@
       <file leaf-file-name="thermal_1phase_2D_np_bc2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+            <state relative-caret-position="0">
+              <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="thermal_2phase_2D_np_bc1.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="681">
+              <caret line="134" column="52" lean-forward="false" selection-start-line="134" selection-start-column="52" selection-end-line="134" selection-end-column="52" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -106,26 +117,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="elast_1phase_2D_tf.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_1phase_2D_tf.py">
+      <file leaf-file-name="MakeFile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="281" column="13" lean-forward="false" selection-start-line="281" selection-start-column="13" selection-end-line="281" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="72">
+              <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thermal_result_plotting.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thermal/result/thermal_result_plotting.py">
+      <file leaf-file-name="backward_test.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="15" column="15" lean-forward="true" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="180">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -143,7 +150,6 @@
     <findStrings>
       <find>_pad</find>
       <find>boundar</find>
-      <find>masked_conv</find>
       <find>load</find>
       <find>LU_</find>
       <find>zero_padded_resp_x</find>
@@ -168,9 +174,10 @@
       <find>block</find>
       <find>load_data_elem</find>
       <find>data</find>
-      <find>num_node</find>
       <find>batch_size</find>
       <find>conductivity</find>
+      <find>num_node</find>
+      <find>masked_conv</find>
     </findStrings>
     <replaceStrings>
       <replace>num_node</replace>
@@ -185,7 +192,6 @@
       <list>
         <option value="$PROJECT_DIR$/VMG_GAN.py" />
         <option value="$PROJECT_DIR$/FMG_GAN.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/vis.py" />
         <option value="$PROJECT_DIR$/FMG.py" />
         <option value="$PROJECT_DIR$/visualization.py" />
@@ -231,6 +237,9 @@
         <option value="$PROJECT_DIR$/thermal/code_tensorflow/thermal_FCN.py" />
         <option value="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py" />
         <option value="$PROJECT_DIR$/thermal/result/thermal_result_plotting.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile" />
       </list>
     </option>
   </component>
@@ -256,6 +265,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -278,14 +289,19 @@
               <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
               <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
               <item name="thermal" type="462c0819:PsiDirectoryNode" />
-              <item name="result" type="462c0819:PsiDirectoryNode" />
+              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
+              <item name="thermal" type="462c0819:PsiDirectoryNode" />
+              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
+              <item name="tf_ops_cpp" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,16 +309,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Sensor_Calibration" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/thermal/code_tensorflow" />
-      <recent name="$PROJECT_DIR$/new_code_tf" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/data/heat_transfer_1phase" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/testing_code" />
       <recent name="$PROJECT_DIR$/new_code_tf" />
       <recent name="$PROJECT_DIR$/new_code_np" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp" />
+      <recent name="$PROJECT_DIR$/thermal/code_python" />
+      <recent name="$PROJECT_DIR$/thermal/code_tensorflow" />
+      <recent name="$PROJECT_DIR$/new_code_tf" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -317,25 +334,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.thermal_result_plotting">
-    <configuration name="heat_1phase_2D" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="MG_net" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new_code_np/thermal_1phase_2D_np.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
+  <component name="RunManager" selected="Python.thermal_2phase_2D_np_bc1">
     <configuration name="thermal_1phase_2D_np_bc2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -367,6 +366,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="MG_net" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="thermal_2phase_2D_np_bc1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thermal/code_python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MG_net" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -409,19 +426,19 @@
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.heat_1phase_2D" />
-      <item index="1" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_tf_bc2" />
-      <item index="2" class="java.lang.String" itemvalue="Python.thermal_FCN" />
-      <item index="3" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
-      <item index="4" class="java.lang.String" itemvalue="Python.thermal_result_plotting" />
+      <item index="0" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_tf_bc2" />
+      <item index="1" class="java.lang.String" itemvalue="Python.thermal_FCN" />
+      <item index="2" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
+      <item index="3" class="java.lang.String" itemvalue="Python.thermal_result_plotting" />
+      <item index="4" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.thermal_result_plotting" />
-        <item index="1" class="java.lang.String" itemvalue="Python.thermal_FCN" />
-        <item index="2" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
+        <item index="1" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
+        <item index="2" class="java.lang.String" itemvalue="Python.thermal_FCN" />
         <item index="3" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_tf_bc2" />
-        <item index="4" class="java.lang.String" itemvalue="Python.heat_1phase_2D" />
+        <item index="4" class="java.lang.String" itemvalue="Python.thermal_result_plotting" />
       </list>
     </recent_temporary>
   </component>
@@ -642,7 +659,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540195642727</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="elast tf forward is correct, but training won't converge. thermal tf hasn't tested yet.">
+      <created>1540880471281</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1540880471281</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TodoView">
@@ -658,12 +682,12 @@
     <frame x="1984" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27759564" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22568306" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3774359" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3220513" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2902564" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35940802" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28102565" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3271795" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1022,28 +1046,6 @@ plt.imshow(pred_i[0,:,:,0])</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/testing_code/multi_phase_np.py" />
-    <entry file="file://$PROJECT_DIR$/testing_code/inverse_flow.py" />
-    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_ax_it9.png" />
-    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it0.png" />
-    <entry file="file://$PROJECT_DIR$/data/heat_transfer/jacobi_wx_it612.png" />
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/tensorflow/python/pywrap_tensorflow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="66" column="27" lean-forward="false" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testing_code/Jacobi_block.py" />
-    <entry file="file:///usr/lib/python2.7/dist-packages/scipy/signal/signaltools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="492" column="8" lean-forward="false" selection-start-line="492" selection-start-column="8" selection-end-line="492" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testing_code/precondition_filter.py" />
-    <entry file="file://$PROJECT_DIR$/testing_code/visualization.py" />
     <entry file="file://$PROJECT_DIR$/testing_code/utils.py" />
     <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/twodim_base.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1153,21 +1155,6 @@ plt.imshow(pred_i[0,:,:,0])</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
           <caret line="683" column="29" lean-forward="false" selection-start-line="683" selection-start-column="29" selection-end-line="683" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1180,49 +1167,148 @@ plt.imshow(pred_i[0,:,:,0])</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_1phase_2D_tf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
+        <state relative-caret-position="5004">
           <caret line="281" column="13" lean-forward="false" selection-start-line="281" selection-start-column="13" selection-end-line="281" selection-end-column="13" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/result/thermal_result_plotting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="15" column="15" lean-forward="false" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#31#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_python/multigrid_thermal_1phase_2D_np_bc2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/VMG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_FCN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+        <state relative-caret-position="18">
+          <caret line="43" column="30" lean-forward="false" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="121" column="43" lean-forward="false" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
+        <state relative-caret-position="72">
+          <caret line="125" column="22" lean-forward="false" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py">
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/custom_ops_np.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3946">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/heat_1phase_2D_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1322">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/result/thermal_result_plotting.py">
+    <entry file="file://$PROJECT_DIR$/code_testing/heat_biphase_2D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="15" lean-forward="true" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+        <state relative-caret-position="-2474">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="134" column="52" lean-forward="false" selection-start-line="134" selection-start-column="52" selection-end-line="134" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/customize_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/custom_ops_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1850">
+          <caret line="270" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="270" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

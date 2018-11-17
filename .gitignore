@@ -1,7 +1,7 @@
 ./data/heat_transfer/matrix_2000_simu.mat
 ./saved_logs
 ./saved_models
-
+./data/heat_transfer/Downloads
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

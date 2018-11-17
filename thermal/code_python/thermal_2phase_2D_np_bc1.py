@@ -56,7 +56,7 @@ def load_data_elem():
 
     elif case==3:
         # 3 circles inclusion
-        data = sio.loadmat('/home/hope-yao/Documents/MG_net/thermal/data/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat')
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/thermal/data/bc1/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat')
         mask = np.ones((num_node-1,num_node-1))
         for i in range(num_node-1):
             for j in range(num_node-1):
