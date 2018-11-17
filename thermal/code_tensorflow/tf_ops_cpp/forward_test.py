@@ -5,9 +5,9 @@ import scipy.io as sio
 import unittest
 import numpy as np
 import tensorflow as tf
-#import _inner_product_grad
-mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
 
+import _mask_conv_grad
+mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
 
 num_node = 66
 def get_data():
@@ -74,21 +74,39 @@ def boundary_correct(x):
     x = np.pad(x[:, 1:-1, :, :], ((0,0), (1, 1), (0, 0), (0, 0)), "constant") # for boundary consideration
     return x
 
-class InnerProductOpTest(unittest.TestCase):
-    def test_innerProductRandom(self):
-        with tf.Session(''):
-            mask, u_img, f_img = get_data()
-            #padded_input = boundary_padding(u_img)
-            #padded_mask = boundary_padding(mask)
-            #result_py = masked_conv_py(padded_input, padded_mask)		        
-            #result_py = boundary_correct(result_py)
-            result_py = masked_conv_py(u_img, mask)		        
-            print('py conv done')
-            result_tf = mask_conv_module.mask_conv(u_img, mask).eval()
-            print('tf conv done')
-            np.save('result_py',result_py)
-            np.save('result_tf',result_tf)
-            np.testing.assert_array_equal(result_tf, result_py)
+# class InnerProductOpTest(unittest.TestCase):
+#     def test_innerProductRandom(self):
+#         with tf.Session(''):
+#             mask, u_img, f_img = get_data()
+#             #padded_input = boundary_padding(u_img)
+#             #padded_mask = boundary_padding(mask)
+#             #result_py = masked_conv_py(padded_input, padded_mask)
+#             #result_py = boundary_correct(result_py)
+#             result_py = masked_conv_py(u_img, mask)
+#             print('py conv done')
+#             result_tf = mask_conv_module.mask_conv(u_img, mask).eval()
+#             print('tf conv done')
+#             np.save('result_py',result_py)
+#             np.save('result_tf',result_tf)
+#             np.testing.assert_array_equal(result_tf, result_py)
+
+class MaskConvTest(tf.test.TestCase):
+  def test(self):
+    pass
+
+  def test_grad(self):
+    with tf.device('/cpu:0'):
+        mask, u_img, f_img = get_data()
+        u_img_tf = tf.constant(u_img, dtype=tf.float32)
+        mask_tf = tf.constant(mask, dtype=tf.float32)
+        result_tf = mask_conv_module.mask_conv(u_img_tf, mask_tf)
+    print result_tf
+
+    with self.test_session():
+      print "---- Going to compute gradient error"
+      err = tf.test.compute_gradient_error([u_img_tf,mask_tf], [(1,66,66,1),(1,65,65,1)], result_tf, (1,66,66,1))
+      print err
+      self.assertLess(err, 1e-4)
 
 if __name__ == '__main__':
-    unittest.main()
+    tf.test.main()

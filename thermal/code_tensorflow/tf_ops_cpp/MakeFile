@@ -2,5 +2,5 @@
 # >>> print(tensorflow.sysconfig.get_include())
 # reference: https://github.com/charlesq34/pointnet2/blob/master/tf_ops/grouping/tf_grouping_compile.sh
 
-g++ -std=c++11 inner_product.cc  -o libinner_product.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
-g++ -std=c++11 inner_product_grad.cc  -o libinner_product_grad.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
+g++ -std=c++11 mask_conv.cc  -o ./build/lib_mask_conv.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
+g++ -std=c++11 mask_conv_grad.cc  -o ./build/lib_mask_conv_grad.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
