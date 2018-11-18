@@ -1,0 +1,154 @@
+#include <iostream>
+#include <math.h>
+
+//0 3 6 
+//1 4 7
+//2 5 8
+// row idx: i
+// col idx: j
+__global__
+void mask_conv(int n, float *resp, float *mask, float *load)
+{
+
+	float diag_coef_1 = 1;
+	float side_coef_1 = 1;
+	float diag_coef_2 = 1;
+	float side_coef_2 = 1;
+	float diag_coef_diff = diag_coef_1 - diag_coef_2;
+	float side_coef_diff = side_coef_1 - side_coef_2;
+
+	int index_x = blockIdx.x * blockDim.x + threadIdx.x;
+	int index_y = blockIdx.y * blockDim.y + threadIdx.y;
+
+	int stride_x = blockDim.x * gridDim.x;
+	int stride_y = blockDim.y * gridDim.y;
+	for (int i = index_x+1; i < n-1; i += stride_x)
+	{
+		for (int j = index_y+1; j < n-1; j += stride_y)
+		{
+			int load_index = n*(i-1) + (j-1);
+
+			int resp_index_0 = n*(i-1) + j-1;
+			int resp_index_1 = n*(i) + j-1;
+			int resp_index_2 = n*(i+1) + j-1;
+			int resp_index_3 = n*(i-1) + j;
+			int resp_index_5 = n*(i+1) + j;
+			int resp_index_6 = n*(i-1) + j+1;
+			int resp_index_7 = n*(i) + j+1;
+			int resp_index_8 = n*(i+1) + j+1;
+
+			int mask_index_0 = (n-1)*(i-1) + j-1;
+			int mask_index_1 = (n-1)*(i) + j-1;
+			int mask_index_3 = (n-1)*(i-1) + j;
+			int mask_index_4 = (n-1)*(i) + j;
+			
+			load[load_index] = resp[resp_index_0] * mask[mask_index_0]*diag_coef_diff
+  							 + resp[resp_index_6] * mask[mask_index_3]*diag_coef_diff
+  							 + resp[resp_index_2] * mask[mask_index_1]*diag_coef_diff
+  							 + resp[resp_index_8] * mask[mask_index_4]*diag_coef_diff
+
+  							 + resp[resp_index_3] * (mask[mask_index_0]+mask[mask_index_3])*side_coef_diff/2
+  							 + resp[resp_index_1] * (mask[mask_index_0]+mask[mask_index_1])*side_coef_diff/2
+  							 + resp[resp_index_7] * (mask[mask_index_3]+mask[mask_index_4])*side_coef_diff/2
+  							 + resp[resp_index_5] * (mask[mask_index_1]+mask[mask_index_4])*side_coef_diff/2
+							
+							 + resp[resp_index_0] * diag_coef_2
+  							 + resp[resp_index_6] * diag_coef_2
+  							 + resp[resp_index_2] * diag_coef_2
+  							 + resp[resp_index_8] * diag_coef_2
+
+  							 + resp[resp_index_3] * side_coef_2
+  							 + resp[resp_index_1] * side_coef_2
+  							 + resp[resp_index_7] * side_coef_2
+  							 + resp[resp_index_5] * side_coef_2;
+							
+		}
+	}
+}
+             
+
+/*
+void mask_conv_cpu(float *weights_tensor, float *input_tensor, float * output_tensor)
+{
+    for (int i = 1; i < N-1; i++) {
+        for (int j = 1; j < N-1; j++) {
+
+            output_tensor(0, i-1, j-1, 0)  = input_tensor(0, i-1, j-1, 0) * weights_tensor(0, i-1, j-1, 0) *diag_coef_1 
+                                 + input_tensor(0, i-1, j+1, 0) * weights_tensor(0, i-1, j, 0) *diag_coef_1 
+                                 + input_tensor(0, i+1, j-1, 0) * weights_tensor(0, i, j-1, 0) *diag_coef_1 
+                                 + input_tensor(0, i+1, j+1, 0) * weights_tensor(0, i, j, 0) *diag_coef_1
+                                 
+                                 + input_tensor(0, i-1, j, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i-1, j, 0)) / 2. *side_coef_1 
+                                 + input_tensor(0, i, j-1, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i, j-1, 0)) / 2. *side_coef_1
+                                 + input_tensor(0, i, j + 1, 0) * (weights_tensor(0, i-1, j, 0) + weights_tensor(0, i, j, 0)) / 2. *side_coef_1
+                                 + input_tensor(0, i+1, j, 0) * (weights_tensor(0, i, j-1, 0) + weights_tensor(0, i, j, 0)) / 2. *side_coef_1
+             
+                                 + input_tensor(0, i-1, j-1, 0) * (1-weights_tensor(0, i-1, j-1, 0)) *diag_coef_2 
+                                 + input_tensor(0, i-1, j+1, 0) * (1-weights_tensor(0, i-1, j, 0))*diag_coef_2 
+                                 + input_tensor(0, i+1, j-1, 0) * (1-weights_tensor(0, i, j-1, 0)) *diag_coef_2 
+                                 + input_tensor(0, i+1, j+1, 0) * (1-weights_tensor(0, i, j, 0)) *diag_coef_2
+            
+                                 + input_tensor(0, i-1, j, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i-1, j, 0)) / 2. *side_coef_2 
+                                 + input_tensor(0, i, j-1, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i, j-1, 0)) / 2. *side_coef_2
+                                 + input_tensor(0, i, j + 1, 0) * (2-weights_tensor(0, i-1, j, 0) - weights_tensor(0, i, j, 0)) / 2. *side_coef_2
+                                 + input_tensor(0, i+1, j, 0) * (2-weights_tensor(0, i, j-1, 0) - weights_tensor(0, i, j, 0)) / 2. *side_coef_2;
+        }
+   }
+}
+*/
+
+int main(void)
+{
+	int N = 10;  
+	float *resp, *mask, *load;
+
+	// Allocate Unified Memory – accessible from CPU or GPU
+	cudaMallocManaged(&resp, N*N*sizeof(float));
+	cudaMallocManaged(&mask, (N-1)*(N-1)*sizeof(float));
+	cudaMallocManaged(&load, N*N*sizeof(float));
+
+	// assume they are row first stored
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; i < N; i++) {
+			resp[i*N+j] = 1.0;
+			if (i<N-1 & j<N-1){
+				if (i<N/2)
+					mask[i*N+j] = 1.0;
+				else
+					mask[i*N+j] = 0;
+			}
+		}
+	}
+
+	// Run kernel  on the GPU
+	dim3 blockSize = dim3(2, 2);
+	int bx = (N+blockSize.x-1)/blockSize.x ;
+	int by = (N+blockSize.y-1)/blockSize.y ;
+	dim3 gridSize = dim3 (bx, by);
+	mask_conv<<<gridSize, blockSize>>>(N, resp, mask, load);
+
+	// Wait for GPU to finish before accessing on host
+	cudaDeviceSynchronize();
+
+	// Check for errors (all values should be 3.0f)
+
+	for (int i = 0; i < N; i++){
+		for (int j=0; j< N; j++)
+		{
+			std::cout << load[N*i+j];
+		}
+		std::cout<<std::endl;
+	}
+
+	// Free memory
+	cudaFree(resp);
+	cudaFree(mask);
+	cudaFree(load);
+
+	return 0;
+}
+
+//nvcc -arch=sm_61 -O3 mask_conv.cu -o mask_conv
+
+
+
