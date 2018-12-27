@@ -73,8 +73,8 @@ public:
     // create output shape
     TensorShape output_shape;
     output_shape.AddDim(input_shape.dim_size(0));
-    output_shape.AddDim(input_shape.dim_size(1));
-    output_shape.AddDim(input_shape.dim_size(2));
+    output_shape.AddDim(input_shape.dim_size(1)-2);
+    output_shape.AddDim(input_shape.dim_size(2)-2);
     output_shape.AddDim(input_shape.dim_size(3));            
 
     // create output tensor
@@ -93,12 +93,15 @@ public:
       }
     }
 */
-    float diag_coef_1 = 1;
-    float side_coef_1 = 1;
-    float diag_coef_2 = 1;
-    float side_coef_2 = 1;
-    for (int i = 1; i < output->shape().dim_size(1)-1; i++) {
-        for (int j = 1; j < output->shape().dim_size(2)-1; j++) {
+    float rho_1 = 16.;
+    float rho_2 = 205.;
+    auto diag_coef_1 = rho_1 / 3.;
+    auto side_coef_1 = rho_1 / 3.;
+    auto diag_coef_2 = rho_2 / 3.;
+    auto side_coef_2 = rho_2 / 3.;
+
+    for (int i = 1; i < output->shape().dim_size(1)+1; i++) {
+        for (int j = 1; j < output->shape().dim_size(2)+1; j++) {
 
             output_tensor(0, i-1, j-1, 0)  = input_tensor(0, i-1, j-1, 0) * weights_tensor(0, i-1, j-1, 0) *diag_coef_1 
                                  + input_tensor(0, i-1, j+1, 0) * weights_tensor(0, i-1, j, 0) *diag_coef_1 

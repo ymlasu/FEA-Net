@@ -227,7 +227,7 @@ def visualize(loss_hist, resp_pred, resp_gt):
 def main():
     resp_gt, load_gt, mask, coef = load_data_elem()
 
-    u_hist = [np.zeros((num_node,num_node))] 
+    u_hist = [resp_gt]
     loss_hist = []
     for i in range(500000):
         u_new = apply(u_hist[-1], load_gt, mask, coef)

@@ -66,7 +66,20 @@ public:
     auto grad_input_tensor = grad_input->tensor<float, 4>();
     auto grad_weights_tensor = grad_weights->tensor<float, 4>();
 
-/*    
+    // zero initialization
+    for (int i = 0; i < input_shape.dim_size(1); i++) {
+      for (int j = 0; j < input_shape.dim_size(2); j++) {
+          grad_input_tensor(0, i, j, 0) = 0.0;
+      }
+    }
+    for (int i = 0; i < weights_shape.dim_size(1); i++) {
+      for (int j = 0; j < weights_shape.dim_size(2); j++) {
+          grad_weights_tensor(0, i, j, 0) = 0.0;
+      }
+    }
+
+
+/*
     // doign it manually for ismplicity
     for (int i = 0; i < input_shape.dim_size(1); i++) {
       for (int j = 0; j < input.shape().dim_size(2); j++) {
@@ -100,15 +113,17 @@ public:
     auto side_coef_2 = rho_2 / 3.;
     auto diag_coef_diff = diag_coef_1 - diag_coef_2;
     auto side_coef_diff = side_coef_1 - side_coef_2;
-
+/*
     for (int i = 1; i < weights_shape.dim_size(1); i++) {
       for (int j = 1; j < weights_shape.dim_size(2); j++) {
-            grad_weights_tensor(0,i-1,j-1,0) +=  grad_tensor(0,i-1,j-1,0) * (input_tensor(0,i-1,j-1,0) * diag_coef_diff + (input_tensor(0,i-1,j-1,0) + input_tensor(0,i,j-1,0))/2. * side_coef_diff);
+            grad_weights_tensor(0,i-1,j-1,0) +=  grad_tensor(0,i-1,j-1,0) * (input_tensor(0,i-1,j-1,0) * diag_coef_diff + (input_tensor(0,i-1,j,0) + input_tensor(0,i,j-1,0))/2. * side_coef_diff);
             grad_weights_tensor(0,i-1,j,0) += grad_tensor(0,i-1,j,0) * (input_tensor(0,i-1,j+1,0) * diag_coef_diff + (input_tensor(0,i,j+1,0) + input_tensor(0,i-1,j,0))/ 2. * side_coef_diff);
-            grad_weights_tensor(0,i,j-1,0) += grad_tensor(0,i,j-1,0) * (input_tensor(0,i+1,j-1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j-1,0))/ 2. * side_coef_diff); 
+            grad_weights_tensor(0,i,j-1,0) += grad_tensor(0,i,j-1,0) * (input_tensor(0,i+1,j-1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j-1,0))/ 2. * side_coef_diff);
             grad_weights_tensor(0,i,j,0) += grad_tensor(0,i,j,0) * (input_tensor(0,i+1,j+1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j+1,0))/ 2. * side_coef_diff) ;
       }
     }
+
+
 
     for (int i = 1; i < input_shape.dim_size(1)-1; i++) {
       for (int j = 1; j < input.shape().dim_size(2)-1; j++) {
@@ -120,10 +135,64 @@ public:
             grad_input_tensor(0,i,j+1,0) += grad_tensor(0,i,j+1,0) * ((weights_tensor(0, i-1, j, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
 
             grad_input_tensor(0,i+1,j-1,0) += grad_tensor(0,i+1,j-1,0) * (weights_tensor(0, i, j-1, 0) * diag_coef_diff + diag_coef_2);
-            grad_input_tensor(0,i+1,j,0) += grad_tensor(0,i+1,j,0) * ((weights_tensor(0, i, j-1, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff * side_coef_2);
+            grad_input_tensor(0,i+1,j,0) += grad_tensor(0,i+1,j,0) * ((weights_tensor(0, i, j-1, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
             grad_input_tensor(0,i+1,j+1,0) += grad_tensor(0,i+1,j+1,0) * (weights_tensor(0, i, j, 0) * diag_coef_diff + diag_coef_2 );
       }
     }
+*/
+
+/*
+    for (int i = 1; i < weights_shape.dim_size(1); i++) {
+      for (int j = 1; j < weights_shape.dim_size(2); j++) {
+            grad_weights_tensor(0,i-1,j-1,0) =  (input_tensor(0,i-1,j-1,0) * diag_coef_diff + (input_tensor(0,i-1,j,0) + input_tensor(0,i,j-1,0))/2. * side_coef_diff);
+            grad_weights_tensor(0,i-1,j,0) = (input_tensor(0,i-1,j+1,0) * diag_coef_diff + (input_tensor(0,i,j+1,0) + input_tensor(0,i-1,j,0))/ 2. * side_coef_diff);
+            grad_weights_tensor(0,i,j-1,0) =  (input_tensor(0,i+1,j-1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j-1,0))/ 2. * side_coef_diff);
+            grad_weights_tensor(0,i,j,0) =  (input_tensor(0,i+1,j+1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j+1,0))/ 2. * side_coef_diff) ;
+      }
+    }
+
+    for (int i = 1; i < input_shape.dim_size(1)-1; i++) {
+      for (int j = 1; j < input_shape.dim_size(2)-1; j++) {
+            grad_input_tensor(0,i-1,j-1,0) =  (weights_tensor(0,i-1,j-1,0) * diag_coef_diff + diag_coef_2);
+            grad_input_tensor(0,i-1,j,0) =((weights_tensor(0, i-1, j-1, 0)+weights_tensor(0, i-1, j, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i-1,j+1,0) = (weights_tensor(0, i-1, j, 0) * diag_coef_diff + diag_coef_2);
+
+            grad_input_tensor(0,i,j-1,0) = ((weights_tensor(0, i-1, j-1, 0)+weights_tensor(0, i, j-1, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i,j+1,0) = ((weights_tensor(0, i-1, j, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
+
+            grad_input_tensor(0,i+1,j-1,0) = (weights_tensor(0, i, j-1, 0) * diag_coef_diff + diag_coef_2);
+            grad_input_tensor(0,i+1,j,0) =  ((weights_tensor(0, i, j-1, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i+1,j+1,0) =  (weights_tensor(0, i, j, 0) * diag_coef_diff + diag_coef_2 );
+      }
+    }
+*/
+    std::cout<<weights_shape.dim_size(0)<<" "<<weights_shape.dim_size(1)<<" "<<weights_shape.dim_size(2)<<" "<<weights_shape.dim_size(3)<<std::endl;
+    std::cout<<"grad_tensor"<<std::endl;
+    std::cout<<grad.dim_size(0)<<" "<<grad.dim_size(1)<<" "<<grad.dim_size(2)<<" "<<grad.dim_size(3)<<std::endl;
+    for (int i = 1; i < weights_shape.dim_size(1); i++) {
+      for (int j = 1; j < weights_shape.dim_size(2); j++) {
+            grad_weights_tensor(0,i-1,j-1,0) +=  grad_tensor(0,i-1,j-1,0) * (input_tensor(0,i-1,j-1,0) * diag_coef_diff + (input_tensor(0,i-1,j,0) + input_tensor(0,i,j-1,0))/2. * side_coef_diff);
+            grad_weights_tensor(0,i-1,j,0) += grad_tensor(0,i-1,j-1,0)* (input_tensor(0,i-1,j+1,0) * diag_coef_diff + (input_tensor(0,i,j+1,0) + input_tensor(0,i-1,j,0))/ 2. * side_coef_diff);
+            grad_weights_tensor(0,i,j-1,0) += grad_tensor(0,i-1,j-1,0) *  (input_tensor(0,i+1,j-1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j-1,0))/ 2. * side_coef_diff);
+            grad_weights_tensor(0,i,j,0) += grad_tensor(0,i-1,j-1,0) *  (input_tensor(0,i+1,j+1,0) * diag_coef_diff + (input_tensor(0,i+1,j,0) + input_tensor(0,i,j+1,0))/ 2. * side_coef_diff) ;
+      }
+    }
+
+    for (int i = 1; i < input_shape.dim_size(1)-1; i++) {
+      for (int j = 1; j < input_shape.dim_size(2)-1; j++) {
+            grad_input_tensor(0,i-1,j-1,0) +=  grad_tensor(0,i-1,j-1,0) * (weights_tensor(0,i-1,j-1,0) * diag_coef_diff + diag_coef_2);
+            grad_input_tensor(0,i-1,j,0) += grad_tensor(0,i-1,j-1,0) * ((weights_tensor(0, i-1, j-1, 0)+weights_tensor(0, i-1, j, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i-1,j+1,0) += grad_tensor(0,i-1,j-1,0) * (weights_tensor(0, i-1, j, 0) * diag_coef_diff + diag_coef_2);
+
+            grad_input_tensor(0,i,j-1,0) += grad_tensor(0,i-1,j-1,0) * ((weights_tensor(0, i-1, j-1, 0)+weights_tensor(0, i, j-1, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i,j+1,0) += grad_tensor(0,i-1,j-1,0) * ((weights_tensor(0, i-1, j, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
+
+            grad_input_tensor(0,i+1,j-1,0) += grad_tensor(0,i-1,j-1,0) * (weights_tensor(0, i, j-1, 0) * diag_coef_diff + diag_coef_2);
+            grad_input_tensor(0,i+1,j,0) +=  grad_tensor(0,i-1,j-1,0) * ((weights_tensor(0, i, j-1, 0)+weights_tensor(0, i, j, 0))/2 * side_coef_diff + side_coef_2);
+            grad_input_tensor(0,i+1,j+1,0) += grad_tensor(0,i-1,j-1,0) *  (weights_tensor(0, i, j, 0) * diag_coef_diff + diag_coef_2 );
+      }
+    }
+
   }
 };
 

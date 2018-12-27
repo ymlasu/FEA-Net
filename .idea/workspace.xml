@@ -7,14 +7,17 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/Drawing.m" />
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/HeatTransfer.m" />
       <change beforePath="" afterPath="$PROJECT_DIR$/data/heat_transfer/Downloads/2D_Heat_Transfer_data/MeshRectanglularPlate.m" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" afterPath="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
       <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/mask_conv" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/mask_conv" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/mask_conv.cu" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/mask_conv.cu" />
       <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc" afterPath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/result_py.npy" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/result_tf.npy" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,31 +28,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="mask_conv.cc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc">
+      <file leaf-file-name="mask_conv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="30" />
+            <state relative-caret-position="18">
+              <caret line="4" column="35" lean-forward="false" selection-start-line="4" selection-start-column="35" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mask_conv_grad.cc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc">
+      <file leaf-file-name="backward_test.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forward_test.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+            <state relative-caret-position="546">
+              <caret line="98" column="4" lean-forward="false" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -58,11 +51,62 @@
       <file leaf-file-name="_mask_conv_grad.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="32" />
+            <state relative-caret-position="168">
+              <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding>
-                <element signature="e#92#115#0" expanded="true" />
+                <element signature="e#91#109#0" expanded="true" />
+                <element signature="e#1209#4220#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mask_conv_grad.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="699">
+              <caret line="194" column="0" lean-forward="true" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mask_conv.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="session.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="203">
+              <caret line="1305" column="0" lean-forward="false" selection-start-line="1305" selection-start-column="0" selection-end-line="1305" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forward_test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1080">
+              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MakeFile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,52 +122,52 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>conv</find>
-      <find>elem_mask</find>
-      <find>reference_jacobi_solver</find>
-      <find>res</find>
+      <find>mask</find>
       <find>d_matrix</find>
-      <find>new_weight_variable</find>
-      <find>A_weights</find>
-      <find>66</find>
-      <find>np</find>
-      <find>numpy</find>
-      <find>LU_bias</find>
-      <find>LU</find>
-      <find>tf</find>
-      <find>np_get_D_matrix_elast</find>
-      <find>65</find>
-      <find>l1_loss</find>
-      <find>loss</find>
-      <find>block</find>
-      <find>load_data_elem</find>
-      <find>data</find>
-      <find>batch_size</find>
-      <find>conductivity</find>
-      <find>num_node</find>
-      <find>masked_conv</find>
-      <find>unittest</find>
-      <find>dtype</find>
-      <find>MaskConv</find>
-      <find>mask_conv_grad</find>
-      <find>inner</find>
+      <find>masked_conv_py</find>
+      <find>grad_x_inner_product</find>
+      <find>compute_gradient_error</find>
+      <find>sess</find>
+      <find>diag_coef_2</find>
+      <find>elem_mask[0, i-1, j-1, 0]</find>
+      <find>x[0, i-1, j, 0]</find>
+      <find>diag_coef_diff</find>
+      <find>grad_input</find>
+      <find>x_init_value</find>
       <find>mask_conv_module</find>
+      <find>constant</find>
+      <find>diag_coef_1</find>
+      <find>theoretical</find>
+      <find>grad_input_tensor</find>
+      <find>input_shape</find>
+      <find>grad_x_tf</find>
+      <find>input_tensor(0, i-1, j+1, 0)</find>
+      <find>num_node</find>
+      <find>tf.RegisterGradient</find>
+      <find>weights_tensor(0, i-1, j-1, 0)</find>
+      <find>weights_tensor</find>
+      <find>grad</find>
+      <find>weights_tensor(0, i-1, j, 0)</find>
+      <find>weights_tensor(0, i, j-1, 0)</find>
+      <find>weights_tensor(0, i, j, 0)</find>
+      <find>grad_tensor</find>
+      <find>4</find>
     </findStrings>
     <replaceStrings>
       <replace>num_node</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/vis.py" />
-        <option value="$PROJECT_DIR$/FMG.py" />
-        <option value="$PROJECT_DIR$/visualization.py" />
-        <option value="$PROJECT_DIR$/VMG.py" />
         <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/Jacobi_block.py" />
         <option value="$PROJECT_DIR$/inverse_opt.py" />
@@ -166,19 +210,23 @@
         <option value="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py" />
         <option value="$PROJECT_DIR$/thermal/result/thermal_result_plotting.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/mask_conv.py" />
         <option value="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
         <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile" />
-        <option value="$PROJECT_DIR$/thermal/code_tensorflow/mask_conv.py" />
-        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py" />
+        <option value="$PROJECT_DIR$/code_testing/Untitled Document 3" />
         <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc" />
+        <option value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1984" />
-    <option name="y" value="-4" />
+    <option name="y" value="-11" />
     <option name="width" value="1857" />
-    <option name="height" value="1085" />
+    <option name="height" value="1092" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -196,14 +244,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
               <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
+              <item name="code_testing" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
@@ -229,6 +282,22 @@
               <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
               <item name="tf_ops_cpp" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
+              <item name="thermal" type="462c0819:PsiDirectoryNode" />
+              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
+              <item name="tf_ops_cpp" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
+              <item name="thermal" type="462c0819:PsiDirectoryNode" />
+              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
+              <item name="tf_ops_cpp" type="462c0819:PsiDirectoryNode" />
+              <item name="cuda" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -237,7 +306,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Sensor_Calibration" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -266,8 +335,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Nosetests for forward_test.GroupPointTest.test_grad">
-    <configuration name="mask_conv" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.backward_test">
+    <configuration name="backward_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -279,25 +348,25 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="MG_net" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="thermal_1phase_2D_np_bc2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="forward_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thermal/code_python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="MG_net" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -321,7 +390,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -333,10 +402,10 @@
       <module name="MG_net" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;forward_test.GroupPointTest.test_grad&quot;" />
+      <option name="_new_target" value="&quot;backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="Nosetests in forward_test.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests in backward_test.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -348,23 +417,23 @@
       <module name="MG_net" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
-      <item index="1" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
-      <item index="2" class="java.lang.String" itemvalue="Python.mask_conv" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests in forward_test.py" />
-      <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for forward_test.GroupPointTest.test_grad" />
+      <item index="0" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
+      <item index="1" class="java.lang.String" itemvalue="Python.forward_test" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests in backward_test.py" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" />
+      <item index="4" class="java.lang.String" itemvalue="Python.backward_test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests for forward_test.GroupPointTest.test_grad" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests in forward_test.py" />
-        <item index="2" class="java.lang.String" itemvalue="Python.mask_conv" />
-        <item index="3" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
-        <item index="4" class="java.lang.String" itemvalue="Python.thermal_1phase_2D_np_bc2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.backward_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" />
+        <item index="2" class="java.lang.String" itemvalue="Python.forward_test" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests in backward_test.py" />
+        <item index="4" class="java.lang.String" itemvalue="Python.thermal_2phase_2D_np_bc1" />
       </list>
     </recent_temporary>
   </component>
@@ -599,39 +668,46 @@
       <option name="project" value="LOCAL" />
       <updated>1542494353554</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="added tf testing for the gradient of mask conv. failed the testing though">
+      <created>1542496650987</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1542496650987</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 15h 56m 23s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_backward_test_InnerProductOpTest_test_innerProductGradientXHardCoded - 2018.12.11 at 09h 44m 26s.xml">
+      <configuration name="Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 15h 57m 10s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_backward_test_InnerProductOpTest_test_innerProductGradientXHardCoded - 2018.12.11 at 09h 45m 58s.xml">
+      <configuration name="Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 15h 58m 06s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_backward_test_InnerProductOpTest_test_innerProductGradientXHardCoded - 2018.12.11 at 09h 48m 14s.xml">
+      <configuration name="Nosetests for backward_test.InnerProductOpTest.test_innerProductGradientXHardCoded" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 15h 59m 31s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 17h 26m 11s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 00m 01s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 17h 30m 53s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 00m 52s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 17h 32m 21s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 07m 43s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 17h 32m 31s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 12m 43s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 17h 33m 28s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 13m 07s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_for_forward_test_MaskConvTest - 2018.11.24 at 22h 32m 33s.xml">
+      <configuration name="Nosetests for forward_test.MaskConvTest" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_forward_test_GroupPointTest_test_grad - 2018.11.17 at 16h 15m 32s.xml">
-      <configuration name="Nosetests for forward_test.GroupPointTest.test_grad" configurationId="tests" />
+    <history-entry file="Nosetests_in_backward_test_py - 2018.12.11 at 00h 32m 43s.xml">
+      <configuration name="Nosetests in backward_test.py" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -644,25 +720,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1984" y="-4" width="1857" height="1085" extended-state="6" />
+    <frame x="1984" y="-11" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22568306" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10218579" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820514" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923076" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3774359" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35897437" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42461538" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43076923" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31692308" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3271795" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3405128" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923076" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -715,7 +791,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="conv(w,x) for jacobi is converging now!!" />
     <MESSAGE value="jacobi network is converging, but only to 3% error rate, and K is predicted as 8 instead of 16" />
     <MESSAGE value="jacobi network is converging, but slow." />
     <MESSAGE value="2-level seems working at this parameter setting, but changing depth and alpha will cause problems for some reason" />
@@ -740,7 +815,8 @@
     <MESSAGE value="doing: single phase TF code under testing&#10;done: added result, re-orgnized code &#10;todo: speed up thermal convergence, BP in 2 phase" />
     <MESSAGE value="elast tf forward is correct, but training won't converge. thermal tf hasn't tested yet." />
     <MESSAGE value="finished: tf ops in cpp for masked conv,&#10;todo: tf ops in cuda, multigrid for 1 phase mat" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished: tf ops in cpp for masked conv,&#10;todo: tf ops in cuda, multigrid for 1 phase mat" />
+    <MESSAGE value="added tf testing for the gradient of mask conv. failed the testing though" />
+    <option name="LAST_COMMIT_MESSAGE" value="added tf testing for the gradient of mask conv. failed the testing though" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -855,6 +931,66 @@
           <line>73</line>
           <option name="timeStamp" value="690" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py</url>
+          <line>137</line>
+          <option name="timeStamp" value="694" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="695" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py</url>
+          <line>163</line>
+          <option name="timeStamp" value="717" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py</url>
+          <line>125</line>
+          <option name="timeStamp" value="723" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py</url>
+          <line>153</line>
+          <option name="timeStamp" value="727" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="733" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py</url>
+          <line>109</line>
+          <option name="timeStamp" value="734" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py</url>
+          <line>125</line>
+          <option name="timeStamp" value="735" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="745" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py</url>
+          <line>103</line>
+          <option name="timeStamp" value="746" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py</url>
+          <line>101</line>
+          <option name="timeStamp" value="747" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="752" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -866,81 +1002,80 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="694" />
+      <option name="time" value="755" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>with tf.Session() as sess:
-    aa=sess.run(result_tf)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>with tf.Session() as sess:
-    sess.run(result_tf)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>with tf.Session() as sess:
-    result_tf.eval()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>pred_i = sess.run(x, {f: test_f_img})
+        <expression-string>numshow=100
 import matplotlib.pyplot as plt
-plt.subplot(1,2,1)
-plt.imshow(pred_i[0,:,:,0], cmap='jet', interpolation='none')
+plt.subplot(1, 3, 1)
+plt.imshow(partial_u_ref[0][:numshow,:numshow])
 plt.colorbar()
-plt.subplot(1,2,2)
-plt.imshow(test_u_img[0,:,:,0], cmap='jet', interpolation='none')
+plt.subplot(1, 3, 2)
+plt.imshow(partial_u_ref[1][:numshow,:numshow])
+plt.colorbar()
+plt.subplot(1, 3, 3)
+plt.imshow(partial_u_ref[0][:numshow,:numshow] - partial_u_ref[1][:numshow,:numshow])
 plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.save('/home/hope-yao/Documents/FEA_Net/thermal/result/FCN',pred_i[0,:,:,0])</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>pred_i = sess.run(x, {f: test_f_img})</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>import matplotlib.pyplot as plt
-plt.subplot(1,2,1)
-plt.imshow(pred_i[0,:,:,0], cmap='jet', interpolation='none')
+        <expression-string>num_show=100
+import matplotlib.pyplot as plt
+plt.subplot(1, 3, 1)
+plt.imshow(partial_u_ref[0][:numshow,:numshow])
 plt.colorbar()
-plt.subplot(1,2,2)
-plt.imshow(test_u_img[0,:,:,0], cmap='jet', interpolation='none')
-plt.colorbar()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>import matplotlib.pyplot as plt
-plt.subplot(1,2,1)
-plt.imshow(pred_i[0,:,:,0])
+plt.subplot(1, 3, 2)
+plt.imshow(partial_u_ref[1][:numshow,:numshow])
 plt.colorbar()
-plt.subplot(1,2,2)
-plt.imshow(test_u_img[0,:,:,0])
+plt.subplot(1, 3, 3)
+plt.imshow(partial_u_ref[0][:numshow,:numshow] - partial_u_ref[1][:numshow,:numshow])
 plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
         <expression-string>import matplotlib.pyplot as plt
-plt.subplot(1,2,1)
-plt.imshow(pred_i[0,:,:,0])
+plt.subplot(1, 3, 1)
+plt.imshow(partial_u_ref[0])
 plt.colorbar()
-plt.subplot(1,2,2)
-plt.imshow(u_img[0,:,:,0])
+plt.subplot(1, 3, 2)
+plt.imshow(partial_u_ref[1])
+plt.colorbar()
+plt.subplot(1, 3, 3)
+plt.imshow(partial_u_ref[0] - partial_u_ref[1])
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1, 3, 1)
+plt.imshow(partial_w_ref[0])
+plt.colorbar()
+plt.subplot(1, 3, 2)
+plt.imshow(partial_w_ref[1])
+plt.colorbar()
+plt.subplot(1, 3, 3)
+plt.imshow(partial_w_ref[0] - partial_w_ref[1])
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1,3,1)
+plt.imshow(partial_w_ref[0])
+plt.colorbar()
+plt.subplot(1,3,2)
+plt.imshow(partial_w_ref[1])
+plt.colorbar()
+plt.subplot(1,3,3)
+plt.imshow(partial_w_ref[0]-partial_w_ref[1])
 plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
@@ -948,11 +1083,42 @@ plt.colorbar()</expression-string>
       <expression>
         <expression-string>import matplotlib.pyplot as plt
 plt.subplot(1,2,1)
-plt.imshow(pred_i[0,:,:,0])
+plt.imshow(partial_w_ref[0])
+plt.colorbar()
+plt.subplot(1,2,2)
+plt.imshow(partial_w_ref[1])
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.imshow(partial_u_ref[0])
+plt.colorbar()
+plt.subplot(1,2,2)
+plt.imshow(partial_u_ref[1])
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.imshow(partial_u_ref[0])
 plt.colorbar()
 plt.subplot(1,2,1)
-plt.imshow(u_img[0,:,:,0])
+plt.imshow(partial_u_ref[1])
 plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.imshow(partial_u_ref[0])
+plt.subplot(1,2,2)
+plt.imshow(partial_u_ref[1])</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -1018,31 +1184,6 @@ plt.colorbar()</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/linalg/linalg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7038">
-          <caret line="391" column="0" lean-forward="false" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/shape_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8514">
-          <caret line="485" column="38" lean-forward="false" selection-start-line="485" selection-start-column="34" selection-end-line="485" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testing_code/test_ops.py" />
-    <entry file="file://$PROJECT_DIR$/testing_code/heat_1phase_2D_tf.py" />
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/numpy/linalg/linalg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="2243" column="5" lean-forward="false" selection-start-line="2243" selection-start-column="4" selection-end-line="2243" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_convergence.png" />
-    <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_heatmap.png" />
     <entry file="file://$PROJECT_DIR$/new_code_np/thermal_2phase_2D_np.py" />
     <entry file="file://$PROJECT_DIR$/new_code_tf/custom_ops.py" />
     <entry file="file://$PROJECT_DIR$/testing_code/custom_ops_tf.py" />
@@ -1082,14 +1223,6 @@ plt.colorbar()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19854">
-          <caret line="1120" column="0" lean-forward="false" selection-start-line="1120" selection-start-column="0" selection-end-line="1120" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/new_code_tf/elast_FCN.py" />
     <entry file="file://$PROJECT_DIR$/data/new_elasticity/readme.md" />
     <entry file="file://$PROJECT_DIR$/new_code_tf/tf_utils.py" />
@@ -1116,9 +1249,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5004">
           <caret line="281" column="13" lean-forward="false" selection-start-line="281" selection-start-column="13" selection-end-line="281" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1133,9 +1263,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="15" column="15" lean-forward="false" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1143,7 +1270,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,7 +1277,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1163,29 +1288,10 @@ plt.colorbar()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_1phase_2D_tf_bc2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="125" column="22" lean-forward="false" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1193,7 +1299,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3946">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1201,9 +1306,6 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1322">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1211,6 +1313,49 @@ plt.colorbar()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2474">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/customize_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/custom_ops_tf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1850">
+          <caret line="270" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="270" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/constant_op.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-844">
+          <caret line="53" column="25" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/custom_ops.py" />
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/thermal_2phase_2D_tf_bc1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1348">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/nose/importer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_1phase_2D_np_bc2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="100" column="12" lean-forward="false" selection-start-line="100" selection-start-column="4" selection-end-line="100" selection-end-column="12" />
           <folding>
             <element signature="e#0#18#0" expanded="false" />
           </folding>
@@ -1219,26 +1364,68 @@ plt.colorbar()</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="681">
-          <caret line="134" column="52" lean-forward="false" selection-start-line="134" selection-start-column="52" selection-end-line="134" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code_testing/customize_tf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="2880">
+          <caret line="162" column="26" lean-forward="false" selection-start-line="162" selection-start-column="26" selection-end-line="162" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code_testing/custom_ops_tf.py">
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/gradients_impl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1850">
-          <caret line="270" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="270" selection-end-column="0" />
+        <state relative-caret-position="200">
+          <caret line="541" column="0" lean-forward="false" selection-start-line="541" selection-start-column="0" selection-end-line="541" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/gpu.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/cuda/cpu.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_testing/Untitled Document 3">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="65" column="50" lean-forward="false" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19278">
+          <caret line="1071" column="0" lean-forward="false" selection-start-line="1071" selection-start-column="0" selection-end-line="1071" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/gradient_checker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="264" column="65" lean-forward="false" selection-start-line="264" selection-start-column="30" selection-end-line="264" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="4" column="35" lean-forward="false" selection-start-line="4" selection-start-column="35" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1246,75 +1433,50 @@ plt.colorbar()</expression-string>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/MakeFile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1237">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="35" lean-forward="false" selection-start-line="4" selection-start-column="35" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/gradient_checker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="317" column="28" lean-forward="false" selection-start-line="317" selection-start-column="27" selection-end-line="317" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/framework/constant_op.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-844">
-          <caret line="53" column="25" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="30" />
+          <caret line="6" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/_mask_conv_grad.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="32" />
+        <state relative-caret-position="168">
+          <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
           <folding>
-            <element signature="e#92#115#0" expanded="true" />
+            <element signature="e#91#109#0" expanded="true" />
+            <element signature="e#1209#4220#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv_grad.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="30" />
+        <state relative-caret-position="699">
+          <caret line="194" column="0" lean-forward="true" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/forward_test.py">
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+        <state relative-caret-position="203">
+          <caret line="1305" column="0" lean-forward="false" selection-start-line="1305" selection-start-column="0" selection-end-line="1305" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/backward_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="98" column="4" lean-forward="false" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="4" />
           <folding />
         </state>
       </provider>

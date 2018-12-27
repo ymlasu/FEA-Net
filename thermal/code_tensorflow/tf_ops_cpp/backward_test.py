@@ -25,111 +25,115 @@ def get_data():
     f_img = f.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
     return mask, u_img, f_img
 
-def mask_conv_grad_old(op, grads):
-    '''
-        gradient of the mask convolution operator
-        rearranged and merged the terms for better parallelization
-    :param op: inputs of this block
-    :param grads: gradient from above layers
-    :return: gradient flow of mask and response field pass this layer
-    '''
 
-    grad = grads[0] # only partial_resp is propagted to the next layer
-    mask = op.inputs[0]  # partial derivative towards mask
-    resp = op.inputs[1]  # partial derivative towards response field
+def boundary_padding(x):
+    ''' special symmetric boundary padding '''
+    left = x[:, :, 1:2, :]
+    right = x[:, :, -2:-1, :]
+    upper = tf.concat([x[:, 1:2, 1:2, :], x[:, 1:2, :, :], x[:, 1:2, -2:-1, :]], 2)
+    down = tf.concat([x[:, -2:-1, 1:2, :], x[:, -2:-1, :, :], x[:, -2:-1, -2:-1, :]], 2)
+    padded_x = tf.concat([left, x, right], 2)
+    padded_x = tf.concat([upper, padded_x, down], 1)
+    return padded_x
+def boundary_correct(x):
+    mask = np.ones((1,66,66,1))
+    mask[:, 0, :, :] /= 2
+    mask[:, -1, :, :] /= 2
+    mask[:, :, 0, :] /= 2
+    mask[:, :, -1, :] /= 2
+    return x*mask
 
-    # \frac {\partial error} {\partial mask}
-    for i in range(0, resp.shape[1]-1, 1):
-        for j in range(0, resp.shape[1]-1, 1):
-            # diagnal part + side part, looks correct...
-            partial_mask_i_j = grad[0, i, j, 0] * (resp[0, i + 1, j + 1, 0] + resp[0, i, j + 1, 0]/2. + resp[0, i + 1, j, 0]/2.)\
-                               + grad[0, i, j + 1, 0] * (resp[0, i + 1, j, 0] + resp[0, i + 1, j + 1, 0]/2. + resp[0, i, j, 0]/2.)\
-                               + grad[0, i + 1, j, 0] * (resp[0, i, j + 1, 0] + resp[0, i + 1, j + 1, 0]/2. + resp[0, i, j, 0]/2.)\
-                               + grad[0, i + 1, j + 1, 0] * (resp[0, i, j, 0] + resp[0, i, j + 1, 0]/2. + resp[0, i + 1, j, 0]/2.)
-            partial_mask = partial_mask_i_j if i==0 and j==0 else tf.stack([partial_mask, partial_mask_i_j])
-    partial_mask = tf.reshape(partial_mask, (mask.get_shape().as_list())) # with size the same as mask
+if 0:
+    mask, u_img, f_img = get_data()
+    x_pl = tf.constant(u_img, dtype=tf.float32)
+    w_pl = tf.constant(mask, dtype=tf.float32)
+    padded_input = boundary_padding(x_pl)
+    padded_mask = boundary_padding(w_pl)
+    masked_res_tf = mask_conv_module.mask_conv(padded_input, padded_mask)
+    result_tf = boundary_correct(masked_res_tf)
+    sess = tf.Session()
+    # reference Jacobian
+    partial_u_ref, partial_w_ref = tf.test.compute_gradient([x_pl, w_pl], [[1, 66, 66, 1], [1, 65, 65, 1]],
+                                                            result_tf, [1, 66, 66, 1],
+                                                            x_init_value = [u_img, mask])
+else:
+    if 0:
+        x_pl = tf.constant([[1, 2], [3, 4]], dtype=tf.float32)
+        w_pl = tf.constant([[10], [20]], dtype=tf.float32)
+        masked_res_tf = tf.matmul(x_pl, w_pl)
+        # reference Jacobian
+        with tf.Session():
+            partial_u_ref, partial_w_ref = tf.test.compute_gradient([x_pl, w_pl], [[2, 2], [2, 1]],
+                                                                    masked_res_tf, [2, 1], delta=1e-3)
+    num_test_node = 66
+    #u_img = np.ones((1,num_test_node,num_test_node,1))*2
+    #mask = np.ones((1,num_test_node-1,num_test_node-1,1))*10# np.asarray([[[[1],[1]],[[0],[0]]]])#
+    mask, u_img, f_img = get_data()
+    x_pl = tf.constant(u_img, dtype=tf.float32)
+    w_pl = tf.constant(mask, dtype=tf.float32)
+    #masked_res_tf = mask_conv_module.mask_conv(x_pl, w_pl)
+    padded_input = boundary_padding(x_pl)
+    padded_mask = boundary_padding(w_pl)
+    masked_res_tf = mask_conv_module.mask_conv(padded_input, padded_mask)
+    masked_res_tf = boundary_correct(masked_res_tf)
 
-    # \frac {\partial error} {\partial resp}
-    padded_grad = tf.pad(grad, [[0, 0], [1, 1], [1, 1], [0, 0]], "SYMMETRIC")
-    padded_mask = tf.pad(mask, [[0, 0], [1, 1], [1, 1], [0, 0]], "SYMMETRIC")
-    for i in range(0, padded_mask.shape[1] - 1, 1):
-        for j in range(0, padded_mask.shape[1] - 1, 1):
-            # diagnal part + side part, looks strange for the mid nodes
-            partial_resp_i_j = padded_grad[0, i, j, 0] * padded_mask[0, i, j, 0]\
-                            + padded_grad[0, i, j + 1, 0]* (padded_mask[0, i, j, 0] + padded_mask[0, i, j + 1, 0])/2. \
-                            + padded_grad[0, i, j + 2, 0] * padded_mask[0, i, j + 1, 0] \
-                            + padded_grad[0, i + 1, j, 0] * (padded_mask[0, i, j + 1, 0] + padded_mask[0, i + 1, j + 1, 0])/2 \
-                            + padded_grad[0, i + 1, j + 2, 0]*(padded_mask[0, i + 1, j, 0] + padded_mask[0, i + 1, j + 1, 0])/2.\
-                            + padded_grad[0, i + 2, j, 0] * padded_mask[0, i + 1, j, 0] \
-                            + padded_grad[0, i + 2, j + 1, 0]*(padded_mask[0, i, j, 0] + padded_mask[0, i + 1, j, 0])/2. \
-                            + padded_grad[0, i + 2, j + 2, 0] *padded_mask[0, i + 1, j + 1, 0]
-            partial_resp = tf.reshape(partial_resp_i_j,(1,1)) if i == 0 and j == 0 else tf.concat([partial_resp, tf.reshape(partial_resp_i_j, (1, 1))], axis=0)
-    partial_resp = tf.reshape(partial_resp, (resp.get_shape().as_list()))
+    # reference Jacobian
+    with tf.Session():
+        partial_u_ref, partial_w_ref = tf.test.compute_gradient([x_pl, w_pl], [[1, num_test_node, num_test_node, 1], [1, num_test_node-1, num_test_node-1, 1]],
+                                                                masked_res_tf, [1, num_test_node, num_test_node, 1], delta=1e-3)
 
-    # the propagated gradient with respect to the first and second argument respectively
-    return partial_mask, partial_resp
+if 0:
+    numshow = 100
+    import matplotlib.pyplot as plt
 
+    plt.subplot(1, 3, 1)
+    plt.imshow(partial_u_ref[0][:numshow, :numshow])
+    plt.colorbar()
+    plt.subplot(1, 3, 2)
+    plt.imshow(partial_u_ref[1][:numshow, :numshow])
+    plt.colorbar()
+    plt.subplot(1, 3, 3)
+    plt.imshow(partial_u_ref[0][:numshow, :numshow] - partial_u_ref[1][:numshow, :numshow])
+    plt.colorbar()
 
-def mask_conv_grad(op, grads):
-    '''
-        gradient of the mask convolution operator
-        rearranged and merged the terms for better parallelization
-    :param op: inputs of this block
-    :param grads: gradient from above layers
-    :return: gradient flow of mask and response field pass this layer
-    '''
+    
+np.squeeze(sess.run(tf.gradients(masked_res_tf, w_pl)[0])).tolist()
+# computed Jacobian
+partial_wx_partial_x = tf.gradients(result_tf, x_pl)
+partial_wx_partial_x_np = sess.run(partial_wx_partial_x[0], {x_pl:u_img, w_pl:mask})
+print(partial_wx_partial_x_np.shape)
+partial_wx_partial_w = tf.gradients(result_tf, w_pl)
+partial_wx_partial_w_np = sess.run(partial_wx_partial_w[0], {x_pl:u_img, w_pl:mask})
+print(partial_wx_partial_w_np)
+import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.imshow(np.squeeze(partial_wx_partial_x_np))
+plt.colorbar()
+plt.subplot(1,2,2)
+plt.imshow(np.squeeze(partial_wx_partial_w_np))
+plt.colorbar()
+    # diff = tf.test.compute_gradient_error([u_img, mask], [[1, 66, 66, 1], [1, 65, 65, 1]], result_tf, [1, 66, 66, 1])
+    # print(diff)
 
-    grad = grads[0] # only partial_resp is propagted to the next layer
-    mask = op.inputs[0]  # partial derivative towards mask
-    resp = op.inputs[1]  # partial derivative towards response field
-
-    # \frac {\partial error} {\partial mask}
-    diag_coef_diff = diag_coef_1 - diag_coef_2
-    side_coef_diff = side_coef_1 - side_coef_2
-    for i in range(1, mask.shape[1], 1):
-        for j in range(1, mask.shape[2], 1):
-            partial_mask[0, i-1, j-1, 0] +=  grad[0,i-1,j-1,0] * (resp[0,i-1,j-1,0] * diag_coef_diff + (resp[0,i-1,j-1,0] + resp[0,i,j-1,0])/2. * side_coef_diff)
-            partial_mask[0, i-1, j, 0] += grad[0,i-1,j,0] * (resp[0,i-1,j+1,0] * diag_coef_diff + (resp[0,i,j+1,0] + resp[0,i-1,j,0])/ 2. * side_coef_diff)
-            partial_mask[0, i, j-1, 0] += grad[0,i,j-1,0] * (resp[0,i+1,j-1,0] * diag_coef_diff + (resp[0,i+1,j,0] + resp[0,i,j-1,0])/ 2. * side_coef_diff) 
-            partial_mask[0, i, j, 0] += grad[0,i,j,0] * (resp[0,i+1,j+1,0] * diag_coef_diff + (resp[0,i+1,j,0] + resp[0,i,j+1,0])/ 2. * side_coef_diff) 
-
-
-    for i in range(1, resp.shape[1]-1, 1):
-        for j in range(1, resp.shape[2]-1, 1):
-            partial_resp[0, i-1, j-1, 0] += grad[0, i-1, j-1, 0] * (mask[0, i-1, j-1, 0] * diag_coef_diff + diag_coef_2)
-            partial_resp[0, i-1, j, 0] += grad[0, i-1, j, 0] * ((mask[0, i-1, j-1, 0]+mask[0, i-1, j, 0])/2 * side_coef_diff + side_coef_2)
-            partial_resp[0, i-1, j+1, 0] += grad[0, i-1, j+1, 0] * (mask[0, i-1, j, 0] * diag_coef_1 + (1-mask[0, i-1, j, 0]) * diag_coef_2)
-
-            partial_resp[0, i, j-1, 0] += grad[0, i, j-1, 0] * ((mask[0, i-1, j-1, 0]+mask[0, i, j-1, 0])/2 * side_coef_diff + side_coef_2)
-            partial_resp[0, i, j+1, 0] += grad[0, i, j+1, 0] * ((mask[0, i-1, j, 0]+mask[0, i, j, 0])/2 * side_coef_diff + side_coef_2)
-
-            partial_resp[0, i+1, j-1, 0] += grad[0, i+1, j-1, 0] * (mask[0, i, j-1, 0] * diag_coef_diff + diag_coef_2)
-            partial_resp[0, i+1, j, 0] += grad[0, i+1, j, 0] * ((mask[0, i, j-1, 0]+mask[0, i, j, 0])/2 * side_coef_diff + side_coef_2)
-            partial_resp[0, i+1, j+1, 0] += grad[0, i+1, j+1, 0] * (mask[0, i, j, 0] * diag_coef_1 + (1-mask[0, i, j, 0]) * diag_coef_2 )
-
-    # the propagated gradient with respect to the first and second argument respectively
-    return partial_mask, partial_resp
-
-
-class InnerProductOpTest(unittest.TestCase):
-
-    def test_innerProductGradientXHardCoded(self):
-        mask, u_img, f_img = get_data()
-        with tf.Session('') as sess:
-            x = tf.placeholder(tf.float32, shape = (1, num_node, num_node, 1))
-            w = tf.placeholder(tf.float32, shape = (1, num_node-1, num_node-1, 1))
-            
-            wx_tf = mask_conv_module.mask_conv(x, w)
-            partial_wx_partial_x = tf.gradients(wx_tf, x)
-            print(partial_wx_partial_x[0].get_shape())
-            partial_wx_partial_w = tf.gradients(wx_tf, w)
-            print(partial_wx_partial_w[0].get_shape())
-
-            #gradient_tf = sess.run(grad_x_tf, feed_dict = {x: np.asarray([1, 2]).astype(np.float32)})
-            #gradient_inner_product = sess.run(grad_x_inner_product, feed_dict = {x: np.asarray([1, 2]).astype(np.float32)})
-            
-            #self.assertEqual(gradient_tf[0][0], gradient_inner_product[0][0])
-            #self.assertEqual(gradient_tf[0][1], gradient_inner_product[0][1])
-
-if __name__ == '__main__':
-    unittest.main()
+# class InnerProductOpTest(unittest.TestCase):
+#
+#     def test_innerProductGradientXHardCoded(self):
+#         mask, u_img, f_img = get_data()
+#         with tf.Session('') as sess:
+#             x = tf.placeholder(tf.float32, shape = (1, num_node, num_node, 1))
+#             w = tf.placeholder(tf.float32, shape = (1, num_node-1, num_node-1, 1))
+#
+#             wx_tf = mask_conv_module.mask_conv(x, w)
+#             partial_wx_partial_x = tf.gradients(wx_tf, x)
+#             print(partial_wx_partial_x[0].get_shape())
+#             partial_wx_partial_w = tf.gradients(wx_tf, w)
+#             print(partial_wx_partial_w[0].get_shape())
+#             tf.test.compute_gradient_error([x, w], [[1, 66, 66, 1], [1, 65, 65, 1]], wx_tf, [1, 66, 66, 1])
+#             #gradient_tf = sess.run(grad_x_tf, feed_dict = {x: np.asarray([1, 2]).astype(np.float32)})
+#             #gradient_inner_product = sess.run(grad_x_inner_product, feed_dict = {x: np.asarray([1, 2]).astype(np.float32)})
+#
+#             #self.assertEqual(gradient_tf[0][0], gradient_inner_product[0][0])
+#             #self.assertEqual(gradient_tf[0][1], gradient_inner_product[0][1])
+#
+# if __name__ == '__main__':
+#     unittest.main()
