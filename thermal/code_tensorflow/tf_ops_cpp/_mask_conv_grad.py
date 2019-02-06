@@ -9,7 +9,7 @@ import tensorflow as tf
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import sparse_ops
-mask_conv_grad_module = tf.load_op_library('./build/lib_mask_conv_grad.so')
+mask_conv_grad_module = tf.load_op_library('/home/hope-yao/Documents/FEA_Net/thermal/code_tensorflow/tf_ops_cpp/build/lib_mask_conv_grad.so')
 
 rnd_name = 'MaskConv' #+ str(np.random.randint(0, 1E+8))
 @ops.RegisterGradient(rnd_name)
@@ -23,7 +23,7 @@ def _mask_conv_grad_cc(op, grad):
     :return: gradients with respect to the input of `inner_product`.
     """
 
-    return mask_conv_grad_module.mask_conv_grad(grad, op.inputs[0], op.inputs[1])
+    return mask_conv_grad_module.mask_conv_grad(grad, op.inputs[0], op.inputs[1], op.inputs[2])
 
 # uncomment this and comment the corresponding line above to use the Python
 # implementation of the inner product gradient

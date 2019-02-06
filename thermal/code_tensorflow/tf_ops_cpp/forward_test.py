@@ -5,12 +5,12 @@ import scipy.io as sio
 import unittest
 import numpy as np
 import tensorflow as tf
+from mask_conv import *
+#import _mask_conv_grad
+#mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
 
-import _mask_conv_grad
-mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
-
-num_node = 66
 def get_data():
+    num_node = 66
     data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/thermal/data/bc1/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat')
     mask = np.ones((1, num_node-1, num_node-1, 1))
     for i in range(num_node-1):
@@ -23,7 +23,8 @@ def get_data():
     u = np.linalg.solve(A, f)
     u_img = u.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
     f_img = f.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-    return mask, u_img, f_img
+    rho_1, rho_2 = 16., 205.
+    return num_node, mask, u_img, f_img, rho_1, rho_2
 
 def masked_conv_py(node_resp, elem_mask):
     diag_coef_1, side_coef_1 = 16/3., 16/3. #coef['diag_coef_1'], coef['diag_coef_1']
@@ -81,7 +82,7 @@ def boundary_correct(x):
     return x
 
 with tf.Session(''):
-    mask, u_img, f_img = get_data()
+    num_node, mask, u_img, f_img, rho1, rho2 = get_data()
 
     from scipy import signal
     elem_mask = np.squeeze(mask)
@@ -102,13 +103,13 @@ with tf.Session(''):
     result_py = boundary_correct(masked_res_py)
     u_py = (f_img - result_py) / d_matrix
     print('py conv done')
-    masked_res_tf = mask_conv_module.mask_conv(padded_input, padded_mask).eval()
+    masked_res_tf = mask_conv(padded_input, padded_mask, np.asarray([rho1,rho2],'float32')).eval()
     result_tf = boundary_correct(masked_res_tf)
     u_t = (f_img - result_tf) / d_matrix
     print('tf conv done')
 
     import matplotlib.pyplot as plt
-    plt.imshow(result_py[0, :, :, 0]-result_tf[0, :, :, 0])
+    plt.imshow(u_t[0, :, :, 0]-u_py[0, :, :, 0])
     plt.colorbar()
     plt.show()
 

@@ -13,26 +13,8 @@ using namespace tensorflow;
 REGISTER_OP("MaskConv")
   .Input("input: float")
   .Input("weights: float")
+  .Input("rho: float")
   .Output("mask_conv: float");
-/*
-  .SetShapeFn([](::tensorflow::shape_inference::InferenceContext* c) {
-    shape_inference::ShapeHandle input_shape;
-    TF_RETURN_IF_ERROR(c->WithRank(c->input(0), 2, &input_shape));
-
-    shape_inference::ShapeHandle weight_shape;
-    TF_RETURN_IF_ERROR(c->WithRank(c->input(1), 2, &weight_shape));
-    
-    shape_inference::DimensionHandle output_rows = c->Dim(weight_shape, 0);
-  
-    shape_inference::DimensionHandle input_rows = c->Dim(input_shape, 0);
-    shape_inference::DimensionHandle weight_cols = c->Dim(weight_shape, 1);
-    shape_inference::DimensionHandle merged;
-    TF_RETURN_IF_ERROR(c->Merge(input_rows, weight_cols, &merged));
-
-    c->set_output(0, c->Matrix(output_rows, 1));
-    return Status::OK();
-  });
-*/
 
 /// \brief Implementation of an inner product operation.
 /// \param context
@@ -50,14 +32,17 @@ public:
   void Compute(OpKernelContext* context) override {
     
     // some checks to be sure ...
-    DCHECK_EQ(2, context->num_inputs());
+    DCHECK_EQ(3, context->num_inputs());
     
     // get the input tensor
     const Tensor& input = context->input(0);
     
     // get the weight tensor
     const Tensor& weights = context->input(1);
-    
+
+    // get the heat conductivity
+    const Tensor& rho = context->input(2);
+
     // check shapes of input and weights
     const TensorShape& input_shape = input.shape();
     const TensorShape& weights_shape = weights.shape();
@@ -84,17 +69,11 @@ public:
     // get the corresponding Eigen tensors for data access
     auto input_tensor = input.tensor<float, 4>();
     auto weights_tensor = weights.tensor<float, 4>();
+    auto rho_tensor = rho.tensor<float, 1>();
     auto output_tensor = output->tensor<float, 4>();
-/*    
-    for (int i = 0; i < output->shape().dim_size(0); i++) {
-      output_tensor(i, 0) = 0;
-      for (int j = 0; j < weights.shape().dim_size(1); j++) {
-        output_tensor(i, 0) += weights_tensor(i, j)*input_tensor(j, 0);
-      }
-    }
-*/
-    float rho_1 = 16.;
-    float rho_2 = 205.;
+
+    auto rho_1 = rho_tensor(0);
+    auto rho_2 = rho_tensor(1);
     auto diag_coef_1 = rho_1 / 3.;
     auto side_coef_1 = rho_1 / 3.;
     auto diag_coef_2 = rho_2 / 3.;
@@ -102,7 +81,7 @@ public:
 
     for (int i = 1; i < output->shape().dim_size(1)+1; i++) {
         for (int j = 1; j < output->shape().dim_size(2)+1; j++) {
-
+            // from eq.11, mask_conv_expansion
             output_tensor(0, i-1, j-1, 0)  = input_tensor(0, i-1, j-1, 0) * weights_tensor(0, i-1, j-1, 0) *diag_coef_1 
                                  + input_tensor(0, i-1, j+1, 0) * weights_tensor(0, i-1, j, 0) *diag_coef_1 
                                  + input_tensor(0, i+1, j-1, 0) * weights_tensor(0, i, j-1, 0) *diag_coef_1 

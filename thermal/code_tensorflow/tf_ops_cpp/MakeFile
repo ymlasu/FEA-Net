@@ -4,3 +4,20 @@
 
 g++ -std=c++11 mask_conv.cc  -o ./build/lib_mask_conv.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
 g++ -std=c++11 mask_conv_grad.cc  -o ./build/lib_mask_conv_grad.so -shared -fPIC -I  /home/hope-yao/anaconda2/lib/python2.7/site-packages/tensorflow/include -O2 -D_GLIBCXX_USE_CXX11_ABI=0
+
+
+
+
+
+
+# compile issue with tf version >1.4
+# https://github.com/yulequan/PU-Net/issues/5
+
+#TF_INC=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_include())')
+#TF_LIB=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
+#g++ -std=c++11 -shared zero_out.cc -o zero_out.so -fPIC -I$TF_INC -I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -O2
+# reference: https://github.com/sadeepj/crfasrnn_keras/issues/19
+
+g++ -std=c++11 -shared mask_conv.cc -o ./build/lib_mask_conv.so -fPIC -I$TF_INC -I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -O2
+g++ -std=c++11 -shared mask_conv_grad.cc  -o ./build/lib_mask_conv_grad.so -fPIC -I$TF_INC -I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -O2
+
