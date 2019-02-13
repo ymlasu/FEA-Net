@@ -74,33 +74,35 @@ public:
 
     auto rho_1 = rho_tensor(0);
     auto rho_2 = rho_tensor(1);
-    auto diag_coef_1 = rho_1 / 3.;
-    auto side_coef_1 = rho_1 / 3.;
-    auto diag_coef_2 = rho_2 / 3.;
-    auto side_coef_2 = rho_2 / 3.;
+    auto coef_1 = rho_1 / 3.;
+    auto coef_2 = rho_2 / 3.;
 
     for (int i = 1; i < output->shape().dim_size(1)+1; i++) {
         for (int j = 1; j < output->shape().dim_size(2)+1; j++) {
             // from eq.11, mask_conv_expansion
-            output_tensor(0, i-1, j-1, 0)  = input_tensor(0, i-1, j-1, 0) * weights_tensor(0, i-1, j-1, 0) *diag_coef_1 
-                                 + input_tensor(0, i-1, j+1, 0) * weights_tensor(0, i-1, j, 0) *diag_coef_1 
-                                 + input_tensor(0, i+1, j-1, 0) * weights_tensor(0, i, j-1, 0) *diag_coef_1 
-                                 + input_tensor(0, i+1, j+1, 0) * weights_tensor(0, i, j, 0) *diag_coef_1
-                                 
-                                 + input_tensor(0, i-1, j, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i-1, j, 0)) / 2. *side_coef_1 
-                                 + input_tensor(0, i, j-1, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i, j-1, 0)) / 2. *side_coef_1
-                                 + input_tensor(0, i, j + 1, 0) * (weights_tensor(0, i-1, j, 0) + weights_tensor(0, i, j, 0)) / 2. *side_coef_1
-                                 + input_tensor(0, i+1, j, 0) * (weights_tensor(0, i, j-1, 0) + weights_tensor(0, i, j, 0)) / 2. *side_coef_1
+            auto v_mat1 = input_tensor(0, i-1, j-1, 0) * weights_tensor(0, i-1, j-1, 0)
+                                 + input_tensor(0, i-1, j+1, 0) * weights_tensor(0, i-1, j, 0)
+                                 + input_tensor(0, i+1, j-1, 0) * weights_tensor(0, i, j-1, 0)
+                                 + input_tensor(0, i+1, j+1, 0) * weights_tensor(0, i, j, 0)
+
+                                 + input_tensor(0, i-1, j, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i-1, j, 0)) / 2.
+                                 + input_tensor(0, i, j-1, 0) * (weights_tensor(0, i-1, j-1, 0) + weights_tensor(0, i, j-1, 0)) / 2.
+                                 + input_tensor(0, i, j + 1, 0) * (weights_tensor(0, i-1, j, 0) + weights_tensor(0, i, j, 0)) / 2.
+                                 + input_tensor(0, i+1, j, 0) * (weights_tensor(0, i, j-1, 0) + weights_tensor(0, i, j, 0)) / 2. ;
+
+            auto v_mat2 = input_tensor(0, i-1, j-1, 0) * (1-weights_tensor(0, i-1, j-1, 0))
+                                 + input_tensor(0, i-1, j+1, 0) * (1-weights_tensor(0, i-1, j, 0))
+                                 + input_tensor(0, i+1, j-1, 0) * (1-weights_tensor(0, i, j-1, 0))
+                                 + input_tensor(0, i+1, j+1, 0) * (1-weights_tensor(0, i, j, 0))
+
+                                 + input_tensor(0, i-1, j, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i-1, j, 0)) / 2.
+                                 + input_tensor(0, i, j-1, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i, j-1, 0)) / 2.
+                                 + input_tensor(0, i, j + 1, 0) * (2-weights_tensor(0, i-1, j, 0) - weights_tensor(0, i, j, 0)) / 2.
+                                 + input_tensor(0, i+1, j, 0) * (2-weights_tensor(0, i, j-1, 0) - weights_tensor(0, i, j, 0)) / 2. ;
+
+            output_tensor(0, i-1, j-1, 0)  = v_mat1*coef_1 + v_mat2*coef_2;
              
-                                 + input_tensor(0, i-1, j-1, 0) * (1-weights_tensor(0, i-1, j-1, 0)) *diag_coef_2 
-                                 + input_tensor(0, i-1, j+1, 0) * (1-weights_tensor(0, i-1, j, 0))*diag_coef_2 
-                                 + input_tensor(0, i+1, j-1, 0) * (1-weights_tensor(0, i, j-1, 0)) *diag_coef_2 
-                                 + input_tensor(0, i+1, j+1, 0) * (1-weights_tensor(0, i, j, 0)) *diag_coef_2
-            
-                                 + input_tensor(0, i-1, j, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i-1, j, 0)) / 2. *side_coef_2 
-                                 + input_tensor(0, i, j-1, 0) * (2-weights_tensor(0, i-1, j-1, 0) - weights_tensor(0, i, j-1, 0)) / 2. *side_coef_2
-                                 + input_tensor(0, i, j + 1, 0) * (2-weights_tensor(0, i-1, j, 0) - weights_tensor(0, i, j, 0)) / 2. *side_coef_2
-                                 + input_tensor(0, i+1, j, 0) * (2-weights_tensor(0, i, j-1, 0) - weights_tensor(0, i, j, 0)) / 2. *side_coef_2;
+
         }
     }
   }

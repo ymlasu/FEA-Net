@@ -26,6 +26,19 @@ def get_data():
     rho_1, rho_2 = 16., 205.
     return num_node, mask, u_img, f_img, rho_1, rho_2
 
+
+
+def load_data_elem_s12():
+    data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/biphase_12_12_new.mat')
+    #/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/biphase_12_12.mat
+    rho_1, rho_2 =  205., 16.
+    num_node = 13
+    f_img = data['f_image'].reshape(1, num_node,num_node, 1)
+    u_img = data['u_image'].reshape(1, num_node,num_node, 1)
+    mask = data['mask'].reshape(1, num_node-1,num_node-1, 1)
+    #mask = np.concatenate([mask,np.zeros((1,12,1,1))],2)[:,:,1:,:]
+    return num_node, mask, u_img, f_img, rho_1, rho_2
+
 def masked_conv_py(node_resp, elem_mask):
     diag_coef_1, side_coef_1 = 16/3., 16/3. #coef['diag_coef_1'], coef['diag_coef_1']
     diag_coef_2, side_coef_2 = 205/3., 205/3. #coef['diag_coef_2'], coef['diag_coef_2']
@@ -33,31 +46,56 @@ def masked_conv_py(node_resp, elem_mask):
     # elem_mask = np.reshape(elem_mask_orig,[1,num_node-1,num_node-1,1])
 
     x = node_resp
-    num_node = 66
-    y_diag_1 = np.zeros((num_node,num_node))
-    y_side_1 = np.zeros((num_node,num_node))
-    y_diag_2 = np.zeros((num_node,num_node))
-    y_side_2 = np.zeros((num_node,num_node))
+    # num_node = node_resp.shape[1]-2
+    # y_diag_1 = np.zeros((num_node,num_node))
+    # y_side_1 = np.zeros((num_node,num_node))
+    # y_diag_2 = np.zeros((num_node,num_node))
+    # y_side_2 = np.zeros((num_node,num_node))
+    # for i in range(1, x.shape[1]-1, 1):
+    #     for j in range(1, x.shape[1]-1, 1):
+            # y_diag_1[i-1, j-1] = x[0, i-1, j-1, 0] * elem_mask[0, i-1, j-1, 0] *diag_coef_1 \
+            #                      + x[0, i-1, j+1, 0] * elem_mask[0, i-1, j, 0] *diag_coef_1 \
+            #                      + x[0, i+1, j-1, 0] * elem_mask[0, i, j-1, 0] *diag_coef_1 \
+            #                      + x[0, i+1, j+1, 0] * elem_mask[0, i, j, 0] *diag_coef_1
+            # y_side_1[i-1, j-1] = x[0, i-1, j, 0] * (elem_mask[0, i-1, j-1, 0] + elem_mask[0, i-1, j, 0]) / 2. *side_coef_1 \
+            #                      + x[0, i, j-1, 0] * (elem_mask[0, i-1, j-1, 0] + elem_mask[0, i, j-1, 0]) / 2. *side_coef_1\
+            #                      + x[0, i, j + 1, 0] * (elem_mask[0, i-1, j, 0] + elem_mask[0, i, j, 0]) / 2. *side_coef_1\
+            #                      + x[0, i+1, j, 0] * (elem_mask[0, i, j-1, 0] + elem_mask[0, i, j, 0]) / 2. *side_coef_1
+            # y_diag_2[i-1, j-1] = x[0, i-1, j-1, 0] * (1-elem_mask[0, i-1, j-1, 0]) *diag_coef_2 \
+            #                      + x[0, i-1, j+1, 0] * (1-elem_mask[0, i-1, j, 0] )*diag_coef_2 \
+            #                      + x[0, i+1, j-1, 0] * (1-elem_mask[0, i, j-1, 0]) *diag_coef_2 \
+            #                      + x[0, i+1, j+1, 0] * (1-elem_mask[0, i, j, 0]) *diag_coef_2
+            # y_side_2[i-1, j-1] = x[0, i-1, j, 0] * (2-elem_mask[0, i-1, j-1, 0] - elem_mask[0, i-1, j, 0]) / 2. *side_coef_2 \
+            #                      + x[0, i, j-1, 0] * (2-elem_mask[0, i-1, j-1, 0] - elem_mask[0, i, j-1, 0]) / 2. *side_coef_2\
+            #                      + x[0, i, j + 1, 0] * (2-elem_mask[0, i-1, j, 0] - elem_mask[0, i, j, 0]) / 2. *side_coef_2\
+            #                      + x[0, i+1, j, 0] * (2-elem_mask[0, i, j-1, 0] - elem_mask[0, i, j, 0]) / 2. *side_coef_2
+            # return y_diag_1 + y_side_1, y_diag_2 + y_side_2, np.expand_dims(
+            #     np.expand_dims(y_diag_1 + y_side_1 + y_diag_2 + y_side_2, 0), -1)
+            #
+
+    y1 = np.zeros((num_node,num_node))
+    y2 = np.zeros((num_node,num_node))
     for i in range(1, x.shape[1]-1, 1):
         for j in range(1, x.shape[1]-1, 1):
-            y_diag_1[i-1, j-1] = x[0, i-1, j-1, 0] * elem_mask[0, i-1, j-1, 0] *diag_coef_1 \
-                                 + x[0, i-1, j+1, 0] * elem_mask[0, i-1, j, 0] *diag_coef_1 \
-                                 + x[0, i+1, j-1, 0] * elem_mask[0, i, j-1, 0] *diag_coef_1 \
-                                 + x[0, i+1, j+1, 0] * elem_mask[0, i, j, 0] *diag_coef_1
-            y_side_1[i-1, j-1] = x[0, i-1, j, 0] * (elem_mask[0, i-1, j-1, 0] + elem_mask[0, i-1, j, 0]) / 2. *side_coef_1 \
-                                 + x[0, i, j-1, 0] * (elem_mask[0, i-1, j-1, 0] + elem_mask[0, i, j-1, 0]) / 2. *side_coef_1\
-                                 + x[0, i, j + 1, 0] * (elem_mask[0, i-1, j, 0] + elem_mask[0, i, j, 0]) / 2. *side_coef_1\
-                                 + x[0, i+1, j, 0] * (elem_mask[0, i, j-1, 0] + elem_mask[0, i, j, 0]) / 2. *side_coef_1
-            y_diag_2[i-1, j-1] = x[0, i-1, j-1, 0] * (1-elem_mask[0, i-1, j-1, 0]) *diag_coef_2 \
-                                 + x[0, i-1, j+1, 0] * (1-elem_mask[0, i-1, j, 0] )*diag_coef_2 \
-                                 + x[0, i+1, j-1, 0] * (1-elem_mask[0, i, j-1, 0]) *diag_coef_2 \
-                                 + x[0, i+1, j+1, 0] * (1-elem_mask[0, i, j, 0]) *diag_coef_2
-            y_side_2[i-1, j-1] = x[0, i-1, j, 0] * (2-elem_mask[0, i-1, j-1, 0] - elem_mask[0, i-1, j, 0]) / 2. *side_coef_2 \
-                                 + x[0, i, j-1, 0] * (2-elem_mask[0, i-1, j-1, 0] - elem_mask[0, i, j-1, 0]) / 2. *side_coef_2\
-                                 + x[0, i, j + 1, 0] * (2-elem_mask[0, i-1, j, 0] - elem_mask[0, i, j, 0]) / 2. *side_coef_2\
-                                 + x[0, i+1, j, 0] * (2-elem_mask[0, i, j-1, 0] - elem_mask[0, i, j, 0]) / 2. *side_coef_2
+            w00 = w11 = w22 = w33 = -205./3.
+            w02 = w20 = w31 = w13 = 205./3. /2.
+            w12 = w32 = w03 = w23 = w10 = w30 = w01 = w21 = 205/3. /4.
+            y1[i-1,j-1] = (w02 * x[0,i+1,j-1,0] + w12 * x[0,i+1,j,0] + w22 * x[0,i,j,0] + w32 * x[0,i,j-1,0]) * elem_mask[0, i, j-1, 0]\
+                         + (w03 * x[0,i+1,j,0] + w13 * x[0,i+1,j+1,0] + w23 * x[0,i,j+1,0] + w33 * x[0,i,j,0]) * elem_mask[0, i, j, 0] \
+                         + (w00 * x[0,i,j,0] + w10 * x[0,i,j+1,0] + w20 * x[0,i-1,j+1,0] + w30 * x[0,i-1,j,0]) * elem_mask[0, i-1, j, 0]\
+                         + (w01 * x[0,i,j-1,0] + w11 * x[0,i,j,0] + w21 * x[0,i-1,j,0] + w31 * x[0,i-1,j-1,0]) * elem_mask[0, i-1, j-1, 0]
+            w00 = w11 = w22 = w33 = -16./3.
+            w02 = w20 = w31 = w13 = 16./3. /2.
+            w12 = w32 = w03 = w23 = w10 = w30 = w01 = w21 = 16/3. /4.
+            y2[i-1,j-1] = (w02 * x[0,i+1,j-1,0] + w12 * x[0,i+1,j,0] + w22 * x[0,i,j,0] + w32 * x[0,i,j-1,0]) * (1-elem_mask[0, i, j-1, 0])\
+                         + (w03 * x[0,i+1,j,0] + w13 * x[0,i+1,j+1,0] + w23 * x[0,i,j+1,0] + w33 * x[0,i,j,0]) * (1-elem_mask[0, i, j, 0] )\
+                         + (w00 * x[0,i,j,0] + w10 * x[0,i,j+1,0] + w20 * x[0,i-1,j+1,0] + w30 * x[0,i-1,j,0]) * (1-elem_mask[0, i-1, j, 0])\
+                         + (w01 * x[0,i,j-1,0] + w11 * x[0,i,j,0] + w21 * x[0,i-1,j,0] + w31 * x[0,i-1,j-1,0]) * (1-elem_mask[0, i-1, j-1, 0])
+            print('here')
+    return y1, y2, np.expand_dims(np.expand_dims(y1+y2,0),-1)
 
-    return np.expand_dims(np.expand_dims(y_diag_1 + y_side_1 + y_diag_2 + y_side_2,0),-1)
+
+
 
 
 
@@ -82,14 +120,14 @@ def boundary_correct(x):
     return x
 
 with tf.Session(''):
-    num_node, mask, u_img, f_img, rho1, rho2 = get_data()
+    num_node, mask, u_img, f_img, rho1, rho2 = load_data_elem_s12()#get_data()
 
     from scipy import signal
     elem_mask = np.squeeze(mask)
     node_filter = np.asarray([[1 / 4.] * 2] * 2)
     node_mask_1 = signal.correlate2d(elem_mask, node_filter, boundary='symm')
     node_mask_2 = signal.correlate2d(np.ones_like(elem_mask) - elem_mask, node_filter, boundary='symm')
-    d_matrix = (16. *  node_mask_1 + 205. *  node_mask_2) * (-8./3)
+    d_matrix = (205. *  node_mask_1 + 16. *  node_mask_2) * (-8./3)
     d_matrix[0,:] /=2
     d_matrix[-1,:] /=2
     d_matrix[:,0] /=2
@@ -99,7 +137,7 @@ with tf.Session(''):
     padded_input = boundary_padding(u_img)
     padded_mask = boundary_padding(mask)
 
-    masked_res_py = masked_conv_py(padded_input, padded_mask)
+    res1, res2, masked_res_py = masked_conv_py(padded_input, padded_mask)
     result_py = boundary_correct(masked_res_py)
     u_py = (f_img - result_py) / d_matrix
     print('py conv done')

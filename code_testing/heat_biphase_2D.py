@@ -25,7 +25,7 @@ def load_data_elem(case):
                                  [1, 1, 1, 1, 1, 0, 0, 0, 0, ],
                                  [1, 1, 1, 1, 1, 0, 0, 0, 0, ]])
             mask_1 = np.asarray(mask_1, dtype='float32')
-            f = u = np.ones((1, 10, 10, 1), dtype='float32')
+            f = u = np.ones((10, 10), dtype='float32')
             conductivity_1 = np.float32(10.)
             conductivity_2 = np.float32(100.)
         elif case == 0:
@@ -112,7 +112,7 @@ def jacobi_itr(u_input, f_input, d_matrix, elem_mask, coef):
 
 
 def main():
-    resp_gt, load_gt, elem_mask, coef_dict_data = load_data_elem(case=-2)
+    resp_gt, load_gt, elem_mask, coef_dict_data = load_data_elem(case=0)
     load_gt = np.expand_dims(np.expand_dims(load_gt,0),3)
     resp_gt = np.expand_dims(np.expand_dims(resp_gt,0),3)
     elem_mask = np.expand_dims(np.expand_dims(elem_mask,0),3)

@@ -1,18 +1,18 @@
 import numpy as np
 import scipy.io as sio
-from tf_utils import *
 import os
 import tensorflow as tf
 
 
 class Jacobi_block():
-    def __init__(self, num_node, load, mask):
+    def __init__(self, num_node, load, mask, rho, resp):
         # NOTICE: right now for homogeneous anisotropic material only!!
         self.num_node = num_node
         self.load = load
         self.mask = mask
-        self.rho_1 = tf.constant(16.) #tf.Variable(1., tf.float32)
-        self.rho_2 = tf.constant(205.) #tf.Variable(1., tf.float32)
+        self.rho = rho
+        self.rho_1, self.rho_2 = tf.split(self.rho,2)
+        self.resp = resp
         self.bc_mask = self.get_bc_mask()
         self.d_matrix = self.get_d_matrix()
 
@@ -23,6 +23,16 @@ class Jacobi_block():
         bc_mask[:, :, 0, :] /= 2
         bc_mask[:, :, -1, :] /= 2
         return bc_mask
+
+    def boundary_padding(self,x):
+        ''' special symmetric boundary padding '''
+        left = x[:, :, 1:2, :]
+        right = x[:, :, -2:-1, :]
+        upper = tf.concat([x[:, 1:2, 1:2, :], x[:, 1:2, :, :], x[:, 1:2, -2:-1, :]], 2)
+        down = tf.concat([x[:, -2:-1, 1:2, :], x[:, -2:-1, :, :], x[:, -2:-1, -2:-1, :]], 2)
+        padded_x = tf.concat([left, x, right], 2)
+        padded_x = tf.concat([upper, padded_x, down], 1)
+        return padded_x
 
     def get_d_matrix(self):
         paddings = tf.constant([[0, 0], [1, 1], [1, 1], [0, 0]])
@@ -40,11 +50,11 @@ class Jacobi_block():
         from tf_ops_cpp.mask_conv import mask_conv
         mask_tensor = self.mask
 
-        padded_input = boundary_padding(input_tensor)  # for boundary consideration
-        padded_mask = boundary_padding(mask_tensor)  # for boundary consideration
-        #R_u = tf.nn.conv2d(input=padded_input, filter=self.R_filter, strides=[1, 1, 1, 1], padding='VALID')
-        R_u = mask_conv(padded_input, padded_mask, [self.rho_1, self.rho_2])
+        padded_input = self.boundary_padding(input_tensor)  # for boundary consideration
+        padded_mask = self.boundary_padding(mask_tensor)  # for boundary consideration
+        R_u = mask_conv(padded_input, padded_mask, self.rho)
         R_u_bc = R_u * self.bc_mask # boundary_corrrect
+        R_u_bc = tf.pad(R_u_bc[:, :, 1:-1, :], ((0,0), (0, 0),(1, 1), (0, 0)), "constant")  # for boundary consideration
         return R_u_bc
 
 
@@ -57,8 +67,63 @@ class Jacobi_block():
             u = (self.load - R_u) / self.d_matrix  # jacobi formulation of linear system of equation solver
             result['u_hist'] += [u]
 
+        self.u_hist = result['u_hist']
         self.prediction = result['u_hist'][-1]
         return result
+
+    def get_loss(self):
+        self.pred_err = tf.reduce_mean(tf.abs(jacobi.prediction - resp_pl))
+        self.penalty = tf.reduce_mean(
+            tf.abs(mask_pl) + tf.abs(1 - mask_pl) + 0.5 - tf.abs(0.5 - mask_pl))  # a W shaped penalty
+        self.mask_err = tf.reduce_mean(tf.abs(mask_pl - mask_data))
+        self.loss = self.pred_err + self.penalty
+
+    def get_optimizer(self):
+
+        if 1:
+            lr = 1
+            # self.optimizer = tf.train.MomentumOptimizer(lr, 0.9)  #
+            self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
+            self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
+            self.train_op = self.optimizer.apply_gradients(self.grads)
+        else:
+            ScipyOptimizerInterface = tf.contrib.opt.ScipyOptimizerInterface
+            ScipyOptimizerInterface(self.loss, var_list=[jacobi.rho], var_to_bounds={self.rho: ([1, 2], np.infty)},
+                                    method='fmin_cg')
+            # self.train_op = optimizer.apply_gradients(self.grads)
+
+def load_data_elem_s24():
+    if 0:
+        f_img = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/f_image.mat')['f_image']
+        u_img = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/u_image.mat')['u_image']
+        mask = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/ind2.mat')['ind2']
+        rho_1, rho_2 =  205., 16.
+        num_node = 25
+        f_img = f_img.reshape(1,num_node,num_node,1).transpose(0,2,1,3)
+        u_img = u_img.reshape(1,num_node,num_node,1).transpose(0,2,1,3)
+        mask = mask.reshape(1,num_node-1,num_node-1,1).transpose(0,2,1,3)
+
+    data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/biphase_24_24.mat')
+    rho_1, rho_2 = 205., 16.
+    num_node = 25
+    f_img = data['f_image'].reshape(1, num_node,num_node, 1)
+    u_img = data['u_image'].reshape(1, num_node,num_node, 1)
+    mask = data['mask'].reshape(1, num_node-1,num_node-1, 1)
+    return num_node, u_img, f_img, mask, rho_1, rho_2
+
+
+def load_data_elem_s12():
+    if 1:
+        data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/biphase_12_12_ro16_ro_32.mat')
+        rho_1, rho_2 =  32., 16.
+    else:
+        data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/biphase_12_12_new.mat')
+    rho_1, rho_2 = 205., 16.
+    num_node = 13
+    f_img = data['f_image'].reshape(1, num_node,num_node, 1)
+    u_img = data['u_image'].reshape(1, num_node,num_node, 1)
+    mask = data['mask'].reshape(1, num_node-1,num_node-1, 1)
+    return num_node, u_img, f_img, mask, rho_1, rho_2
 
 def load_data_elem():
     '''loading data obtained from FEA simulation'''
@@ -77,9 +142,17 @@ def load_data_elem():
     A = data['K']
     f = data['f']
     u = np.linalg.solve(A, f)
-    u_img = u.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-    f_img = f.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-    rho_1, rho_2 = 16., 205.
+    u_img = u.reshape(1, num_node,num_node, 1)
+    f_img = f.reshape(1, num_node,num_node, 1)
+    mask = mask.transpose(0,2,1,3)
+    rho_1, rho_2 = 205., 16
+    if 0:
+        plt.subplot(1, 2, 1)
+        plt.imshow(f_img[0, :, :, 0])
+        plt.axis('off')
+        plt.subplot(1, 2, 2)
+        plt.imshow(u_img[0, :, :, 0], cmap='jet', interpolation='bilinear')
+        plt.axis('off')
     return num_node, np.asarray(u_img,'float32'), np.asarray(f_img,'float32'), np.asarray(mask, 'float32'), rho_1, rho_2
 
 
@@ -91,37 +164,21 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from tqdm import tqdm
 
-    # build network
-    batch_size = 1
-    num_node, resp_data, load_data, mask_data, rho_1, rho_2 = load_data_elem()
-    if 0:
-        # plot out training data
-        for i in range(5):
-            plt.subplot(2, 5, i + 1)
-            plt.imshow(load_data[i, :, :, 0].transpose((1, 0)))
-            plt.axis('off')
-        for i in range(6):
-            plt.subplot(2, 5, 5 + i + 1)
-            plt.imshow(resp_data[i, :, :, 0].transpose((1, 0)), cmap='jet', interpolation='bilinear')
-            plt.axis('off')
+    num_node, resp_data, load_data, mask_data, rho_1, rho_2 = load_data_elem_s12()
 
+    # placeholders
+    batch_size = 1
     load_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 1))
     resp_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 1)) # defined on the nodes
-    #initial_mask = np.ones_like(mask_data)
-    initial_mask =  mask_data
+    initial_mask =  mask_data #initial_mask = np.ones_like(mask_data)
     mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-    jacobi = Jacobi_block(num_node, load_pl, mask_pl)
-    jacobi.apply(max_itr=100)
+    rho_pl = tf.Variable([rho_1/2,rho_2*2], tf.float32)#tf.placeholder(tf.float32,shape=(2))
 
-    # optimizer
-    pred_err = tf.reduce_mean(tf.abs(jacobi.prediction - resp_pl ))
-    penalty = tf.reduce_mean( tf.abs(mask_pl) + tf.abs(1-mask_pl) + 0.5-tf.abs(0.5-mask_pl)) # a W shaped penalty
-    mask_err = tf.reduce_mean(tf.abs(mask_pl-mask_data))
-    loss = pred_err + penalty
-    lr = 0.1
-    optimizer=tf.train.MomentumOptimizer(lr,0.99)#
-    grads=optimizer.compute_gradients(loss)
-    train_op=optimizer.apply_gradients(grads)
+    # build network
+    jacobi = Jacobi_block(num_node, load_pl, mask_pl, rho_pl, resp_pl)
+    jacobi.apply(max_itr=300)
+    jacobi.get_loss()
+    jacobi.get_optimizer()
 
     # initialize
     FLAGS = tf.app.flags.FLAGS
@@ -141,16 +198,18 @@ if __name__ == "__main__":
     k2_hist = []
     mask_err_hist = []
     mask_hist = []
-    for itr in tqdm(range(10000)):
+    for itr in tqdm(range(1000)):
         feed_dict_train = {load_pl: load_data, resp_pl: resp_data}#, mask_pl: mask_data
-        _, loss_value_i, pred_err_i, pred_i, mask_err_i, mask_i, k1_value_i, k2_value_i = sess.run([train_op,
-                                                                                            loss,
-                                                                                            pred_err,
-                                                                                            jacobi.prediction,
-                                                                                            mask_err,
-                                                                                            jacobi.mask,
-                                                                                            jacobi.rho_1,
-                                                                                            jacobi.rho_2], feed_dict_train)
+        sess.run(jacobi.train_op, feed_dict_train)
+        # jacobi.optimizer.minimize(sess,feed_dict_train)
+        loss_value_i, pred_err_i, pred_i, mask_err_i, mask_i, k1_value_i, k2_value_i = sess.run([jacobi.loss,
+                                                                                                    jacobi.pred_err,
+                                                                                                    jacobi.prediction,
+                                                                                                    jacobi.mask_err,
+                                                                                                    jacobi.mask,
+                                                                                                    jacobi.rho_1,
+                                                                                                    jacobi.rho_2],
+                                                                                                   feed_dict_train)
         print("iter:{}  pred_err: {} mask_err: {}  k1_value: {}  k2_value: {}".format(itr, np.mean(pred_err_i), np.mean(mask_err_i), k1_value_i, k2_value_i))
         loss_hist += [loss_value_i]
         k1_hist += [k1_value_i]
@@ -160,6 +219,7 @@ if __name__ == "__main__":
         mask_err_hist += [mask_err_i]
         mask_hist += [mask_i]
 
+        # plt.imshow(sess.run(jacobi.prediction, feed_dict_train)[0, :, :, 0], cmap='jet', interpolation='bilinear')
     plt.subplot(1, 2, 1)
     plt.imshow(np.squeeze(resp_data))
     plt.subplot(1, 2, 2)
