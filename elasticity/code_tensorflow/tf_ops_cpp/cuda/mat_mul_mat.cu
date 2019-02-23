@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <cuda.h>
+#include <time.h>
+//#include "helper_cuda.h"
+
+void randomInit(float *data, int size)
+{
+    for (int i = 0; i < size; ++i)
+        data[i] = rand() / (float)RAND_MAX;
+}
+
+
+__global__ 
+void matrixMul( float* C, float* A, float* B, int wA, int wB)
+{
+   // Block index
+         int bx = blockIdx.x;
+         int by = blockIdx.y;
+   // Thread index
+         int tx = threadIdx.x;
+         int ty = threadIdx.y;
+
+   // Index of the first sub-matrix of A processed by the block
+         int aBegin = wA * BLOCK_SIZE * by;
+   // Index of the last sub-matrix of A processed by the block
+         int aEnd   = aBegin + wA - 1;
+   // Step size used to iterate through the sub-matrices of A
+         int aStep  = BLOCK_SIZE;
+   // Index of the first sub-matrix of B processed by the block
+         int bBegin = BLOCK_SIZE * bx;
+   // Step size used to iterate through the sub-matrices of B
+         int bStep  = BLOCK_SIZE * wB;
+   // Csub is used to store the element of the block sub-matrix that is computed by the thread
+   float Csub = 0;
+   // Loop over all the sub-matrices of A and B required to compute the block sub-matrix
+   for (int a = aBegin, b = bBegin; a <= aEnd; a += aStep, b += bStep) {
+        // Declaration of the shared memory array As used to store the sub-matrix of A
+        __shared__ float As[BLOCK_SIZE][BLOCK_SIZE];
+        // Declaration of the shared memory array Bs used to store the sub-matrix of B
+        __shared__ float Bs[BLOCK_SIZE][BLOCK_SIZE];
+         As[ty][tx] = A[a + wA * ty + tx];                                                                 
+              Bs[ty][tx] = B[b + wB * ty + tx];                                                                 
+        // Synchronize to make sure the matrices are loaded                                               
+              __syncthreads();                                                                                  
+        // multiply two matrices together; each thread computes one element  of  sub-matrix
+#pragma unroll                                                                                            
+        for (int k = 0; k < BLOCK_SIZE; ++k)                                                              
+                     Csub += As[ty][k] * Bs[k][tx];                                                                
+                                                                                                         
+        // Synchronize to make sure that the preceding computation is done                   
+              __syncthreads();                                                                                  
+    }                                                                                                     
+    // Write the block sub-matrix to device memory; each thread only writes one element!
+      int c = wB * BLOCK_SIZE * by + BLOCK_SIZE * bx;                                                       
+    C[c + wB * ty + tx] = Csub;                                                                           
+}     
+
+int main(int size){    
+
+        int devID;
+        cudaDeviceProp props;
+        checkCudaErrors(cudaGetDevice(&devID));
+        checkCudaErrors(cudaGetDeviceProperties(&props, devID));
+
+        int block_size = (props.major < 2) ? 16 : 32;
+  unsigned int uiWA, uiHA, uiWB, uiHB, uiWC, uiHC;
+        uiWA = uiHA= uiWB = uiHB = uiWC = uiHC;
+
+  // allocate host memory for matrices A and B
+  unsigned int size_A = uiWA * uiHA;
+  unsigned int mem_size_A = sizeof(float) * size_A;
+  float* h_A = (float*)malloc(mem_size_A);
+  unsigned int size_B = uiWB * uiHB;
+  unsigned int mem_size_B = sizeof(float) * size_B;
+  float* h_B = (float*)malloc(mem_size_B);
+
+  // initialize host memory
+        srand(2012);
+        randomInit(h_A, size_A);
+        randomInit(h_B, size_B);
+
+  // allocate device memory
+  float* d_A, *d_B, *d_C;
+  unsigned int size_C = uiWC * uiHC;
+  unsigned int mem_size_C = sizeof(float) * size_C;
+
+  // allocate host memory for the result
+  float* h_C      = (float*) malloc(mem_size_C);
+  float* h_CUBLAS = (float*) malloc(mem_size_C);                                                        
+        checkCudaErrors(cudaMalloc((void**) &d_A, mem_size_A));                                               
+        checkCudaErrors(cudaMalloc((void**) &d_B, mem_size_B));                                               
+  // copy host memory to device                                                                         
+       checkCudaErrors(cudaMemcpy(d_A, h_A, mem_size_A, cudaMemcpyHostToDevice) );                           
+       checkCudaErrors(cudaMemcpy(d_B, h_B, mem_size_B, cudaMemcpyHostToDevice) );                           
+       checkCudaErrors(cudaMalloc((void**) &d_C, mem_size_C));                                               
+  // setup execution parameters                                                                         
+        dim3 threads(block_size, block_size);                                                                 
+        dim3 grid(uiWC / threads.x, uiHC / threads.y);                                                        
+                                                                                                         
+   //Performs warmup operation using matrixMul CUDA kernel                                               
+	matrixMul<<< grid, threads >>>(d_C, d_A, d_B, uiWA, uiWB); 
+   cudaDeviceSynchronize();                                                                              
+
+  // clean up memory                                                                                    
+  free(h_A);                                                                              
+  free(h_B);                                                                                            
+  free(h_C);  
+ return 0;                    
+}                 
