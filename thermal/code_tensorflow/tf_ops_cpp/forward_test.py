@@ -5,7 +5,7 @@ import scipy.io as sio
 import unittest
 import numpy as np
 import tensorflow as tf
-from mask_conv import *
+from thermal.code_tensorflow.tf_ops_cpp.mask_conv import *
 #import _mask_conv_grad
 #mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
 

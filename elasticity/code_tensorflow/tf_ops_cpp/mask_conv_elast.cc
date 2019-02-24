@@ -20,11 +20,11 @@ REGISTER_OP("MaskconvElast")
 /// \brief Implementation of an inner product operation.
 /// \param context
 /// \author David Stutz
-class MaskConvOp : public OpKernel {
+class MaskconvElastOp : public OpKernel {
 public:
   /// \brief Constructor.
   /// \param context
-  explicit MaskConvOp(OpKernelConstruction* context) : OpKernel(context) {
+  explicit MaskconvElastOp(OpKernelConstruction* context) : OpKernel(context) {
     
   }
   
@@ -78,7 +78,7 @@ public:
     auto E_2 = rho_tensor(2);
     auto mu_2 = rho_tensor(3);
 
-    auto coef_1 = E_1 / (4. * (1-mu_1*mu_1));
+    auto coef_1 = E_1 / (16. * (1-mu_1*mu_1));
     // k1_xx, diagonal
     auto k1_xx_00 = 8-8/3.*mu_1;
     auto k1_xx_11 = k1_xx_00;
@@ -156,7 +156,7 @@ public:
     auto k1_xy_32 = -k1_xy_23;
 
 
-    auto coef_2 = E_2 / (4. * (1-mu_2*mu_2));
+    auto coef_2 = E_2 / (16. * (1-mu_2*mu_2));
     // k2_xx, diagonal
     auto k2_xx_00 = 8-8/3.*mu_2;
     auto k2_xx_11 = k2_xx_00;
@@ -429,4 +429,4 @@ public:
   }
 };
 
-REGISTER_KERNEL_BUILDER(Name("MaskconvElast").Device(DEVICE_CPU), MaskConvOp);
+REGISTER_KERNEL_BUILDER(Name("MaskconvElast").Device(DEVICE_CPU), MaskconvElastOp);
