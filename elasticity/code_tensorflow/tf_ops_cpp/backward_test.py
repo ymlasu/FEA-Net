@@ -5,43 +5,18 @@ import scipy.io as sio
 import unittest
 import numpy as np
 import tensorflow as tf
-import _mask_conv_grad
-mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
+# import _mask_conv_grad
+# mask_conv_module = tf.load_op_library('build/lib_mask_conv_elast.so')
 
 
-# num_node = 66
-# def get_data():
-#     data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/thermal/data/bc1/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat')
-#     mask = np.ones((1, num_node-1, num_node-1, 1))
-#     for i in range(num_node-1):
-#         for j in range(num_node-1):
-#             if (i-24)**2+(j-24)**2<17**2 or (i-24)**2+(j-54)**2<7**2 or (i-54)**2+(j-54)**2<7**2:
-#                 mask[:, i, j, :] = 0
-#
-#     A = data['K']
-#     f = data['f']
-#     u = np.linalg.solve(A, f)
-#     u_img = u.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-#     f_img = f.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-#     return mask, u_img, f_img
-
-
-def get_data():
-    num_node = 66
-    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/thermal/data/bc1/3circle_center_25_25_rad_17_center_55_55_rad_7_center_55_25_rad_7.mat')
-    mask = np.ones((1, num_node-1, num_node-1, 1))
-    for i in range(num_node-1):
-        for j in range(num_node-1):
-            if (i-24)**2+(j-24)**2<17**2 or (i-24)**2+(j-54)**2<7**2 or (i-54)**2+(j-54)**2<7**2:
-                mask[:, i, j, :] = 0
-
-    A = data['K']
-    f = data['f']
-    u = np.linalg.solve(A, f)
-    u_img = u.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-    f_img = f.reshape(1, num_node,num_node, 1).transpose((0,2,1,3))
-    rho_1, rho_2 = 16., 205.
-    return num_node, mask, u_img, f_img, rho_1, rho_2
+def load_data_elem_s12():
+    num_node = 13
+    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_xy_fixed.mat')
+    rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+    u_img = np.concatenate([data['ux'].reshape(1, 13, 13, 1), data['uy'].reshape(1, 13, 13, 1)], -1) * 1e6
+    f_img = -1 * np.concatenate([data['fx'].reshape(1, 13, 13, 1), data['fy'].reshape(1, 13, 13, 1)], -1) / 1e6
+    mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
+    return num_node, mask, u_img, f_img, rho
 
 def boundary_padding(x):
     ''' special symmetric boundary padding '''
@@ -70,26 +45,41 @@ if __name__ == '__main__':
         with tf.Session():
             partial_u_ref, partial_w_ref = tf.test.compute_gradient([x_pl, w_pl], [[2, 2], [2, 1]],
                                                                     masked_res_tf, [2, 1], delta=1e-3)
-    num_node, mask, u_img, f_img, rho1, rho2 = get_data()
+    # num_node, mask, u_img, f_img, rho1, rho2 = get_data()
+    num_node, mask, u_img, f_img, rho = load_data_elem_s12()#get_data()
+    if 0:
+        num_node = 5
+        k = 1
+        u_img = u_img[:,0:5,k:5+k,:]
+        f_img = f_img[:,0:5,k:5+k,:]
+        mask = mask[:,0:4,k:4+k,:]
+    else:
+        num_node = 3
+        k = 1
+        u_img = u_img[:, 2:5, 2+k:5 + k, :]
+        f_img = f_img[:, 2:5, 2+k:5 + k, :]
+        mask = mask[:, 2:4, 2+k:4 + k, :]
+
     x_pl = tf.constant(u_img, dtype=tf.float32)
     m_pl = tf.constant(mask, dtype=tf.float32)
-    w_pl = tf.constant([rho1, rho2], dtype=tf.float32)
-    padded_input = boundary_padding(x_pl)
-    padded_mask = boundary_padding(m_pl)
-    masked_res_tf = mask_conv_module.mask_conv(padded_input, padded_mask, w_pl)
-    masked_res_tf = boundary_correct(masked_res_tf, num_node)
+    w_pl = tf.constant(rho, dtype=tf.float32)
+    padded_input = x_pl#boundary_padding(x_pl)
+    padded_mask = m_pl#boundary_padding(m_pl)
+    from mask_elast_conv import *
+    masked_res_tf = mask_conv(padded_input, padded_mask, w_pl)
+    # masked_res_tf = boundary_correct(masked_res_tf, num_node)
 
     # reference Jacobian
     with tf.Session():
         partial_u_ref, partial_m_ref , partial_w_ref = tf.test.compute_gradient([x_pl, m_pl, w_pl],
-                                                                               [[1, num_node, num_node, 1],
+                                                                               [[1, num_node, num_node, 2],
                                                                                 [1, num_node-1, num_node-1, 1],
-                                                                                [2]],
+                                                                                [4]],
                                                                                masked_res_tf,
-                                                                               [1, num_node, num_node, 1],
-                                                                               delta=1e-3)
+                                                                               [1, 1, 1, 2],
+                                                                               delta=1e-2)
 
-    numshow = 100
+    numshow = 1000
     import matplotlib.pyplot as plt
     plt.subplot(2, 3, 1)
     plt.imshow(partial_u_ref[0][:numshow, :numshow])
@@ -109,18 +99,31 @@ if __name__ == '__main__':
     plt.subplot(2, 3, 6)
     plt.imshow(partial_m_ref[0][:numshow, :numshow] - partial_m_ref[1][:numshow, :numshow])
     plt.colorbar()
+    plt.show()
 
     numshow = 10000
     plt.figure()
-    plt.subplot(2, 3, 1)
+    plt.subplot(4, 3, 1)
     plt.plot(partial_w_ref[0][0, :numshow])
-    plt.subplot(2, 3, 2)
+    plt.subplot(4, 3, 2)
     plt.plot(partial_w_ref[1][0, :numshow])
-    plt.subplot(2, 3, 3)
+    plt.subplot(4, 3, 3)
     plt.plot(partial_w_ref[0][0, :numshow] - partial_w_ref[1][0, :numshow])
-    plt.subplot(2, 3, 4)
+    plt.subplot(4, 3, 4)
     plt.plot(partial_w_ref[0][1, :numshow])
-    plt.subplot(2, 3, 5)
+    plt.subplot(4, 3, 5)
     plt.plot(partial_w_ref[1][1, :numshow])
-    plt.subplot(2, 3, 6)
+    plt.subplot(4, 3, 6)
     plt.plot(partial_w_ref[0][1, :numshow] - partial_w_ref[1][1, :numshow])
+    plt.subplot(4, 3, 7)
+    plt.plot(partial_w_ref[0][2, :numshow])
+    plt.subplot(4, 3, 8)
+    plt.plot(partial_w_ref[1][2, :numshow])
+    plt.subplot(4, 3, 9)
+    plt.plot(partial_w_ref[0][2, :numshow] - partial_w_ref[1][2, :numshow])
+    plt.subplot(4, 3, 10)
+    plt.plot(partial_w_ref[0][3, :numshow])
+    plt.subplot(4, 3, 11)
+    plt.plot(partial_w_ref[1][3, :numshow])
+    plt.subplot(4, 3, 12)
+    plt.plot(partial_w_ref[0][3, :numshow] - partial_w_ref[1][3, :numshow])

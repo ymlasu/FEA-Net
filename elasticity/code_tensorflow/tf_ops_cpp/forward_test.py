@@ -6,8 +6,6 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from mask_elast_conv import *
-#import _mask_conv_grad
-#mask_conv_module = tf.load_op_library('build/lib_mask_conv.so')
 
 
 def load_data_elem_s12():

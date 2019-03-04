@@ -81,6 +81,7 @@ public:
     for (int i = 0; i < input_shape.dim_size(1); i++) {
       for (int j = 0; j < input_shape.dim_size(2); j++) {
           grad_input_tensor(0, i, j, 0) = 0.0;
+          grad_input_tensor(0, i, j, 1) = 0.0;
       }
     }
     for (int i = 0; i < weights_shape.dim_size(1); i++) {
@@ -255,10 +256,10 @@ public:
     //
     //_coef_grad_mu
     //
-        // k1_xx, diagonal
-    auto coef_1_grad_mu = E_1 *mu_1 / (8. * (1-mu_1*mu_1)*(1-mu_1*mu_1));
-    auto coef_2_grad_mu = E_2 *mu_2 / (8. * (1-mu_2*mu_2)*(1-mu_2*mu_2));
 
+    auto coef_1_grad_mu = E_1 *mu_1 / (8. * (1-mu_1*mu_1)*(1-mu_1*mu_1));
+
+    // k1_xx, diagonal
     auto k1_xx_00_coef_grad_mu = -8/3.*coef_1 + k1_xx_00*coef_1_grad_mu;
     auto k1_xx_11_coef_grad_mu = k1_xx_00_coef_grad_mu;
     auto k1_xx_22_coef_grad_mu = k1_xx_00_coef_grad_mu;
@@ -334,6 +335,8 @@ public:
     auto k1_xy_23_coef_grad_mu = 6*coef_1 + k1_xy_23*coef_1_grad_mu;
     auto k1_xy_32_coef_grad_mu = -k1_xy_23_coef_grad_mu;
 
+    // material 2
+    auto coef_2_grad_mu = E_2 *mu_2 / (8. * (1-mu_2*mu_2)*(1-mu_2*mu_2));
     // k2_xx, diagonal
     auto k2_xx_00_coef_grad_mu = -8/3.*coef_2 + k2_xx_00*coef_2_grad_mu;
     auto k2_xx_11_coef_grad_mu = k2_xx_00;
@@ -420,10 +423,11 @@ public:
 
     for (int i = 1; i < weights_shape.dim_size(1); i++) {
       for (int j = 1; j < weights_shape.dim_size(2); j++) {
-//      grad_tensor(0,i-1,j-1,0) *
-            grad_weights_tensor(0,i-1,j-1,0) += grad_tensor(0,i-1,j-1,0) *
-                                            ((
-                                            k1_xx_10*input_tensor(0, i, j-1, 0)
+
+            grad_weights_tensor(0,i-1,j-1,0) +=
+                                            (
+                                            grad_tensor(0,i-1,j-1,0) *(
+                                            +k1_xx_10*input_tensor(0, i, j-1, 0)
                                 //        +k1_xx_11*input_tensor(0, i, j, 0)
                                             +k1_xx_12*input_tensor(0, i-1, j, 0)
                                             +k1_xx_13*input_tensor(0, i-1, j-1, 0)
@@ -431,10 +435,9 @@ public:
                                             +k1_xy_11*input_tensor(0, i, j, 1)
                                             +k1_xy_12*input_tensor(0, i-1, j, 1)
                                             +k1_xy_13*input_tensor(0, i-1, j-1, 1)
-                                            )*coef_1
-
-                                            +(
-                                            k1_yx_10*input_tensor(0, i, j-1, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k1_yx_10*input_tensor(0, i, j-1, 0)
                                             +k1_yx_11*input_tensor(0, i, j, 0)
                                             +k1_yx_12*input_tensor(0, i-1, j, 0)
                                             +k1_yx_13*input_tensor(0, i-1, j-1, 0)
@@ -442,10 +445,12 @@ public:
                                 //        +k1_yy_11*input_tensor(0, i, j, 1)
                                             +k1_yy_12*input_tensor(0, i-1, j, 1)
                                             +k1_yy_13*input_tensor(0, i-1, j-1, 1)
-                                             ) *coef_1
+                                             )
+                                             )*coef_1
 
-                                            +(
-                                            k2_xx_10*input_tensor(0, i, j-1, 0)
+                                            -(
+                                            grad_tensor(0,i-1,j-1,0) *(
+                                            +k2_xx_10*input_tensor(0, i, j-1, 0)
                                 //        +k2_xx_11*input_tensor(0, i, j, 0)
                                             +k2_xx_12*input_tensor(0, i-1, j, 0)
                                             +k2_xx_13*input_tensor(0, i-1, j-1, 0)
@@ -453,10 +458,9 @@ public:
                                             +k2_xy_11*input_tensor(0, i, j, 1)
                                             +k2_xy_12*input_tensor(0, i-1, j, 1)
                                             +k2_xy_13*input_tensor(0, i-1, j-1, 1)
-                                            ) *coef_2
-
-                                            -(
-                                            k2_yx_10*input_tensor(0, i, j-1, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k2_yx_10*input_tensor(0, i, j-1, 0)
                                             +k2_yx_11*input_tensor(0, i, j, 0)
                                             +k2_yx_12*input_tensor(0, i-1, j, 0)
                                             +k2_yx_13*input_tensor(0, i-1, j-1, 0)
@@ -464,10 +468,11 @@ public:
                                 //        +k2_yy_11*input_tensor(0, i, j, 1)
                                             +k2_yy_12*input_tensor(0, i-1, j, 1)
                                             +k2_yy_13*input_tensor(0, i-1, j-1, 1)
-                                            ) *coef_2);
+                                            )
+                                            ) *coef_2;
 
-            grad_weights_tensor(0,i-1,j,0) += grad_tensor(0,i-1,j,0) *
-                                            ((
+            grad_weights_tensor(0,i-1,j,0) += (
+                                            grad_tensor(0,i-1,j-1,0) *(
                                 //        k1_xx_00*input_tensor(0, i, j, 0)
                                             +k1_xx_01*input_tensor(0, i, j+1, 0)
                                             +k1_xx_02*input_tensor(0, i-1, j+1, 0)
@@ -476,10 +481,9 @@ public:
                                             +k1_xy_01*input_tensor(0, i, j+1, 1)
                                             +k1_xy_02*input_tensor(0, i-1, j+1, 1)
                                             +k1_xy_03*input_tensor(0, i-1, j, 1)
-                                            ) *coef_1
-
-                                            +(
-                                            k1_yx_00*input_tensor(0, i, j, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k1_yx_00*input_tensor(0, i, j, 0)
                                             +k1_yx_01*input_tensor(0, i, j+1, 0)
                                             +k1_yx_02*input_tensor(0, i-1, j+1, 0)
                                             +k1_yx_03*input_tensor(0, i-1, j, 0)
@@ -487,9 +491,11 @@ public:
                                             +k1_yy_01*input_tensor(0, i, j+1, 1)
                                             +k1_yy_02*input_tensor(0, i-1, j+1, 1)
                                             +k1_yy_03*input_tensor(0, i-1, j, 1)
-                                            ) *coef_1
+                                            )
+                                            )*coef_1
 
                                             -(
+                                            grad_tensor(0,i-1,j-1,0)*(
                                 //        k2_xx_00*input_tensor(0, i, j, 0)
                                             +k2_xx_01*input_tensor(0, i, j+1, 0)
                                             +k2_xx_02*input_tensor(0, i-1, j+1, 0)
@@ -498,10 +504,9 @@ public:
                                             +k2_xy_01*input_tensor(0, i, j+1, 1)
                                             +k2_xy_02*input_tensor(0, i-1, j+1, 1)
                                             +k2_xy_03*input_tensor(0, i-1, j, 1)
-                                            ) *coef_2
-
-                                            -(
-                                            k2_yx_00*input_tensor(0, i, j, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k2_yx_00*input_tensor(0, i, j, 0)
                                             +k2_yx_01*input_tensor(0, i, j+1, 0)
                                             +k2_yx_02*input_tensor(0, i-1, j+1, 0)
                                             +k2_yx_03*input_tensor(0, i-1, j, 0)
@@ -509,11 +514,12 @@ public:
                                             +k2_yy_01*input_tensor(0, i, j+1, 1)
                                             +k2_yy_02*input_tensor(0, i-1, j+1, 1)
                                             +k2_yy_03*input_tensor(0, i-1, j, 1)
-                                            ) *coef_2);
+                                            )
+                                            )*coef_2;
 
-            grad_weights_tensor(0,i,j-1,0) += grad_tensor(0,i,j-1,0) *
-                                            ((
-                                            k1_xx_20*input_tensor(0, i+1, j-1, 0)
+            grad_weights_tensor(0,i,j-1,0) += (
+                                            grad_tensor(0,i-1,j-1,0) *(
+                                            +k1_xx_20*input_tensor(0, i+1, j-1, 0)
                                             +k1_xx_21*input_tensor(0, i+1, j, 0)
                                 //        +k1_xx_22*input_tensor(0, i, j, 0)
                                             +k1_xx_23*input_tensor(0, i, j-1, 0)
@@ -521,10 +527,9 @@ public:
                                             +k1_xy_21*input_tensor(0, i+1, j, 1)
                                             +k1_xy_22*input_tensor(0, i, j, 1)
                                             +k1_xy_23*input_tensor(0, i, j-1, 1)
-                                            ) *coef_1
-
-                                            +(
-                                            k1_yx_20*input_tensor(0, i+1, j-1, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k1_yx_20*input_tensor(0, i+1, j-1, 0)
                                             +k1_yx_21*input_tensor(0, i+1, j, 0)
                                             +k1_yx_22*input_tensor(0, i, j, 0)
                                             +k1_yx_23*input_tensor(0, i, j-1, 0)
@@ -532,9 +537,11 @@ public:
                                             +k1_yy_21*input_tensor(0, i+1, j, 1)
                                 //        +k1_yy_22*input_tensor(0, i, j, 1)
                                             +k1_yy_23*input_tensor(0, i, j-1, 1)
-                                            ) *coef_1
+                                            )
+                                            )*coef_1
 
                                             -(
+                                            grad_tensor(0,i-1,j-1,0)*(
                                             k2_xx_20*input_tensor(0, i+1, j-1, 0)
                                             +k2_xx_21*input_tensor(0, i+1, j, 0)
                                 //        +k2_xx_22*input_tensor(0, i, j, 0)
@@ -543,9 +550,8 @@ public:
                                             +k2_xy_21*input_tensor(0, i+1, j, 1)
                                             +k2_xy_22*input_tensor(0, i, j, 1)
                                             +k2_xy_23*input_tensor(0, i, j-1, 1)
-                                            ) *coef_2
-
-                                            -(
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
                                             k2_yx_20*input_tensor(0, i+1, j-1, 0)
                                             +k2_yx_21*input_tensor(0, i+1, j, 0)
                                             +k2_yx_22*input_tensor(0, i, j, 0)
@@ -554,11 +560,12 @@ public:
                                             +k2_yy_21*input_tensor(0, i+1, j, 1)
                                 //        +k2_yy_22*input_tensor(0, i, j, 1)
                                             +k2_yy_23*input_tensor(0, i, j-1, 1)
-                                            ) *coef_2);
+                                            )
+                                            )*coef_2;
 
-            grad_weights_tensor(0,i,j,0) += grad_tensor(0,i,j,0) *
-                                           ((
-                                            k1_xx_30*input_tensor(0, i+1, j, 0)
+            grad_weights_tensor(0,i,j,0) += (
+                                            grad_tensor(0,i-1,j-1,0) *(
+                                            +k1_xx_30*input_tensor(0, i+1, j, 0)
                                             +k1_xx_31*input_tensor(0, i+1, j+1, 0)
                                             +k1_xx_32*input_tensor(0, i, j+1, 0)
                                 //        +k1_xx_33*input_tensor(0, i, j, 0)
@@ -566,10 +573,9 @@ public:
                                             +k1_xy_31*input_tensor(0, i+1, j+1, 1)
                                             +k1_xy_32*input_tensor(0, i, j+1, 1)
                                             +k1_xy_33*input_tensor(0, i, j, 1)
-                                            ) *coef_1
-
-                                            +(
-                                            k1_yx_30*input_tensor(0, i+1, j, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k1_yx_30*input_tensor(0, i+1, j, 0)
                                             +k1_yx_31*input_tensor(0, i+1, j+1, 0)
                                             +k1_yx_32*input_tensor(0, i, j+1, 0)
                                             +k1_yx_33*input_tensor(0, i, j, 0)
@@ -577,10 +583,12 @@ public:
                                             +k1_yy_31*input_tensor(0, i+1, j+1, 1)
                                             +k1_yy_32*input_tensor(0, i, j+1, 1)
                                 //        +k1_yy_33*input_tensor(0, i, j, 1)
-                                            ) *coef_1
+                                            )
+                                            )*coef_1
 
                                             -(
-                                            k2_xx_30*input_tensor(0, i+1, j, 0)
+                                            grad_tensor(0,i-1,j-1,0)*(
+                                            +k2_xx_30*input_tensor(0, i+1, j, 0)
                                             +k2_xx_31*input_tensor(0, i+1, j+1, 0)
                                             +k2_xx_32*input_tensor(0, i, j+1, 0)
                                 //        +k2_xx_33*input_tensor(0, i, j, 0)
@@ -588,10 +596,9 @@ public:
                                             +k2_xy_31*input_tensor(0, i+1, j+1, 1)
                                             +k2_xy_32*input_tensor(0, i, j+1, 1)
                                             +k2_xy_33*input_tensor(0, i, j, 1)
-                                            ) *coef_2
-
-                                            -(
-                                            k2_yx_30*input_tensor(0, i+1, j, 0)
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1) *(
+                                            +k2_yx_30*input_tensor(0, i+1, j, 0)
                                             +k2_yx_31*input_tensor(0, i+1, j+1, 0)
                                             +k2_yx_32*input_tensor(0, i, j+1, 0)
                                             +k2_yx_33*input_tensor(0, i, j, 0)
@@ -599,71 +606,192 @@ public:
                                             +k2_yy_31*input_tensor(0, i+1, j+1, 1)
                                             +k2_yy_32*input_tensor(0, i, j+1, 1)
                                 //        +k2_yy_33*input_tensor(0, i, j, 1)
-                                            ) *coef_2);
+                                            )
+                                            )*coef_2;
       }
     }
 
     for (int i = 1; i < input_shape.dim_size(1)-1; i++) {
       for (int j = 1; j < input_shape.dim_size(2)-1; j++) {
-//      grad_tensor(0,i-1,j-1,0) *
-            grad_input_tensor(0,i-1,j-1,0) += grad_tensor(0,i-1,j-1,0) * (
+
+            grad_input_tensor(0,i-1,j-1,0) +=
+                                            grad_tensor(0,i-1,j-1,0) * (
+                                            +k1_xx_13 * weights_tensor(0, i-1, j-1, 0)*coef_1
+                                            +k2_xx_13* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1) * (
+                                            +k1_yx_13* weights_tensor(0, i-1, j-1, 0)*coef_1
+                                            +k2_yx_13* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2);
+
+            grad_input_tensor(0,i-1,j,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_12* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_xx_03* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_xx_12* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_xx_03* (1-weights_tensor(0, i-1, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_12* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_yx_03* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_yx_12* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_yx_03* (1-weights_tensor(0, i-1, j, 0)) *coef_2);
+
+            grad_input_tensor(0,i-1,j+1,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_02 * weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_xx_02* (1-weights_tensor(0, i-1, j, 0))*coef_2
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_02* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_yx_02* (1-weights_tensor(0, i-1, j, 0))*coef_2
+                                            );
+
+            grad_input_tensor(0,i,j-1,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_10* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_xx_23* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k2_xx_10* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_xx_23* (1-weights_tensor(0, i, j-1, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_10* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_yx_23* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k2_yx_10* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_yx_23* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i,j+1,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_01* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k1_xx_32* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xx_01* (1-weights_tensor(0, i-1, j, 0)) *coef_2
+                                            +k2_xx_32* (1-weights_tensor(0, i, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_01* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k1_yx_32* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yx_01* (1-weights_tensor(0, i-1, j, 0)) *coef_2
+                                            +k2_yx_32* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j-1,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_20 * weights_tensor(0, i+1, j-1, 0) *coef_1
+                                            +k2_xx_20* (1-weights_tensor(0, i+1, j-1, 0)) *coef_2
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_20* weights_tensor(0, i+1, j-1, 0) *coef_1
+                                            +k2_yx_20* (1-weights_tensor(0, i+1, j-1, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_21* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k1_xx_30* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xx_21* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            +k2_xx_30* (1-weights_tensor(0, i, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_21* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k1_yx_30* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yx_21* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            +k2_yx_30* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j+1,0) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xx_31 * weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xx_31* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yx_31* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yx_31* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i-1,j-1,1) +=
+                                            grad_tensor(0,i-1,j-1,0) * (
                                             +k1_xy_13 * weights_tensor(0, i-1, j-1, 0)*coef_1
+                                            +k2_xy_13* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1) * (
                                             +k1_yy_13* weights_tensor(0, i-1, j-1, 0)*coef_1
-                                            +k2_xy_13* (1-weights_tensor(0, i-1, j-1, 0))*coef_2
-                                            +k2_yy_13* (1-weights_tensor(0, i-1, j-1, 0))*coef_2);
-            grad_input_tensor(0,i-1,j,0) += grad_tensor(0,i-1,j,0) * (
-                                            k1_xy_12* weights_tensor(0, i-1, j-1, 0)*coef_1
-                                            +k1_yy_12* weights_tensor(0, i-1, j-1, 0)*coef_1
-                                            +k2_xy_12* (1-weights_tensor(0, i-1, j-1, 0))*coef_2
-                                            +k2_yy_12* (1-weights_tensor(0, i-1, j-1, 0))*coef_2
-                                            +k1_xy_03* weights_tensor(0, i-1, j, 0)*coef_1
-                                            +k1_yy_03* weights_tensor(0, i-1, j, 0)*coef_1
-                                            +k2_xy_03* (1-weights_tensor(0, i-1, j, 0))*coef_2
-                                            +k2_yy_03* (1-weights_tensor(0, i-1, j, 0))*coef_2);
-            grad_input_tensor(0,i-1,j+1,0) += grad_tensor(0,i-1,j+1,0) * (
-                                            k1_xy_02 * weights_tensor(0, i-1, j, 0)*coef_1
-                                            +k1_yy_02* weights_tensor(0, i-1, j, 0)*coef_1
+                                            +k2_yy_13* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2);
+
+            grad_input_tensor(0,i-1,j,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_12* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_xy_03* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_xy_12* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_xy_03* (1-weights_tensor(0, i-1, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_12* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_yy_03* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_yy_12* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_yy_03* (1-weights_tensor(0, i-1, j, 0)) *coef_2);
+
+            grad_input_tensor(0,i-1,j+1,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_02 * weights_tensor(0, i-1, j, 0) *coef_1
                                             +k2_xy_02* (1-weights_tensor(0, i-1, j, 0))*coef_2
-                                            +k2_yy_02* (1-weights_tensor(0, i-1, j, 0))*coef_2);
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_02* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k2_yy_02* (1-weights_tensor(0, i-1, j, 0))*coef_2
+                                            );
 
-            grad_input_tensor(0,i,j-1,0) += grad_tensor(0,i,j-1,0) * (
-                                            k1_xy_10* weights_tensor(0, i-1, j-1, 0)*coef_1
-                                            +k1_yy_10* weights_tensor(0, i-1, j-1, 0)*coef_1
-                                            +k2_xy_10* (1-weights_tensor(0, i-1, j-1, 0))*coef_2
-                                            +k2_yy_10* (1-weights_tensor(0, i-1, j-1, 0))*coef_2
-                                            +k1_xy_23* weights_tensor(0, i, j-1, 0)*coef_1
-                                            +k1_yy_23* weights_tensor(0, i, j-1, 0)*coef_1
-                                            +k2_xy_23* (1-weights_tensor(0, i, j-1, 0))*coef_2
-                                            +k2_yy_23* (1-weights_tensor(0, i, j-1, 0))*coef_2);
-            grad_input_tensor(0,i,j+1,0) += grad_tensor(0,i,j+1,0) * (
-                                            k1_xy_01* weights_tensor(0, i-1, j, 0)*coef_1
-                                            +k1_yy_01* weights_tensor(0, i-1, j, 0)*coef_1
-                                            +k2_xy_01* (1-weights_tensor(0, i-1, j, 0))*coef_2
-                                            +k2_yy_01* (1-weights_tensor(0, i-1, j, 0))*coef_2
-                                            +k1_xy_32* weights_tensor(0, i, j, 0)*coef_1
-                                            +k1_yy_32* weights_tensor(0, i, j, 0)*coef_1
-                                            +k2_xy_32* (1-weights_tensor(0, i, j, 0))*coef_2
-                                            +k2_yy_32* (1-weights_tensor(0, i, j, 0))*coef_2);
+            grad_input_tensor(0,i,j-1,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_10* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_xy_23* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k2_xy_10* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_xy_23* (1-weights_tensor(0, i, j-1, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_10* weights_tensor(0, i-1, j-1, 0) *coef_1
+                                            +k1_yy_23* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k2_yy_10* (1-weights_tensor(0, i-1, j-1, 0)) *coef_2
+                                            +k2_yy_23* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            );
 
-            grad_input_tensor(0,i+1,j-1,0) += grad_tensor(0,i+1,j-1,0) * (
-                                            k1_xy_20 * weights_tensor(0, i+1, j-1, 0)*coef_1
-                                            +k1_yy_20* weights_tensor(0, i+1, j-1, 0)*coef_1
-                                            +k2_xy_20* (1-weights_tensor(0, i+1, j-1, 0))*coef_2
-                                            +k2_yy_20* (1-weights_tensor(0, i+1, j-1, 0))*coef_2);
-            grad_input_tensor(0,i+1,j,0) += grad_tensor(0,i+1,j,0) * (
-                                            k1_xy_21* weights_tensor(0, i, j-1, 0)*coef_1
-                                            +k1_yy_21* weights_tensor(0, i, j-1, 0)*coef_1
-                                            +k2_xy_21* (1-weights_tensor(0, i, j-1, 0))*coef_2
-                                            +k2_yy_21* (1-weights_tensor(0, i, j-1, 0))*coef_2
-                                            +k1_xy_30* weights_tensor(0, i, j, 0)*coef_1
-                                            +k1_yy_30* weights_tensor(0, i, j, 0)*coef_1
-                                            +k2_xy_30* (1-weights_tensor(0, i, j, 0))*coef_2
-                                            +k2_yy_30* (1-weights_tensor(0, i, j, 0))*coef_2);
-            grad_input_tensor(0,i+1,j+1,0) += grad_tensor(0,i+1,j+1,0) * (
-                                            k1_xy_31 * weights_tensor(0, i, j, 0)*coef_1
-                                            +k1_yy_31* weights_tensor(0, i, j, 0)*coef_1
-                                            +k2_xy_31* (1-weights_tensor(0, i, j, 0))*coef_2
-                                            +k2_yy_31* (1-weights_tensor(0, i, j, 0))*coef_2);
+            grad_input_tensor(0,i,j+1,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_01* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k1_xy_32* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xy_01* (1-weights_tensor(0, i-1, j, 0)) *coef_2
+                                            +k2_xy_32* (1-weights_tensor(0, i, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_01* weights_tensor(0, i-1, j, 0) *coef_1
+                                            +k1_yy_32* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yy_01* (1-weights_tensor(0, i-1, j, 0)) *coef_2
+                                            +k2_yy_32* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j-1,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_20 * weights_tensor(0, i+1, j-1, 0) *coef_1
+                                            +k2_xy_20* (1-weights_tensor(0, i+1, j-1, 0)) *coef_2
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_20* weights_tensor(0, i+1, j-1, 0) *coef_1
+                                            +k2_yy_20* (1-weights_tensor(0, i+1, j-1, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_21* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k1_xy_30* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xy_21* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            +k2_xy_30* (1-weights_tensor(0, i, j, 0)) *coef_2)
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_21* weights_tensor(0, i, j-1, 0) *coef_1
+                                            +k1_yy_30* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yy_21* (1-weights_tensor(0, i, j-1, 0)) *coef_2
+                                            +k2_yy_30* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
+            grad_input_tensor(0,i+1,j+1,1) +=
+                                            grad_tensor(0,i-1,j-1,0)* (
+                                            k1_xy_31 * weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_xy_31* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            )
+                                            +grad_tensor(0,i-1,j-1,1)* (
+                                            +k1_yy_31* weights_tensor(0, i, j, 0) *coef_1
+                                            +k2_yy_31* (1-weights_tensor(0, i, j, 0)) *coef_2
+                                            );
+
       }
     }
 
@@ -673,8 +801,8 @@ public:
 
     for (int i = 1; i < input_shape.dim_size(1)-1; i++) {
       for (int j = 1; j < input_shape.dim_size(2)-1; j++) {
-            grad_rho_tensor(0) +=
-                                +(
+            grad_rho_tensor(0) += (
+                                grad_tensor(0,i-1,j-1,0)*(
                                 k1_xx_10*input_tensor(0, i, j-1, 0)
                     //        +k1_xx_11*input_tensor(0, i, j, 0)
                                 +k1_xx_12*input_tensor(0, i-1, j, 0)
@@ -683,8 +811,8 @@ public:
                                 +k1_xy_11*input_tensor(0, i, j, 1)
                                 +k1_xy_12*input_tensor(0, i-1, j, 1)
                                 +k1_xy_13*input_tensor(0, i-1, j-1, 1)
-                                ) * weights_tensor(0, i-1, j-1, 0)*coef_1_grad_E
-                                +(
+                                ) * weights_tensor(0, i-1, j-1, 0)
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k1_yx_10*input_tensor(0, i, j-1, 0)
                                 +k1_yx_11*input_tensor(0, i, j, 0)
                                 +k1_yx_12*input_tensor(0, i-1, j, 0)
@@ -693,9 +821,9 @@ public:
                     //        +k1_yy_11*input_tensor(0, i, j, 1)
                                 +k1_yy_12*input_tensor(0, i-1, j, 1)
                                 +k1_yy_13*input_tensor(0, i-1, j-1, 1)
-                                 ) * weights_tensor(0, i-1, j-1, 0)*coef_1_grad_E
+                                 ) * weights_tensor(0, i-1, j-1, 0)
 
-                                +(
+                                +grad_tensor(0,i-1,j-1,0)*(
                     //        k1_xx_00*input_tensor(0, i, j, 0)
                                 +k1_xx_01*input_tensor(0, i, j+1, 0)
                                 +k1_xx_02*input_tensor(0, i-1, j+1, 0)
@@ -704,8 +832,8 @@ public:
                                 +k1_xy_01*input_tensor(0, i, j+1, 1)
                                 +k1_xy_02*input_tensor(0, i-1, j+1, 1)
                                 +k1_xy_03*input_tensor(0, i-1, j, 1)
-                                ) * weights_tensor(0, i-1, j, 0)*coef_1_grad_E
-                                +(
+                                ) * weights_tensor(0, i-1, j, 0)
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k1_yx_00*input_tensor(0, i, j, 0)
                                 +k1_yx_01*input_tensor(0, i, j+1, 0)
                                 +k1_yx_02*input_tensor(0, i-1, j+1, 0)
@@ -714,9 +842,9 @@ public:
                                 +k1_yy_01*input_tensor(0, i, j+1, 1)
                                 +k1_yy_02*input_tensor(0, i-1, j+1, 1)
                                 +k1_yy_03*input_tensor(0, i-1, j, 1)
-                                ) * weights_tensor(0, i-1, j, 0)*coef_1_grad_E
+                                ) * weights_tensor(0, i-1, j, 0)
 
-                                +(
+                                +grad_tensor(0,i-1,j-1,0)*(
                                 k1_xx_20*input_tensor(0, i+1, j-1, 0)
                                 +k1_xx_21*input_tensor(0, i+1, j, 0)
                     //        +k1_xx_22*input_tensor(0, i, j, 0)
@@ -725,8 +853,8 @@ public:
                                 +k1_xy_21*input_tensor(0, i+1, j, 1)
                                 +k1_xy_22*input_tensor(0, i, j, 1)
                                 +k1_xy_23*input_tensor(0, i, j-1, 1)
-                                ) * weights_tensor(0, i, j-1, 0)*coef_1_grad_E
-                                +(
+                                ) * weights_tensor(0, i, j-1, 0)
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k1_yx_20*input_tensor(0, i+1, j-1, 0)
                                 +k1_yx_21*input_tensor(0, i+1, j, 0)
                                 +k1_yx_22*input_tensor(0, i, j, 0)
@@ -735,9 +863,9 @@ public:
                                 +k1_yy_21*input_tensor(0, i+1, j, 1)
                     //        +k1_yy_22*input_tensor(0, i, j, 1)
                                 +k1_yy_23*input_tensor(0, i, j-1, 1)
-                                ) * weights_tensor(0, i, j-1, 0)*coef_1_grad_E
+                                ) * weights_tensor(0, i, j-1, 0)
 
-                               +(
+                               +grad_tensor(0,i-1,j-1,0)*(
                                 k1_xx_30*input_tensor(0, i+1, j, 0)
                                 +k1_xx_31*input_tensor(0, i+1, j+1, 0)
                                 +k1_xx_32*input_tensor(0, i, j+1, 0)
@@ -746,8 +874,8 @@ public:
                                 +k1_xy_31*input_tensor(0, i+1, j+1, 1)
                                 +k1_xy_32*input_tensor(0, i, j+1, 1)
                                 +k1_xy_33*input_tensor(0, i, j, 1)
-                                ) * weights_tensor(0, i, j, 0)*coef_1_grad_E
-                                +(
+                                ) * weights_tensor(0, i, j, 0)
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k1_yx_30*input_tensor(0, i+1, j, 0)
                                 +k1_yx_31*input_tensor(0, i+1, j+1, 0)
                                 +k1_yx_32*input_tensor(0, i, j+1, 0)
@@ -756,11 +884,12 @@ public:
                                 +k1_yy_31*input_tensor(0, i+1, j+1, 1)
                                 +k1_yy_32*input_tensor(0, i, j+1, 1)
                     //        +k1_yy_33*input_tensor(0, i, j, 1)
-                                ) * weights_tensor(0, i, j, 0)*coef_1_grad_E;
+                                ) * weights_tensor(0, i, j, 0)
+                                )*coef_1_grad_E;
 
 
-            grad_rho_tensor(2) +=
-                                +(
+            grad_rho_tensor(2) += (
+                                +grad_tensor(0,i-1,j-1,0)*(
                                 k2_xx_10*input_tensor(0, i, j-1, 0)
                     //        +k2_xx_11*input_tensor(0, i, j, 0)
                                 +k2_xx_12*input_tensor(0, i-1, j, 0)
@@ -769,8 +898,8 @@ public:
                                 +k2_xy_11*input_tensor(0, i, j, 1)
                                 +k2_xy_12*input_tensor(0, i-1, j, 1)
                                 +k2_xy_13*input_tensor(0, i-1, j-1, 1)
-                                ) * (1-weights_tensor(0, i-1, j-1, 0))*coef_2_grad_E
-                                +(
+                                ) * (1-weights_tensor(0, i-1, j-1, 0))
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k2_yx_10*input_tensor(0, i, j-1, 0)
                                 +k2_yx_11*input_tensor(0, i, j, 0)
                                 +k2_yx_12*input_tensor(0, i-1, j, 0)
@@ -779,9 +908,9 @@ public:
                     //        +k2_yy_11*input_tensor(0, i, j, 1)
                                 +k2_yy_12*input_tensor(0, i-1, j, 1)
                                 +k2_yy_13*input_tensor(0, i-1, j-1, 1)
-                                ) * (1-weights_tensor(0, i-1, j-1, 0))*coef_2_grad_E
+                                ) * (1-weights_tensor(0, i-1, j-1, 0))
 
-                                +(
+                                +grad_tensor(0,i-1,j-1,0)*(
                     //        k2_xx_00*input_tensor(0, i, j, 0)
                                 +k2_xx_01*input_tensor(0, i, j+1, 0)
                                 +k2_xx_02*input_tensor(0, i-1, j+1, 0)
@@ -790,8 +919,8 @@ public:
                                 +k2_xy_01*input_tensor(0, i, j+1, 1)
                                 +k2_xy_02*input_tensor(0, i-1, j+1, 1)
                                 +k2_xy_03*input_tensor(0, i-1, j, 1)
-                                ) * (1-weights_tensor(0, i-1, j, 0))*coef_2_grad_E
-                                +(
+                                ) * (1-weights_tensor(0, i-1, j, 0))
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k2_yx_00*input_tensor(0, i, j, 0)
                                 +k2_yx_01*input_tensor(0, i, j+1, 0)
                                 +k2_yx_02*input_tensor(0, i-1, j+1, 0)
@@ -800,9 +929,9 @@ public:
                                 +k2_yy_01*input_tensor(0, i, j+1, 1)
                                 +k2_yy_02*input_tensor(0, i-1, j+1, 1)
                                 +k2_yy_03*input_tensor(0, i-1, j, 1)
-                                ) * (1-weights_tensor(0, i-1, j, 0))*coef_2_grad_E
+                                ) * (1-weights_tensor(0, i-1, j, 0))
 
-                                 +(
+                                 +grad_tensor(0,i-1,j-1,0)*(
                                 k2_xx_20*input_tensor(0, i+1, j-1, 0)
                                 +k2_xx_21*input_tensor(0, i+1, j, 0)
                     //        +k2_xx_22*input_tensor(0, i, j, 0)
@@ -811,8 +940,8 @@ public:
                                 +k2_xy_21*input_tensor(0, i+1, j, 1)
                                 +k2_xy_22*input_tensor(0, i, j, 1)
                                 +k2_xy_23*input_tensor(0, i, j-1, 1)
-                                ) * (1-weights_tensor(0, i, j-1, 0))*coef_2_grad_E
-                                +(
+                                ) * (1-weights_tensor(0, i, j-1, 0))
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k2_yx_20*input_tensor(0, i+1, j-1, 0)
                                 +k2_yx_21*input_tensor(0, i+1, j, 0)
                                 +k2_yx_22*input_tensor(0, i, j, 0)
@@ -821,9 +950,9 @@ public:
                                 +k2_yy_21*input_tensor(0, i+1, j, 1)
                     //        +k2_yy_22*input_tensor(0, i, j, 1)
                                 +k2_yy_23*input_tensor(0, i, j-1, 1)
-                                ) * (1-weights_tensor(0, i, j-1, 0))*coef_2_grad_E
+                                ) * (1-weights_tensor(0, i, j-1, 0))
 
-                                +(
+                                +grad_tensor(0,i-1,j-1,0)*(
                                 k2_xx_30*input_tensor(0, i+1, j, 0)
                                 +k2_xx_31*input_tensor(0, i+1, j+1, 0)
                                 +k2_xx_32*input_tensor(0, i, j+1, 0)
@@ -832,8 +961,8 @@ public:
                                 +k2_xy_31*input_tensor(0, i+1, j+1, 1)
                                 +k2_xy_32*input_tensor(0, i, j+1, 1)
                                 +k2_xy_33*input_tensor(0, i, j, 1)
-                                ) * (1-weights_tensor(0, i, j, 0))*coef_2_grad_E
-                                +(
+                                ) * (1-weights_tensor(0, i, j, 0))
+                                +grad_tensor(0,i-1,j-1,1)*(
                                 k2_yx_30*input_tensor(0, i+1, j, 0)
                                 +k2_yx_31*input_tensor(0, i+1, j+1, 0)
                                 +k2_yx_32*input_tensor(0, i, j+1, 0)
@@ -842,11 +971,12 @@ public:
                                 +k2_yy_31*input_tensor(0, i+1, j+1, 1)
                                 +k2_yy_32*input_tensor(0, i, j+1, 1)
                     //        +k2_yy_33*input_tensor(0, i, j, 1)
-                                ) * (1-weights_tensor(0, i, j, 0))*coef_2_grad_E;
+                                ) * (1-weights_tensor(0, i, j, 0))
+                                )*coef_2_grad_E;
 
 
-            grad_rho_tensor(1) +=
-                            +(
+            grad_rho_tensor(1) += (
+                            +grad_tensor(0,i-1,j-1,0)*(
                             k1_xx_10_coef_grad_mu*input_tensor(0, i, j-1, 0)
                 //        +k1_xx_11*input_tensor(0, i, j, 0)
                             +k1_xx_12_coef_grad_mu*input_tensor(0, i-1, j, 0)
@@ -856,7 +986,7 @@ public:
                             +k1_xy_12_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             +k1_xy_13_coef_grad_mu*input_tensor(0, i-1, j-1, 1)
                             ) * weights_tensor(0, i-1, j-1, 0)
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k1_yx_10_coef_grad_mu*input_tensor(0, i, j-1, 0)
                             +k1_yx_11_coef_grad_mu*input_tensor(0, i, j, 0)
                             +k1_yx_12_coef_grad_mu*input_tensor(0, i-1, j, 0)
@@ -867,7 +997,7 @@ public:
                             +k1_yy_13_coef_grad_mu*input_tensor(0, i-1, j-1, 1)
                              ) * weights_tensor(0, i-1, j-1, 0)
 
-                            +(
+                            +grad_tensor(0,i-1,j-1,0)*(
                 //        k1_xx_00*input_tensor(0, i, j, 0)
                             +k1_xx_01_coef_grad_mu*input_tensor(0, i, j+1, 0)
                             +k1_xx_02_coef_grad_mu*input_tensor(0, i-1, j+1, 0)
@@ -878,7 +1008,7 @@ public:
                             +k1_xy_03_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             ) * weights_tensor(0, i-1, j, 0)
 
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k1_yx_00_coef_grad_mu*input_tensor(0, i, j, 0)
                             +k1_yx_01_coef_grad_mu*input_tensor(0, i, j+1, 0)
                             +k1_yx_02_coef_grad_mu*input_tensor(0, i-1, j+1, 0)
@@ -889,7 +1019,7 @@ public:
                             +k1_yy_03_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             ) * weights_tensor(0, i-1, j, 0)
 
-                            +(
+                            +grad_tensor(0,i-1,j-1,0)*(
                             k1_xx_20_coef_grad_mu*input_tensor(0, i+1, j-1, 0)
                             +k1_xx_21_coef_grad_mu*input_tensor(0, i+1, j, 0)
                 //        +k1_xx_22*input_tensor(0, i, j, 0)
@@ -899,7 +1029,7 @@ public:
                             +k1_xy_22_coef_grad_mu*input_tensor(0, i, j, 1)
                             +k1_xy_23_coef_grad_mu*input_tensor(0, i, j-1, 1)
                             ) * weights_tensor(0, i, j-1, 0)
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k1_yx_20_coef_grad_mu*input_tensor(0, i+1, j-1, 0)
                             +k1_yx_21_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k1_yx_22_coef_grad_mu*input_tensor(0, i, j, 0)
@@ -910,7 +1040,7 @@ public:
                             +k1_yy_23_coef_grad_mu*input_tensor(0, i, j-1, 1)
                             ) * weights_tensor(0, i, j-1, 0)
 
-                           +(
+                           +grad_tensor(0,i-1,j-1,0)*(
                             k1_xx_30_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k1_xx_31_coef_grad_mu*input_tensor(0, i+1, j+1, 0)
                             +k1_xx_32_coef_grad_mu*input_tensor(0, i, j+1, 0)
@@ -920,7 +1050,7 @@ public:
                             +k1_xy_32_coef_grad_mu*input_tensor(0, i, j+1, 1)
                             +k1_xy_33_coef_grad_mu*input_tensor(0, i, j, 1)
                             ) * weights_tensor(0, i, j, 0)
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k1_yx_30_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k1_yx_31_coef_grad_mu*input_tensor(0, i+1, j+1, 0)
                             +k1_yx_32_coef_grad_mu*input_tensor(0, i, j+1, 0)
@@ -929,10 +1059,10 @@ public:
                             +k1_yy_31_coef_grad_mu*input_tensor(0, i+1, j+1, 1)
                             +k1_yy_32_coef_grad_mu*input_tensor(0, i, j+1, 1)
                 //        +k1_yy_33*input_tensor(0, i, j, 1)
-                            ) * weights_tensor(0, i, j, 0);
+                            ) * weights_tensor(0, i, j, 0));
 
-            grad_rho_tensor(3) +=
-                            +(
+            grad_rho_tensor(3) += (
+                            +grad_tensor(0,i-1,j-1,0)*(
                             k2_xx_10_coef_grad_mu*input_tensor(0, i, j-1, 0)
                 //        +k2_xx_11*input_tensor(0, i, j, 0)
                             +k2_xx_12_coef_grad_mu*input_tensor(0, i-1, j, 0)
@@ -942,7 +1072,7 @@ public:
                             +k2_xy_12_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             +k2_xy_13_coef_grad_mu*input_tensor(0, i-1, j-1, 1)
                             ) * (1-weights_tensor(0, i-1, j-1, 0))
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k2_yx_10_coef_grad_mu*input_tensor(0, i, j-1, 0)
                             +k2_yx_11_coef_grad_mu*input_tensor(0, i, j, 0)
                             +k2_yx_12_coef_grad_mu*input_tensor(0, i-1, j, 0)
@@ -953,7 +1083,7 @@ public:
                             +k2_yy_13_coef_grad_mu*input_tensor(0, i-1, j-1, 1)
                             ) * (1-weights_tensor(0, i-1, j-1, 0))
 
-                            +(
+                            +grad_tensor(0,i-1,j-1,0)*(
                 //        k2_xx_00*input_tensor(0, i, j, 0)
                             +k2_xx_01_coef_grad_mu*input_tensor(0, i, j+1, 0)
                             +k2_xx_02_coef_grad_mu*input_tensor(0, i-1, j+1, 0)
@@ -963,7 +1093,7 @@ public:
                             +k2_xy_02_coef_grad_mu*input_tensor(0, i-1, j+1, 1)
                             +k2_xy_03_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             ) * (1-weights_tensor(0, i-1, j, 0))
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k2_yx_00_coef_grad_mu*input_tensor(0, i, j, 0)
                             +k2_yx_01_coef_grad_mu*input_tensor(0, i, j+1, 0)
                             +k2_yx_02_coef_grad_mu*input_tensor(0, i-1, j+1, 0)
@@ -974,7 +1104,7 @@ public:
                             +k2_yy_03_coef_grad_mu*input_tensor(0, i-1, j, 1)
                             ) * (1-weights_tensor(0, i-1, j, 0))
 
-                             +(
+                             +grad_tensor(0,i-1,j-1,0)*(
                             k2_xx_20_coef_grad_mu*input_tensor(0, i+1, j-1, 0)
                             +k2_xx_21_coef_grad_mu*input_tensor(0, i+1, j, 0)
                 //        +k2_xx_22*input_tensor(0, i, j, 0)
@@ -984,7 +1114,7 @@ public:
                             +k2_xy_22_coef_grad_mu*input_tensor(0, i, j, 1)
                             +k2_xy_23_coef_grad_mu*input_tensor(0, i, j-1, 1)
                             ) * (1-weights_tensor(0, i, j-1, 0))
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k2_yx_20_coef_grad_mu*input_tensor(0, i+1, j-1, 0)
                             +k2_yx_21_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k2_yx_22_coef_grad_mu*input_tensor(0, i, j, 0)
@@ -995,7 +1125,7 @@ public:
                             +k2_yy_23_coef_grad_mu*input_tensor(0, i, j-1, 1)
                             ) * (1-weights_tensor(0, i, j-1, 0))
 
-                            +(
+                            +grad_tensor(0,i-1,j-1,0)*(
                             k2_xx_30_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k2_xx_31_coef_grad_mu*input_tensor(0, i+1, j+1, 0)
                             +k2_xx_32_coef_grad_mu*input_tensor(0, i, j+1, 0)
@@ -1005,7 +1135,7 @@ public:
                             +k2_xy_32_coef_grad_mu*input_tensor(0, i, j+1, 1)
                             +k2_xy_33_coef_grad_mu*input_tensor(0, i, j, 1)
                             ) * (1-weights_tensor(0, i, j, 0))
-                            +(
+                            +grad_tensor(0,i-1,j-1,1)*(
                             k2_yx_30_coef_grad_mu*input_tensor(0, i+1, j, 0)
                             +k2_yx_31_coef_grad_mu*input_tensor(0, i+1, j+1, 0)
                             +k2_yx_32_coef_grad_mu*input_tensor(0, i, j+1, 0)
@@ -1014,7 +1144,7 @@ public:
                             +k2_yy_31_coef_grad_mu*input_tensor(0, i+1, j+1, 1)
                             +k2_yy_32_coef_grad_mu*input_tensor(0, i, j+1, 1)
                 //        +k2_yy_33*input_tensor(0, i, j, 1)
-                            ) * (1-weights_tensor(0, i, j, 0));
+                            ) * (1-weights_tensor(0, i, j, 0)));
 
       }
     }

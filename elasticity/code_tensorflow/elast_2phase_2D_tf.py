@@ -135,7 +135,7 @@ if __name__ == "__main__":
     initial_mask =  mask_data
     # initial_mask = np.ones_like(mask_data)#*0.5
     mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-    rho_pl = tf.Variable(rho, tf.float32)#tf.placeholder(tf.float32,shape=(2))
+    rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
     beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
 
     # build network
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     mask_hist = []
     nicer_mask_hist = []
     beta_val = 0.5
-    for itr in tqdm(range(10000)):
+    for itr in tqdm(range(1000)):
         if itr % 1000 == 0:
             beta_val = beta_val * 1.5
         feed_dict_train = {load_pl: load_data, resp_pl: resp_data, jacobi.beta:beta_val}#, mask_pl: mask_data
