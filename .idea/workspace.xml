@@ -4,9 +4,6 @@
     <list default="true" id="004af070-4a0a-4fb6-896d-48c838746d10" name="Default" comment="1. convolution grad for elasticity seems to have a small problem for input derivation&#10;2. jacobi for elasticity is converging with all 0.2 initialization but not for 0.1 initialization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/backward_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/backward_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/forward_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/forward_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_conv_elast_grad.cc" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_conv_elast_grad.cc" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +21,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-74">
               <caret line="81" selection-start-line="81" selection-end-line="102" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="1339" selection-start-line="1339" selection-end-line="1339" />
             </state>
           </provider>
         </entry>
@@ -52,8 +58,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="502">
-              <caret line="155" column="16" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="16" />
+            <state relative-caret-position="216">
+              <caret line="141" column="25" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -117,7 +123,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>**</find>
       <find>rho_2</find>
       <find>elast</find>
       <find>get_d_matrix</find>
@@ -147,6 +152,7 @@
       <find>grad_tensor(0,i-1,j-1,0)</find>
       <find>grad_tensor(0,i-1,j-1,1)</find>
       <find>,i+1,j-1</find>
+      <find>rho_pl</find>
     </findStrings>
     <replaceStrings>
       <replace>num_node</replace>
@@ -705,7 +711,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551049830943</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="1. convolution grad for elasticity seems to have a small problem for input derivation&#10;2. jacobi for elasticity is converging with all 0.2 initialization but not for 0.1 initialization">
+      <created>1551732123038</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1551732123038</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1048,11 +1061,6 @@
           <option name="timeStamp" value="881" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py</url>
-          <line>205</line>
-          <option name="timeStamp" value="884" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/backward_test.py</url>
           <line>128</line>
           <option name="timeStamp" value="888" />
@@ -1061,6 +1069,11 @@
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/backward_test.py</url>
           <line>62</line>
           <option name="timeStamp" value="890" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py</url>
+          <line>222</line>
+          <option name="timeStamp" value="891" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -1075,68 +1088,62 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>numshow = 1000
-import matplotlib.pyplot as plt
-plt.subplot(2, 3, 1)
-plt.imshow(partial_u_ref[0][:numshow, :numshow])
-plt.colorbar()
-plt.subplot(2, 3, 2)
-plt.imshow(partial_u_ref[1][:numshow, :numshow])
-plt.colorbar()
-plt.subplot(2, 3, 3)
-plt.imshow(partial_u_ref[0][:numshow, :numshow] - partial_u_ref[1][:numshow, :numshow])
-plt.colorbar()
-plt.subplot(2, 3, 4)
-plt.imshow(partial_m_ref[0][:numshow, :numshow])
-plt.colorbar()
-plt.subplot(2, 3, 5)
-plt.imshow(partial_m_ref[1][:numshow, :numshow])
-plt.colorbar()
-plt.subplot(2, 3, 6)
-plt.imshow(partial_m_ref[0][:numshow, :numshow] - partial_m_ref[1][:numshow, :numshow])
-plt.colorbar()
-plt.show()</expression-string>
+        <expression-string>plt.imshow((np.squeeze(mask_i)+0.5).astype(int))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>u_img[0,:,:,1].tolist()</expression-string>
+        <expression-string>plt.imshow((np.squeeze(mask_i)))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>u_img[0,:,:,0].tolist()</expression-string>
+        <expression-string>plt.imshow((np.squeeze(mask_i)).astype(int))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>import seaborn as sns
-sns.distplot([np.sum(abs(partial_u_ref[0][i])&gt;1e-7) for i in range(337)])</expression-string>
+        <expression-string>plt.imshow(int(np.squeeze(mask_i)))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sns.distplot([np.sum(abs(partial_u_ref[0][i])&gt;1e-7) for i in range(337)])</expression-string>
+        <expression-string>plt.imshow(np.asarray(np.squeeze(mask_i),'int32'))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.sum(abs(partial_u_ref[0][55])&gt;1e-7)</expression-string>
+        <expression-string>plt.imshow(np.asarray(np.squeeze(mask_i)))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.sum(abs(partial_u_ref[0][250])&gt;1e-7)</expression-string>
+        <expression-string>plt.imshow(np.asarray(np.squeeze(mask_i),'int'))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.sum(abs(partial_u_ref[0][20])&gt;1e-7)</expression-string>
+        <expression-string>plt.imshow(np.asarray(np.squeeze(mask_i),'int8'))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.sum(abs(partial_u_ref[0][0])&gt;1e-7)</expression-string>
+        <expression-string>plt.imshow(np.asarray(np.squeeze(mask_i),int8))
+plt.colorbar()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>plt.imshow(np.squeeze(mask_i))
+plt.colorbar()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -1489,13 +1496,6 @@ sns.distplot([np.sum(abs(partial_u_ref[0][i])&gt;1e-7) for i in range(337)])</ex
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="1112" selection-start-line="1112" selection-end-line="1112" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp/mask_conv.cc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-792">
@@ -1569,10 +1569,17 @@ sns.distplot([np.sum(abs(partial_u_ref[0][i])&gt;1e-7) for i in range(337)])</ex
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/client/session.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="1339" selection-start-line="1339" selection-end-line="1339" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="155" column="16" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="16" />
+        <state relative-caret-position="216">
+          <caret line="141" column="25" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

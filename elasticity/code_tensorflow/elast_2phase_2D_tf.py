@@ -14,6 +14,11 @@ class Jacobi_block():
         self.nicer_mask = mask#self.apply_topology_filter(mask, self.beta)
         self.rho = rho
         self.E_1, self.mu_1, self.E_2, self.mu_2 = tf.split(self.rho,4)
+        self.E_1 = tf.clip_by_value(self.E_1, 0, 1)
+        self.E_2 = tf.clip_by_value(self.E_2, 0, 1)
+        self.mu_1 = tf.clip_by_value(self.mu_1, 0, 0.5)
+        self.mu_2 = tf.clip_by_value(self.mu_2, 0, 0.5)
+
         self.resp = resp
         self.bc_mask = self.get_bc_mask()
         self.d_matrix = self.get_d_matrix()
@@ -133,9 +138,10 @@ if __name__ == "__main__":
     load_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2))
     resp_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2)) # defined on the nodes
     initial_mask =  mask_data
-    # initial_mask = np.ones_like(mask_data)#*0.5
+    # initial_mask = np.ones_like(mask_data)*0.5
     mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
     rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
+    # rho_pl = tf.Variable(rho, tf.float32)#rho
     beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
 
     # build network
