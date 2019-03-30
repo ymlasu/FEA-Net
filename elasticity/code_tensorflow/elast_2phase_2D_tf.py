@@ -11,7 +11,10 @@ class Jacobi_block():
         self.load = load
         self.mask = mask
         self.beta = beta
-        self.nicer_mask = mask#self.apply_topology_filter(mask, self.beta)
+        if HAS_TO_FILTER:
+            self.nicer_mask = self.apply_topology_filter(mask, self.beta)#
+        else:
+            self.nicer_mask = mask  #
         self.rho = rho
         self.E_1, self.mu_1, self.E_2, self.mu_2 = tf.split(self.rho,4)
         self.E_1 = tf.clip_by_value(self.E_1, 0, 1)
@@ -71,7 +74,7 @@ class Jacobi_block():
 
     def forward_pass(self,resp, mask):
         R_u = self.LU_layers(resp, mask)
-        wx = self.R_u + self.resp * self.d_matrix
+        wx = R_u + self.resp * self.d_matrix
         return wx
 
     def apply(self, max_itr=10):
@@ -98,28 +101,73 @@ class Jacobi_block():
 
     def get_optimizer(self):
 
-        if 0:
-            lr = 0.1
-            # self.optimizer = tf.train.MomentumOptimizer(lr, 0.9)  #
+        if EST_MASK:
+            # estimate mask
+            lr = 0.01
             self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
-            self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.mask)#self.rho)
+            self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.mask)
             self.train_op = self.optimizer.apply_gradients(self.grads)
         else:
-            # ScipyOptimizerInterface = tf.contrib.opt.ScipyOptimizerInterface
-            # ScipyOptimizerInterface(self.loss, var_list=[jacobi.rho], var_to_bounds={self.rho: ([0, 1], np.infty)},
-            #                         method='fmin_cg')
-
+            # estimate rho
             lr = 0.001
             self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
             self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
             self.train_op = self.optimizer.apply_gradients(self.grads)
 
-def load_data_elem_s12():
-    num_node = 13
-    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_xy_fixed.mat')
+        # ScipyOptimizerInterface = tf.contrib.opt.ScipyOptimizerInterface
+        # ScipyOptimizerInterface(self.loss, var_list=[jacobi.rho], var_to_bounds={self.rho: ([0, 1], np.infty)},
+        #                         method='fmin_cg')
+
+
+def load_data_elem_3circle():
+    if PROBLEM_SIZE == 13:
+        num_node = 13
+    elif PROBLEM_SIZE == 25:
+        num_node = 25
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/3circles/2D_elastic_24by24_xy_fixed_3circle.mat')
+    elif PROBLEM_SIZE == 49:
+        num_node = 49
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/3circles/2D_elastic_48by48_xy_fixed_3circle.mat')
+    elif PROBLEM_SIZE == 73:
+        num_node = 73
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/3circles/2D_elastic_72by72_xy_fixed_3circle.mat')
+
     rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
-    u_img = np.concatenate([data['ux'].reshape(1, 13, 13, 1), data['uy'].reshape(1, 13, 13, 1)], -1) * 1e6
-    f_img = -1 * np.concatenate([data['fx'].reshape(1, 13, 13, 1), data['fy'].reshape(1, 13, 13, 1)], -1) / 1e6
+    u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)],
+                           -1) * 1e6
+    f_img = -1 * np.concatenate(
+        [data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
+    mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
+    return num_node, mask, u_img, f_img, rho
+
+
+def load_data_elem_1circle():
+    if PROBLEM_SIZE == 13:
+        num_node = 13
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_xy_fixed.mat')
+    elif PROBLEM_SIZE == 25:
+        num_node = 25
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_24by24_xy_fixed.mat')
+    elif PROBLEM_SIZE == 49:
+        num_node = 49
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_48by48_xy_fixed.mat')
+    elif PROBLEM_SIZE == 65:
+        num_node = 65
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/2D_elastic_64by64_xy_fixed.mat')
+
+    rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+    u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)], -1) * 1e6
+    f_img = -1 * np.concatenate([data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
+    mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
+    return num_node, mask, u_img, f_img, rho
+
+def load_data_elem_micro():
+    num_node = 73
+    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_real.mat')
+
+    rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+    u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)], -1) * 1e6
+    f_img = -1 * np.concatenate([data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
     return num_node, mask, u_img, f_img, rho
 
@@ -131,22 +179,35 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from tqdm import tqdm
 
-    num_node, mask_data, resp_data, load_data, rho = load_data_elem_s12()#get_data()
+    EST_MASK = 1
+    PROBLEM_SIZE = 73
+    FORWARD_SOLVING = 0
+    HAS_TO_FILTER = 0
+
+    num_node, mask_data, resp_data, load_data, rho = load_data_elem_3circle()#load_data_elem_1circle()#load_data_elem_micro()#
 
     # placeholders
     batch_size = 1
     load_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2))
     resp_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2)) # defined on the nodes
-    initial_mask =  mask_data
-    # initial_mask = np.ones_like(mask_data)*0.5
-    mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-    rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
-    # rho_pl = tf.Variable(rho, tf.float32)#rho
-    beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
+    if EST_MASK:
+        # given rho, estimate mask
+        # initial_mask = mask_data
+        initial_mask = np.random.randint(0,2,mask_data.shape)
+        # initial_mask = np.ones_like(mask_data)*0.5
+        mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
+        rho_pl = tf.Variable(rho, tf.float32)#rho
+    else:
+        # given mask, estimate rho
+        initial_mask = mask_data
+        mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
+        rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
 
     # build network
+    beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
     jacobi = Jacobi_block(num_node, load_pl, mask_pl, rho_pl, resp_pl, beta)
-    if 1: # forward solving
+
+    if FORWARD_SOLVING: # forward solving
         jacobi.apply(max_itr=200)
         jacobi.get_loss()
         jacobi.get_optimizer()
@@ -159,7 +220,7 @@ if __name__ == "__main__":
         #     tf.abs(k*mask_pl) + tf.abs(k*(1 - mask_pl)) - 0.5*k - tf.abs(k*(0.5 - mask_pl)) )  # a W shaped penalty
         jacobi.mask_err = tf.reduce_mean(tf.abs(mask_pl - mask_data))
         jacobi.loss = jacobi.pred_err #+ jacobi.penalty
-        # jacobi.get_optimizer()
+        jacobi.get_optimizer()
 
     # initialize
     FLAGS = tf.app.flags.FLAGS
@@ -182,10 +243,10 @@ if __name__ == "__main__":
     mask_err_hist = []
     mask_hist = []
     nicer_mask_hist = []
-    beta_val = 0.5
-    for itr in tqdm(range(1000)):
-        if itr % 1000 == 0:
-            beta_val = beta_val * 1.5
+    beta_val = 2
+    for itr in tqdm(range(2000)):
+        if itr % 100 == 0:
+            beta_val = beta_val * 2
         feed_dict_train = {load_pl: load_data, resp_pl: resp_data, jacobi.beta:beta_val}#, mask_pl: mask_data
         loss_value_i, pred_err_i, pred_i, mask_err_i, mask_i, nicer_mask_i, E1_value_i, mu1_value_i, E2_value_i, mu2_value_i = \
                                                                                         sess.run([jacobi.loss,
@@ -220,6 +281,11 @@ if __name__ == "__main__":
         mask_hist += [mask_i]
         nicer_mask_hist += [nicer_mask_i]
 
+        np.save('res_65',
+                {'loss_hist': loss_hist, 'E1_hist': E1_hist, 'E2_hist': E2_hist, 'mu1_hist': mu1_hist, 'mu2_hist': mu2_hist,
+                 'pred_err_hist': pred_err_hist, 'pred_hist': pred_hist, 'mask_err_hist': mask_err_hist,
+                 'mask_hist': mask_hist, 'nicer_mask_hist': nicer_mask_hist})
+
     plt.subplot(1, 5, 1)
     plt.imshow(np.squeeze(resp_data[0]))
     plt.colorbar()
@@ -236,3 +302,5 @@ if __name__ == "__main__":
     plt.imshow(np.squeeze(nicer_mask_hist[-1][0]))
     plt.colorbar()
     print('done')
+
+

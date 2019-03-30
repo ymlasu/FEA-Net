@@ -64,3 +64,7 @@ with tf.Session(''):
     plt.imshow(ff[0, :, :, 1])
     # u_t = (f_img - result_tf) / d_matrix
     print('tf conv done')
+
+
+
+

@@ -47,24 +47,12 @@ if __name__ == '__main__':
                                                                     masked_res_tf, [2, 1], delta=1e-3)
     # num_node, mask, u_img, f_img, rho1, rho2 = get_data()
     num_node, mask, u_img, f_img, rho = load_data_elem_s12()#get_data()
-    if 0:
-        num_node = 5
-        k = 1
-        u_img = u_img[:,0:5,k:5+k,:]
-        f_img = f_img[:,0:5,k:5+k,:]
-        mask = mask[:,0:4,k:4+k,:]
-    else:
-        num_node = 3
-        k = 1
-        u_img = u_img[:, 2:5, 2+k:5 + k, :]
-        f_img = f_img[:, 2:5, 2+k:5 + k, :]
-        mask = mask[:, 2:4, 2+k:4 + k, :]
 
     x_pl = tf.constant(u_img, dtype=tf.float32)
     m_pl = tf.constant(mask, dtype=tf.float32)
     w_pl = tf.constant(rho, dtype=tf.float32)
-    padded_input = x_pl#boundary_padding(x_pl)
-    padded_mask = m_pl#boundary_padding(m_pl)
+    padded_input =boundary_padding(x_pl)
+    padded_mask = boundary_padding(m_pl)
     from mask_elast_conv import *
     masked_res_tf = mask_conv(padded_input, padded_mask, w_pl)
     # masked_res_tf = boundary_correct(masked_res_tf, num_node)
@@ -76,7 +64,7 @@ if __name__ == '__main__':
                                                                                 [1, num_node-1, num_node-1, 1],
                                                                                 [4]],
                                                                                masked_res_tf,
-                                                                               [1, 1, 1, 2],
+                                                                               [1, 13, 13, 2],
                                                                                delta=1e-2)
 
     numshow = 1000
