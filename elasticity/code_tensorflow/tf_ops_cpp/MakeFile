@@ -21,3 +21,4 @@ TF_LIB=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
 g++ -std=c++11 -shared mask_conv_elast.cc -o ./build/lib_mask_conv_elast.so -fPIC -I$TF_INC -I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -O2
 g++ -std=c++11 -shared mask_conv_elast_grad.cc  -o ./build/lib_mask_conv_elast_grad.so -fPIC -I$TF_INC -I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -O2
 
+g++ -std=c++11 -shared mask_conv_elast_grad.cc  -o ./build/lib_mask_conv_elast_grad.so  -fPIC -I$TF_INC -O2 -D_GLIBCXX_USE_CXX11_ABI=0

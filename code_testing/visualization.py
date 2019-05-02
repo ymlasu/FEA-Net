@@ -23,3 +23,4 @@ def fmg_net_complexity():
     plt.semilogx(x*x,y,'o-')
     plt.xlabel('DOF')
     plt.ylabel('# of LU block in FMG-NET')
+
