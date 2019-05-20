@@ -12,7 +12,11 @@ class Jacobi_block():
         self.mask = mask
         self.beta = beta
         if HAS_TO_FILTER:
-            self.nicer_mask = self.apply_topology_filter(mask, self.beta)#
+            #self.nicer_mask = self.apply_topology_filter(mask, self.beta)#
+            nicer_mask = tf.clip_by_value(mask, 0, 1)
+            beta = 8.
+            self.nicer_mask = (tf.tanh(beta / 2) + tf.tanh(beta * (nicer_mask - 0.5))) / (2 * tf.tanh(beta / 2))
+
         else:
             self.nicer_mask = mask  #
         self.rho = rho
@@ -60,7 +64,7 @@ class Jacobi_block():
         from tf_ops_cpp.mask_elast_conv import get_dmatrix
         # be careful here
         padded_mask = self.boundary_padding(self.nicer_mask)
-        dmat = get_dmatrix(padded_mask, self.rho)
+        dmat = get_dmatrix(1, padded_mask, self.rho)
         return dmat
 
     def LU_layers(self, input_tensor, mask_tensor):
@@ -74,8 +78,8 @@ class Jacobi_block():
 
     def forward_pass(self,resp, mask):
         R_u = self.LU_layers(resp, mask)
-        wx = R_u + self.resp * self.d_matrix
-        return wx
+        # wx = R_u + self.resp * self.d_matrix
+        return R_u
 
     def apply(self, max_itr=10):
         result = {}
@@ -190,17 +194,17 @@ def load_data_elem_micro_noise():
 def load_data_elem_micro():
     if PROBLEM_SIZE == 73:
         num_node = 73
-        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic1.mat')
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic3.mat')
         # data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic2.mat')
         # data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic3.mat')
         # data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic4.mat')
         # data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic5.mat')
         # data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_72by72_xy_fixed_micro_pic6.mat')
-    elif PROBLEM_SIZE == 141:
-        num_node = 141
-        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/2D_elastic_140by140_xy_fixed_micro.mat')
-
-    rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+        rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+    elif PROBLEM_SIZE == 151:
+        num_node = 151
+        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/res150/biphase_150by150_micro4.mat')
+        rho = [212 / 1e3, 0.288, 230/ 1e3, 0.275]
     u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)], -1) * 1e6
     f_img = -1 * np.concatenate([data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
@@ -215,11 +219,13 @@ if __name__ == "__main__":
     from tqdm import tqdm
 
     EST_MASK = 0
-    PROBLEM_SIZE = 13
+    PROBLEM_SIZE = 25
     FORWARD_SOLVING = 0
     HAS_TO_FILTER = 0
 
-    num_node, mask_data, resp_data, load_data, rho = load_data_elem_1circle()#load_data_elem_1circle()#load_data_elem_micro_noise()# load_data_elem_micro()#
+    num_node, mask_data, resp_data, load_data, rho = load_data_elem_3circle()#load_data_elem_micro()#load_data_elem_1circle()#load_data_elem_micro_noise()#
+    #resp_data = np.random.uniform(low=resp_data*0.99, high=resp_data*1.01, size=(resp_data.shape))
+
     # from elast_FCN import load_data_elem
     # num_node = 13
     # u_img_train, f_img_train, u_img_test01, f_img_test01, u_img_test23, f_img_test23 = load_data_elem(num_node,
@@ -236,7 +242,7 @@ if __name__ == "__main__":
     if EST_MASK:
         # given rho, estimate mask
         # initial_mask = mask_data
-        initial_mask = np.random.randint(0,2,mask_data.shape)
+        initial_mask = np.random.randint(0,2,mask_data.shape)#np.ones_like(mask_data)*0.5#
         # initial_mask = np.ones_like(mask_data)*0.5
         mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
         rho_pl = tf.Variable(rho, tf.float32)#rho
@@ -244,7 +250,7 @@ if __name__ == "__main__":
         # given mask, estimate rho
         initial_mask = mask_data
         mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-        rho_pl = tf.Variable(rho, tf.float32)#[0.1,0.1,0.1,0.1]
+        rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
 
     # build network
     beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
@@ -261,7 +267,7 @@ if __name__ == "__main__":
         # k = 0.2
         # jacobi.penalty = tf.reduce_mean(
         #     tf.abs(k*mask_pl) + tf.abs(k*(1 - mask_pl)) - 0.5*k - tf.abs(k*(0.5 - mask_pl)) )  # a W shaped penalty
-        jacobi.mask_err = tf.reduce_mean(tf.abs(mask_pl - mask_data))
+        jacobi.mask_err = tf.reduce_mean(tf.abs(jacobi.nicer_mask - mask_data))
         jacobi.loss = jacobi.pred_err #+ jacobi.penalty
         jacobi.get_optimizer()
 
@@ -287,7 +293,7 @@ if __name__ == "__main__":
     mask_hist = []
     nicer_mask_hist = []
     beta_val = 2
-    for itr in tqdm(range(2000)):
+    for itr in tqdm(range(10001)):
         if itr % 100 == 0:
             beta_val = beta_val * 2
         idx = itr%resp_data.shape[0]
@@ -325,10 +331,11 @@ if __name__ == "__main__":
         mask_hist += [mask_i]
         nicer_mask_hist += [nicer_mask_i]
 
-        np.save('rho_opt_1circle_res50',
-                {'loss_hist': loss_hist, 'E1_hist': E1_hist, 'E2_hist': E2_hist, 'mu1_hist': mu1_hist, 'mu2_hist': mu2_hist,
-                 'pred_err_hist': pred_err_hist, 'pred_hist': pred_hist, 'mask_err_hist': mask_err_hist,
-                 'mask_hist': mask_hist, 'nicer_mask_hist': nicer_mask_hist})
+        if itr%1000==0:
+            np.save('micro4_res{}'.format(PROBLEM_SIZE),
+                    {'loss_hist': loss_hist, 'E1_hist': E1_hist, 'E2_hist': E2_hist, 'mu1_hist': mu1_hist, 'mu2_hist': mu2_hist,
+                     'pred_err_hist': pred_err_hist, 'pred_hist': pred_hist, 'mask_err_hist': mask_err_hist,
+                     'mask_hist': mask_hist, 'nicer_mask_hist': nicer_mask_hist})
 
     plt.subplot(1, 5, 1)
     plt.imshow(np.squeeze(resp_data[0]))

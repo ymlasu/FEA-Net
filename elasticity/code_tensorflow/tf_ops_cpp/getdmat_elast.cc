@@ -11,7 +11,7 @@
 using namespace tensorflow;
 
 // MUST BE IN CamelCase!!
-REGISTER_OP("MaskconvElast")
+REGISTER_OP("GetdmatElast")
   .Input("input: float")
   .Input("weights: float")
   .Input("rho: float")
@@ -20,11 +20,11 @@ REGISTER_OP("MaskconvElast")
 /// \brief Implementation of an inner product operation.
 /// \param context
 /// \author David Stutz
-class MaskconvElastOp : public OpKernel {
+class GetdmatElastOp : public OpKernel {
 public:
   /// \brief Constructor.
   /// \param context
-  explicit MaskconvElastOp(OpKernelConstruction* context) : OpKernel(context) {
+  explicit GetdmatElastOp(OpKernelConstruction* context) : OpKernel(context) {
     
   }
   
@@ -36,7 +36,7 @@ public:
     DCHECK_EQ(3, context->num_inputs());
     
     // get the input tensor
-    const Tensor& input = context->input(0);
+//    const Tensor& input = context->input(0);
     
     // get the weight tensor
     const Tensor& weights = context->input(1);
@@ -45,11 +45,11 @@ public:
     const Tensor& rho = context->input(2);
 
     // check shapes of input and weights
-    const TensorShape& input_shape = input.shape();
+//    const TensorShape& input_shape = input.shape();
     const TensorShape& weights_shape = weights.shape();
     
     // check input is a standing vector
-    DCHECK_EQ(input_shape.dims(), 4);
+//    DCHECK_EQ(input_shape.dims(), 4);
     //DCHECK_EQ(input_shape.dim_size(1), input_shape.dim_size(2));
     
     // check weights is matrix of correct size
@@ -58,17 +58,17 @@ public:
     
     // create output shape
     TensorShape output_shape;
-    output_shape.AddDim(input_shape.dim_size(0));
-    output_shape.AddDim(input_shape.dim_size(1)-2);
-    output_shape.AddDim(input_shape.dim_size(2)-2);
-    output_shape.AddDim(input_shape.dim_size(3));            
+    output_shape.AddDim(weights_shape.dim_size(0));
+    output_shape.AddDim(weights_shape.dim_size(1)+1);
+    output_shape.AddDim(weights_shape.dim_size(2)+1);
+    output_shape.AddDim(weights_shape.dim_size(3));
 
     // create output tensor
     Tensor* output = NULL;
     OP_REQUIRES_OK(context, context->allocate_output(0, output_shape, &output));
     
     // get the corresponding Eigen tensors for data access
-    auto input_tensor = input.tensor<float, 4>();
+//    auto input_tensor = input.tensor<float, 4>();
     auto weights_tensor = weights.tensor<float, 4>();
     auto rho_tensor = rho.tensor<float, 1>();
     auto output_tensor = output->tensor<float, 4>();
@@ -241,182 +241,70 @@ public:
             // from eq.11, mask_conv_expansion
             auto x_mat1 =
             (
-            k1_xx_20*input_tensor(0, i+1, j-1, 0)
-            +k1_xx_21*input_tensor(0, i+1, j, 0)
-        +k1_xx_22*input_tensor(0, i, j, 0)
-            +k1_xx_23*input_tensor(0, i, j-1, 0)
-            +k1_xy_20*input_tensor(0, i+1, j-1, 1)
-            +k1_xy_21*input_tensor(0, i+1, j, 1)
-            +k1_xy_22*input_tensor(0, i, j, 1)
-            +k1_xy_23*input_tensor(0, i, j-1, 1)
+        +k1_xx_22
             ) * weights_tensor(0, i, j-1, 0)
 
             +(
-            k1_xx_30*input_tensor(0, i+1, j, 0)
-            +k1_xx_31*input_tensor(0, i+1, j+1, 0)
-            +k1_xx_32*input_tensor(0, i, j+1, 0)
-        +k1_xx_33*input_tensor(0, i, j, 0)
-            +k1_xy_30*input_tensor(0, i+1, j, 1)
-            +k1_xy_31*input_tensor(0, i+1, j+1, 1)
-            +k1_xy_32*input_tensor(0, i, j+1, 1)
-            +k1_xy_33*input_tensor(0, i, j, 1)
+        +k1_xx_33
             ) * weights_tensor(0, i, j, 0)
 
             +(
-        k1_xx_00*input_tensor(0, i, j, 0)
-            +k1_xx_01*input_tensor(0, i, j+1, 0)
-            +k1_xx_02*input_tensor(0, i-1, j+1, 0)
-            +k1_xx_03*input_tensor(0, i-1, j, 0)
-            +k1_xy_00*input_tensor(0, i, j, 1)
-            +k1_xy_01*input_tensor(0, i, j+1, 1)
-            +k1_xy_02*input_tensor(0, i-1, j+1, 1)
-            +k1_xy_03*input_tensor(0, i-1, j, 1)
+        k1_xx_00
             ) * weights_tensor(0, i-1, j, 0)
 
             +(
-            k1_xx_10*input_tensor(0, i, j-1, 0)
-        +k1_xx_11*input_tensor(0, i, j, 0)
-            +k1_xx_12*input_tensor(0, i-1, j, 0)
-            +k1_xx_13*input_tensor(0, i-1, j-1, 0)
-            +k1_xy_10*input_tensor(0, i, j-1, 1)
-            +k1_xy_11*input_tensor(0, i, j, 1)
-            +k1_xy_12*input_tensor(0, i-1, j, 1)
-            +k1_xy_13*input_tensor(0, i-1, j-1, 1)
+        +k1_xx_11
             ) * weights_tensor(0, i-1, j-1, 0);
 
             auto y_mat1 =
             (
-            k1_yx_20*input_tensor(0, i+1, j-1, 0)
-            +k1_yx_21*input_tensor(0, i+1, j, 0)
-            +k1_yx_22*input_tensor(0, i, j, 0)
-            +k1_yx_23*input_tensor(0, i, j-1, 0)
-            +k1_yy_20*input_tensor(0, i+1, j-1, 1)
-            +k1_yy_21*input_tensor(0, i+1, j, 1)
-        +k1_yy_22*input_tensor(0, i, j, 1)
-            +k1_yy_23*input_tensor(0, i, j-1, 1)
+        +k1_yy_22
             ) * weights_tensor(0, i, j-1, 0)
 
             +(
-            k1_yx_30*input_tensor(0, i+1, j, 0)
-            +k1_yx_31*input_tensor(0, i+1, j+1, 0)
-            +k1_yx_32*input_tensor(0, i, j+1, 0)
-            +k1_yx_33*input_tensor(0, i, j, 0)
-            +k1_yy_30*input_tensor(0, i+1, j, 1)
-            +k1_yy_31*input_tensor(0, i+1, j+1, 1)
-            +k1_yy_32*input_tensor(0, i, j+1, 1)
-        +k1_yy_33*input_tensor(0, i, j, 1)
+        +k1_yy_33
             ) * weights_tensor(0, i, j, 0)
 
             +(
-            k1_yx_00*input_tensor(0, i, j, 0)
-            +k1_yx_01*input_tensor(0, i, j+1, 0)
-            +k1_yx_02*input_tensor(0, i-1, j+1, 0)
-            +k1_yx_03*input_tensor(0, i-1, j, 0)
-        +k1_yy_00*input_tensor(0, i, j, 1)
-            +k1_yy_01*input_tensor(0, i, j+1, 1)
-            +k1_yy_02*input_tensor(0, i-1, j+1, 1)
-            +k1_yy_03*input_tensor(0, i-1, j, 1)
+        +k1_yy_00
             ) * weights_tensor(0, i-1, j, 0)
 
             +(
-            k1_yx_10*input_tensor(0, i, j-1, 0)
-            +k1_yx_11*input_tensor(0, i, j, 0)
-            +k1_yx_12*input_tensor(0, i-1, j, 0)
-            +k1_yx_13*input_tensor(0, i-1, j-1, 0)
-            +k1_yy_10*input_tensor(0, i, j-1, 1)
-        +k1_yy_11*input_tensor(0, i, j, 1)
-            +k1_yy_12*input_tensor(0, i-1, j, 1)
-            +k1_yy_13*input_tensor(0, i-1, j-1, 1)
+        +k1_yy_11
              ) * weights_tensor(0, i-1, j-1, 0);
 
             auto x_mat2 =
             (
-            k2_xx_20*input_tensor(0, i+1, j-1, 0)
-            +k2_xx_21*input_tensor(0, i+1, j, 0)
-        +k2_xx_22*input_tensor(0, i, j, 0)
-            +k2_xx_23*input_tensor(0, i, j-1, 0)
-            +k2_xy_20*input_tensor(0, i+1, j-1, 1)
-            +k2_xy_21*input_tensor(0, i+1, j, 1)
-            +k2_xy_22*input_tensor(0, i, j, 1)
-            +k2_xy_23*input_tensor(0, i, j-1, 1)
+        +k2_xx_22
             ) * (1-weights_tensor(0, i, j-1, 0))
 
             +(
-            k2_xx_30*input_tensor(0, i+1, j, 0)
-            +k2_xx_31*input_tensor(0, i+1, j+1, 0)
-            +k2_xx_32*input_tensor(0, i, j+1, 0)
-        +k2_xx_33*input_tensor(0, i, j, 0)
-            +k2_xy_30*input_tensor(0, i+1, j, 1)
-            +k2_xy_31*input_tensor(0, i+1, j+1, 1)
-            +k2_xy_32*input_tensor(0, i, j+1, 1)
-            +k2_xy_33*input_tensor(0, i, j, 1)
+        +k2_xx_33
             ) * (1-weights_tensor(0, i, j, 0))
 
             +(
-        k2_xx_00*input_tensor(0, i, j, 0)
-            +k2_xx_01*input_tensor(0, i, j+1, 0)
-            +k2_xx_02*input_tensor(0, i-1, j+1, 0)
-            +k2_xx_03*input_tensor(0, i-1, j, 0)
-            +k2_xy_00*input_tensor(0, i, j, 1)
-            +k2_xy_01*input_tensor(0, i, j+1, 1)
-            +k2_xy_02*input_tensor(0, i-1, j+1, 1)
-            +k2_xy_03*input_tensor(0, i-1, j, 1)
+        k2_xx_00
             ) * (1-weights_tensor(0, i-1, j, 0))
 
             +(
-            k2_xx_10*input_tensor(0, i, j-1, 0)
-        +k2_xx_11*input_tensor(0, i, j, 0)
-            +k2_xx_12*input_tensor(0, i-1, j, 0)
-            +k2_xx_13*input_tensor(0, i-1, j-1, 0)
-            +k2_xy_10*input_tensor(0, i, j-1, 1)
-            +k2_xy_11*input_tensor(0, i, j, 1)
-            +k2_xy_12*input_tensor(0, i-1, j, 1)
-            +k2_xy_13*input_tensor(0, i-1, j-1, 1)
+        +k2_xx_11
             ) * (1-weights_tensor(0, i-1, j-1, 0));
 
             auto y_mat2 =
             (
-            k2_yx_20*input_tensor(0, i+1, j-1, 0)
-            +k2_yx_21*input_tensor(0, i+1, j, 0)
-            +k2_yx_22*input_tensor(0, i, j, 0)
-            +k2_yx_23*input_tensor(0, i, j-1, 0)
-            +k2_yy_20*input_tensor(0, i+1, j-1, 1)
-            +k2_yy_21*input_tensor(0, i+1, j, 1)
-        +k2_yy_22*input_tensor(0, i, j, 1)
-            +k2_yy_23*input_tensor(0, i, j-1, 1)
+        +k2_yy_22
             ) * (1-weights_tensor(0, i, j-1, 0))
 
             +(
-            k2_yx_30*input_tensor(0, i+1, j, 0)
-            +k2_yx_31*input_tensor(0, i+1, j+1, 0)
-            +k2_yx_32*input_tensor(0, i, j+1, 0)
-            +k2_yx_33*input_tensor(0, i, j, 0)
-            +k2_yy_30*input_tensor(0, i+1, j, 1)
-            +k2_yy_31*input_tensor(0, i+1, j+1, 1)
-            +k2_yy_32*input_tensor(0, i, j+1, 1)
-        +k2_yy_33*input_tensor(0, i, j, 1)
+        +k2_yy_33
             ) * (1-weights_tensor(0, i, j, 0))
 
             +(
-            k2_yx_00*input_tensor(0, i, j, 0)
-            +k2_yx_01*input_tensor(0, i, j+1, 0)
-            +k2_yx_02*input_tensor(0, i-1, j+1, 0)
-            +k2_yx_03*input_tensor(0, i-1, j, 0)
-        +k2_yy_00*input_tensor(0, i, j, 1)
-            +k2_yy_01*input_tensor(0, i, j+1, 1)
-            +k2_yy_02*input_tensor(0, i-1, j+1, 1)
-            +k2_yy_03*input_tensor(0, i-1, j, 1)
+        +k2_yy_00
             ) * (1-weights_tensor(0, i-1, j, 0))
 
             +(
-            k2_yx_10*input_tensor(0, i, j-1, 0)
-            +k2_yx_11*input_tensor(0, i, j, 0)
-            +k2_yx_12*input_tensor(0, i-1, j, 0)
-            +k2_yx_13*input_tensor(0, i-1, j-1, 0)
-            +k2_yy_10*input_tensor(0, i, j-1, 1)
-        +k2_yy_11*input_tensor(0, i, j, 1)
-            +k2_yy_12*input_tensor(0, i-1, j, 1)
-            +k2_yy_13*input_tensor(0, i-1, j-1, 1)
+        +k2_yy_11
             ) * (1-weights_tensor(0, i-1, j-1, 0));
 
             output_tensor(0, i-1, j-1, 0)  = x_mat1*coef_1 + x_mat2*coef_2;
@@ -429,4 +317,4 @@ public:
   }
 };
 
-REGISTER_KERNEL_BUILDER(Name("MaskconvElast").Device(DEVICE_CPU), MaskconvElastOp);
+REGISTER_KERNEL_BUILDER(Name("GetdmatElast").Device(DEVICE_CPU), GetdmatElastOp);
