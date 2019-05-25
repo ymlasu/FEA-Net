@@ -1,15 +1,21 @@
 import numpy as np
 import scipy.io as sio
-import os
 import tensorflow as tf
+import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
 class FEA_Net_h():
     # NOTICE: right now for homogeneous anisotropic material only!!
-    def __init__(self, data):
-        self.num_epoch = 10
+    def __init__(self, data, cfg):
+        # set learning rate
+        self.lr = cfg['lr']
+        self.num_epoch = cfg['epoch']
+        # self.batch_size = 4
+
+        # data related
         self.num_node = data['num_node']
-        self.E, self.mu, self.k = self.rho = data['rho'] #
+        self.E, self.mu, self.k, self.alpha = self.rho = data['rho'] #
 
         # 3 dimensional in and out, defined on the nodes
         self.load_pl = tf.placeholder(tf.float32, shape=(None, data['num_node'], data['num_node'], 3))
@@ -18,9 +24,6 @@ class FEA_Net_h():
         # get filters
         self.get_w_matrix()
 
-        # set learning rate
-        self.lr = 0.001
-        self.batch_size = 4
 
     def get_w_matrix(self):
         self.get_w_matrix_elast()
@@ -50,22 +53,36 @@ class FEA_Net_h():
         # self.mu = tf.clip_by_value(self.mu, 0, 0.5)
 
         # tf.nn.conv2d filter shape: [filter_height, filter_width, in_channels, out_channels]
-        wx = tf.concat([wxx, wyx, wtx],3)
-        wy = tf.concat([wxy, wyy, wty],3)
-        wt = tf.concat([wxt, wyt, wtt],3)
-        self.w_filter = tf.concat([wx, wy, wt], 2)
+        self.w_filter = tf.concat([tf.concat([wxx, wxy, wxt],2),
+                                   tf.concat([wyx, wyy, wyt],2),
+                                   tf.concat([wtx, wty, wtt],2)],
+                                  3)
         self.trainable_var = [wtx, wty, wxt, wyt]
 
     def get_w_matrix_coupling(self):
-        self.wtx = np.zeros((3,3,1,1), dtype='float32')
-        self.wty = np.zeros((3,3,1,1), dtype='float32')
-        self.wxt = np.zeros((3,3,1,1), dtype='float32')
-        self.wyt = np.zeros((3,3,1,1), dtype='float32')
+        E, v = self.E, self.mu
+        alpha = self.alpha
+        self.wtx_ref = np.zeros((3,3,1,1), dtype='float32')
+        self.wty_ref = np.zeros((3,3,1,1), dtype='float32')
+        coef = E * alpha / (6*(v-1)) / 400
+        self.wxt_ref = coef * np.asarray([[1, 0, -1],
+                                      [4, 0, -4],
+                                      [1, 0, -1]]
+                                     , dtype='float32').reshape(3,3,1,1)
+
+        self.wyt_ref = coef * np.asarray([[-1, -4, -1],
+                                      [0, 0, 0],
+                                      [1, 4, 1]]
+                                     , dtype='float32').reshape(3,3,1,1)
+        self.wtx = self.wtx_ref * 1.1
+        self.wty = self.wty_ref * 1.1
+        self.wxt = self.wxt_ref * 1.1
+        self.wyt = self.wyt_ref * 1.1
 
     def get_w_matrix_thermal(self):
-        w = 1/3. * self.k * np.asarray([[1., 1., 1.], [1., -8., 1.], [1., 1., 1.]])
+        w = -1/3. * self.k * np.asarray([[1., 1., 1.], [1., -8., 1.], [1., 1., 1.]])
         w = np.asarray(w, dtype='float32')
-        self.wtt =  w.reshape(3,3,1,1)
+        self.wtt = w.reshape(3,3,1,1)
 
     def get_w_matrix_elast(self):
         E, mu = self.E, self.mu
@@ -77,9 +94,9 @@ class FEA_Net_h():
         ], dtype='float32')
 
         wxy = wyx = cost_coef * np.asarray([
-            [-2 * (mu + 1), 0, 2 * (mu + 1)],
-            [0, 0, 0],
             [2 * (mu + 1), 0, -2 * (mu + 1)],
+            [0, 0, 0],
+            [-2 * (mu + 1), 0, 2 * (mu + 1)],
         ], dtype='float32')
 
         wyy = cost_coef * np.asarray([
@@ -185,7 +202,7 @@ class FEA_Net_h():
             res_hist['wyt'][ep_i]  = self.sess.run(self.op_list, feed_dict_test)
 
             self.sess.run(self.train_op, feed_dict_train)
-            print('epoch: {},  training loss: {},  testing loss: {}'.format(ep_i,res_hist['loss'][-1,0],res_hist['loss'][-1,1]))
+            print('epoch: {},  training loss: {},  testing loss: {}'.format(ep_i,res_hist['loss'][ep_i,0],res_hist['loss'][ep_i,1]))
             np.save('therm_elast_res_hist', res_hist)
 
         return res_hist
@@ -195,34 +212,58 @@ def visualize(data, res_hist):
     plt.subplot(1,3,1)
     plt.plot(res_hist['loss'][:,0], label='train')
     plt.plot(res_hist['loss'][:,1], label='test')
+    plt.title('loss')
     plt.legend()
     plt.subplot(1,3,2)
     plt.plot(res_hist['l1_error'][:,0], label='train')
     plt.plot(res_hist['l1_error'][:,1], label='test')
+    plt.title('l1_error')
     plt.legend()
     plt.subplot(1,3,3)
     plt.plot(res_hist['singula_penalty'][:,0], label='train')
     plt.plot(res_hist['singula_penalty'][:,1], label='test')
+    plt.title('sigular penalty')
     plt.legend()
     # plt.savefig()
 
-    plt.figure(figsize=(10,3))
-    for i in range(5):
-        plt.subplot(1, 5, i+1)
-        plt.imshow(data['test_load'][i])
-        plt.subplot(2, 5, 5+i+1)
-        plt.imshow(res_hist['test_pred'][-1,i])
+    plt.figure(figsize=(6,6))
+    idx = 0 # which data to visualize
+    for i in range(3):
+        plt.subplot(4, 3, i+1)
+        plt.imshow(data['test_resp'][idx,1:-1,1:-1,i])
+        plt.colorbar()
+        plt.subplot(4, 3, 3+i+1)
+        plt.imshow(data['test_load'][idx,1:-1,1:-1,i])
+        plt.colorbar()
+        plt.subplot(4, 3, 6+i+1)
+        plt.imshow(res_hist['test_pred'][-1,idx,1:-1,1:-1,i])
+        plt.colorbar()
+        plt.subplot(4, 3, 9 + i + 1)
+        plt.imshow(data['test_load'][idx,1:-1,1:-1,i]-res_hist['test_pred'][-1, idx, 1:-1, 1:-1, i])
         plt.colorbar()
     # plt.savefig()
     plt.show()
+    pass
 
 def load_data():
-    num_node = 12
-    rho = [0.4,0.4,0.4]
-    train_load = np.zeros((100, num_node, num_node, 3))
-    train_resp = np.zeros((100, num_node, num_node, 3))
-    test_load = np.zeros((100, num_node, num_node, 3))
-    test_resp = np.zeros((100, num_node, num_node, 3))
+    num_node = 37
+    # Purely thermal
+    # data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data5.mat')
+
+    # purely structural
+    #data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/2D_thermoelastic_36by36_xy_fixed_single_data2.mat')
+
+    # coupled loading
+    data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data4.mat')
+
+    load = np.expand_dims(np.stack([-data['fx'], -data['fy'], data['ftem']], -1), 0).astype('float32')
+    resp = np.expand_dims(np.stack([data['ux'], data['uy'], data['utem']], -1), 0).astype('float32')
+    rho = [212e9, 0.288, 16., 12e-6] # E, mu, k, alpha
+
+    train_load = load
+    train_resp = resp
+    test_load = load
+    test_resp = resp
     data = {'num_node': num_node,
             'rho': rho,
             'train_load': train_load,
@@ -236,15 +277,15 @@ if __name__ == "__main__":
     import os
     os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    import tensorflow as tf
-    import matplotlib.pyplot as plt
-    from tqdm import tqdm
+    cfg = {'lr': 100,
+           'epoch': 100,
+           }
 
     # load data
     data = load_data()
 
     # build the network
-    model = FEA_Net_h(data)
+    model = FEA_Net_h(data,cfg)
     model.get_optimizer()
     model.initial_graph()
 
