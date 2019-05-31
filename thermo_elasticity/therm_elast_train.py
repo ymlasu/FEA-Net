@@ -39,8 +39,8 @@ class FEA_Net_h():
         wyx = tf.constant(self.wyx)
         wtt = tf.constant(self.wtt)
         # unknown physics
-        self.wtx = wtx = tf.Variable(self.wtx)
-        self.wty = wty = tf.Variable(self.wty)
+        self.wtx = wtx = tf.constant(self.wtx)
+        self.wty = wty = tf.constant(self.wty)
         self.wxt = wxt = tf.Variable(self.wxt)
         self.wyt = wyt =tf.Variable(self.wyt)
 
@@ -57,14 +57,14 @@ class FEA_Net_h():
                                    tf.concat([wyx, wyy, wyt],2),
                                    tf.concat([wtx, wty, wtt],2)],
                                   3)
-        self.trainable_var = [wtx, wty, wxt, wyt]
+        self.trainable_var = [wxt, wyt]
 
     def get_w_matrix_coupling(self):
         E, v = self.E, self.mu
         alpha = self.alpha
         self.wtx_ref = np.zeros((3,3,1,1), dtype='float32')
         self.wty_ref = np.zeros((3,3,1,1), dtype='float32')
-        coef = E * alpha / (6*(v-1)) / 400
+        coef = E * alpha / (6*(v-1)) / 400 *1e6
         self.wxt_ref = coef * np.asarray([[1, 0, -1],
                                       [4, 0, -4],
                                       [1, 0, -1]]
@@ -74,10 +74,10 @@ class FEA_Net_h():
                                       [0, 0, 0],
                                       [1, 4, 1]]
                                      , dtype='float32').reshape(3,3,1,1)
-        self.wtx = self.wtx_ref * 1.1
-        self.wty = self.wty_ref * 1.1
-        self.wxt = self.wxt_ref * 1.1
-        self.wyt = self.wyt_ref * 1.1
+        self.wtx = self.wtx_ref * 0.9
+        self.wty = self.wty_ref * 0.9
+        self.wxt = self.wxt_ref * 0.9
+        self.wyt = self.wyt_ref * 0.9
 
     def get_w_matrix_thermal(self):
         w = -1/3. * self.k * np.asarray([[1., 1., 1.], [1., -8., 1.], [1., 1., 1.]])
@@ -257,8 +257,8 @@ def load_data():
     data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data4.mat')
 
     load = np.expand_dims(np.stack([-data['fx'], -data['fy'], data['ftem']], -1), 0).astype('float32')
-    resp = np.expand_dims(np.stack([data['ux'], data['uy'], data['utem']], -1), 0).astype('float32')
-    rho = [212e9, 0.288, 16., 12e-6] # E, mu, k, alpha
+    resp = np.expand_dims(np.stack([data['ux']*1e6, data['uy']*1e6, data['utem']], -1), 0).astype('float32')
+    rho = [212e3, 0.288, 16., 12e-6] # E, mu, k, alpha
 
     train_load = load
     train_resp = resp
@@ -277,8 +277,8 @@ if __name__ == "__main__":
     import os
     os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    cfg = {'lr': 100,
-           'epoch': 100,
+    cfg = {'lr': 0.01,
+           'epoch': 1000,
            }
 
     # load data

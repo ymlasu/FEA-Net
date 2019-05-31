@@ -1,9 +1,6 @@
 import numpy as np
 import scipy.io as sio
 import os
-os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
 import tensorflow as tf
 
 
@@ -17,17 +14,17 @@ class Jacobi_block():
         if HAS_TO_FILTER:
             #self.nicer_mask = self.apply_topology_filter(mask, self.beta)#
             nicer_mask = tf.clip_by_value(mask, 0, 1)
-            beta = 8.
+            beta = 10.
             self.nicer_mask = (tf.tanh(beta / 2) + tf.tanh(beta * (nicer_mask - 0.5))) / (2 * tf.tanh(beta / 2))
 
         else:
             self.nicer_mask = mask  #
         self.rho = rho
         self.E_1, self.mu_1, self.E_2, self.mu_2 = tf.split(self.rho,4)
-        self.E_1 = tf.clip_by_value(self.E_1, 0, 1)
-        self.E_2 = tf.clip_by_value(self.E_2, 0, 1)
-        self.mu_1 = tf.clip_by_value(self.mu_1, 0, 0.5)
-        self.mu_2 = tf.clip_by_value(self.mu_2, 0, 0.5)
+        # self.E_1 = tf.clip_by_value(self.E_1, 0, 1)
+        # self.E_2 = tf.clip_by_value(self.E_2, 0, 1)
+        # self.mu_1 = tf.clip_by_value(self.mu_1, 0, 0.5)
+        # self.mu_2 = tf.clip_by_value(self.mu_2, 0, 0.5)
 
         self.resp = resp
         self.bc_mask = self.get_bc_mask()
@@ -67,7 +64,7 @@ class Jacobi_block():
         from tf_ops_cpp.mask_elast_conv import get_dmatrix
         # be careful here
         padded_mask = self.boundary_padding(self.nicer_mask)
-        dmat = get_dmatrix(padded_mask, self.rho)
+        dmat = get_dmatrix(1, padded_mask, self.rho)
         return dmat
 
     def LU_layers(self, input_tensor, mask_tensor):
@@ -100,31 +97,40 @@ class Jacobi_block():
 
     def get_loss(self):
         self.pred_err = tf.reduce_mean(tf.abs(jacobi.prediction - resp_pl))#[:,:,:,0]
-        # k = 0.2
-        # self.penalty = tf.reduce_mean(
-        #     tf.abs(k*self.mask) + tf.abs(k*(1 - self.mask)) - 0.5*k - tf.abs(k*(0.5 - self.mask)) )  # a W shaped penalty
         self.mask_err = tf.reduce_mean(tf.abs(self.nicer_mask - mask_data))
         self.loss = self.pred_err# + self.penalty
 
     def get_optimizer(self):
 
-        if EST_MASK:
-            # estimate mask
-            lr = 0.01
-            self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
-            self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.mask)
-            self.train_op = self.optimizer.apply_gradients(self.grads)
-        else:
-            # estimate rho
-            lr = 0.001
-            self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
-            self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
-            self.train_op = self.optimizer.apply_gradients(self.grads)
+        # if EST_MASK:
+        #     # estimate mask
+        #     lr = 0.01
+        #     self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
+        #     self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.mask)
+        #     self.train_op = self.optimizer.apply_gradients(self.grads)
+        # else:
+        #     # estimate rho
+        #     lr = 0.001
+        #     self.optimizer = tf.train.AdamOptimizer(lr, beta1=0.5)
+        #     self.grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
+        #     self.train_op = self.optimizer.apply_gradients(self.grads)
 
-        # ScipyOptimizerInterface = tf.contrib.opt.ScipyOptimizerInterface
-        # ScipyOptimizerInterface(self.loss, var_list=[jacobi.rho], var_to_bounds={self.rho: ([0, 1], np.infty)},
-        #                         method='fmin_cg')
-
+        mask_lr = 0.01
+        self.optimizer = tf.train.AdamOptimizer(mask_lr, beta1=0.5)
+        self.mask_grads = self.optimizer.compute_gradients(self.loss, var_list=self.mask)
+        self.mask_train_op = self.optimizer.apply_gradients(self.mask_grads)
+        # estimate rho
+        rho_lr = 0.1
+        # self.optimizer = tf.train.AdamOptimizer(rho_lr, beta1=0.5)
+        # self.rho_grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
+        # self.rho_train_op = self.optimizer.apply_gradients(self.rho_grads)
+        self.rho_grads = self.optimizer.compute_gradients(self.loss, var_list=self.rho)
+        ScipyOptimizerInterface = tf.contrib.opt.ScipyOptimizerInterface
+        self.rho_optimizer = ScipyOptimizerInterface(self.loss, var_list=[self.rho],
+                                                     var_to_bounds={self.rho: ([0.01, 0.01, 0.01, 0.01], [0.5,0.5,0.5,0.5])},
+                                                     method='SLSQP',
+                                                     options = {'ftol':1e-07, 'disp': True}
+                                                     )
 
 def load_data_elem_3circle():
     if PROBLEM_SIZE == 13:
@@ -146,7 +152,6 @@ def load_data_elem_3circle():
         [data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
     return num_node, mask, u_img, f_img, rho
-
 
 def load_data_elem_1circle():
     if PROBLEM_SIZE == 13:
@@ -181,7 +186,6 @@ def load_data_elem_2circles():
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
     return num_node, mask, u_img, f_img, rho
 
-
 def load_data_elem_micro_noise():
     num_node = 55
     # data = np.load('../data/biphase/real_micro/add_noise/realmicro_snr_60.npy').item()
@@ -208,17 +212,6 @@ def load_data_elem_micro():
         num_node = 151
         data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/res150/biphase_150by150_micro4.mat')
         rho = [212 / 1e3, 0.288, 230/ 1e3, 0.275]
-    elif PROBLEM_SIZE == 302:
-        k = 40
-        num_node = 151*k
-        data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/biphase/real_micro/res150/biphase_150by150_micro4.mat')
-        rho = [212 / 1e3, 0.288, 230/ 1e3, 0.275]
-        data['ux'] = np.tile(data['ux'],(1,k,k,1))
-        data['uy'] = np.tile(data['uy'],(1,k,k,1))
-        data['fx'] = np.tile(data['fx'],(1,k,k,1))
-        data['fy'] = np.tile(data['fy'],(1,k,k,1))
-        data['mask'] = np.pad(np.tile(data['mask'],(k,k)),((0,k-1),(0,k-1)), mode='constant')
-
     u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)], -1) * 1e6
     f_img = -1 * np.concatenate([data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
@@ -232,58 +225,32 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from tqdm import tqdm
 
-    EST_MASK = 1
-    PROBLEM_SIZE = 302
+    EST_MASK = 0
+    PROBLEM_SIZE = 13
     FORWARD_SOLVING = 0
     HAS_TO_FILTER = 0
 
-    num_node, mask_data, resp_data, load_data, rho = load_data_elem_micro()#load_data_elem_1circle()#load_data_elem_micro_noise()#load_data_elem_3circle()#
-    #resp_data = np.random.uniform(low=resp_data*0.99, high=resp_data*1.01, size=(resp_data.shape))
-
-    # from elast_FCN import load_data_elem
-    # num_node = 13
-    # u_img_train, f_img_train, u_img_test01, f_img_test01, u_img_test23, f_img_test23 = load_data_elem(num_node,
-    #                                                                                                   noise_mag=0.0)
-    # mask_data = np.zeros((1, num_node - 1, num_node - 1, 1))  # *0.5
-    # resp_data = u_img_train[:1]
-    # load_data = f_img_train[:1]
-    # rho = [200 / 1e3, 0.25, 200 / 1e3, 0.25]
-
+    num_node, mask_data, resp_data, load_data, rho = load_data_elem_1circle()#load_data_elem_1circle()#load_data_elem_micro_noise()#load_data_elem_micro()#
     # placeholders
     batch_size = 1
     load_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2))
     resp_pl = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2)) # defined on the nodes
-    if EST_MASK:
-        # given rho, estimate mask
-        # initial_mask = mask_data
-        initial_mask = np.random.randint(0,2,mask_data.shape)#np.ones_like(mask_data)*0.5#
-        # initial_mask = np.ones_like(mask_data)*0.5
-        mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-        rho_pl = tf.Variable(rho, tf.float32)#rho
-    else:
-        # given mask, estimate rho
-        initial_mask = mask_data
-        mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
-        rho_pl = tf.Variable([0.1,0.1,0.1,0.1], tf.float32)#rho
+
+    initial_mask = np.random.randint(0,2,mask_data.shape)#np.ones_like(mask_data)*0.5#mask_data#
+    # initial_mask = mask_data
+    mask_pl = tf.Variable(initial_value=initial_mask,dtype=tf.float32, name='mask_pl') #defined on the elements
+    rho_pl = tf.Variable([0.23,0.36,0.2,0.2], tf.float32)#rho#[0.1,0.1,0.1,0.1]#[0.23,0.36,0.2,0.25]
 
     # build network
     beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
     jacobi = Jacobi_block(num_node, load_pl, mask_pl, rho_pl, resp_pl, beta)
 
-    if FORWARD_SOLVING: # forward solving
-        jacobi.apply(max_itr=200)
-        jacobi.get_loss()
-        jacobi.get_optimizer()
-
-    else: #inverse generative
-        jacobi.prediction = jacobi.forward_pass(resp_pl,mask_pl)
-        jacobi.pred_err = tf.reduce_mean(tf.abs(jacobi.prediction - load_pl ))
-        # k = 0.2
-        # jacobi.penalty = tf.reduce_mean(
-        #     tf.abs(k*mask_pl) + tf.abs(k*(1 - mask_pl)) - 0.5*k - tf.abs(k*(0.5 - mask_pl)) )  # a W shaped penalty
-        jacobi.mask_err = tf.reduce_mean(tf.abs(jacobi.nicer_mask - mask_data ))
-        jacobi.loss = jacobi.pred_err #+ jacobi.penalty
-        jacobi.get_optimizer()
+    #inverse generative
+    jacobi.prediction = jacobi.forward_pass(resp_pl,mask_pl)
+    jacobi.pred_err = tf.reduce_mean(tf.abs(jacobi.prediction - load_pl))
+    jacobi.loss = jacobi.pred_err #+ jacobi.penalty
+    jacobi.mask_err = tf.reduce_mean(tf.abs(jacobi.nicer_mask - mask_data))
+    jacobi.get_optimizer()
 
     # initialize
     FLAGS = tf.app.flags.FLAGS
@@ -331,41 +298,58 @@ if __name__ == "__main__":
               E2_value_i,
               mu1_value_i,
               mu2_value_i))
-        sess.run(jacobi.train_op, feed_dict_train)
-        # jacobi.optimizer.minimize(sess,feed_dict_train)
 
-        # loss_hist += [loss_value_i]
-        # E1_hist += [E1_value_i]
-        # E2_hist += [E2_value_i]
-        # mu1_hist += [mu1_value_i]
-        # mu2_hist += [mu2_value_i]
-        # pred_err_hist += [pred_err_i]
-        # pred_hist += [pred_i]
-        # mask_err_hist += [mask_err_i]
-        # mask_hist += [mask_i]
-        # nicer_mask_hist += [nicer_mask_i]
+        num_itr = 1000
+        if not itr%num_itr and itr%(num_itr*2):
+            flag = 0
+            if itr!=0:
+                jacobi.mask = tf.clip_by_value(jacobi.mask, 0 ,1)
+                jacobi.mask = tf.cast(tf.cast(jacobi.mask+0.5,tf.int32), tf.float32)
+                jacobi.nicer_mask = jacobi.mask
+        elif not itr%(num_itr*2):
+            flag = 1
+        print(itr, flag)
 
-        # if itr%1000==0:
-        #     np.save('micro4_res{}'.format(PROBLEM_SIZE),
-        #             {'loss_hist': loss_hist, 'E1_hist': E1_hist, 'E2_hist': E2_hist, 'mu1_hist': mu1_hist, 'mu2_hist': mu2_hist,
-        #              'pred_err_hist': pred_err_hist, 'pred_hist': pred_hist, 'mask_err_hist': mask_err_hist,
-        #              'mask_hist': mask_hist, 'nicer_mask_hist': nicer_mask_hist})
+        if flag:
+            sess.run(jacobi.mask_train_op, feed_dict_train)
+        else:
+            # sess.run(jacobi.rho_train_op, feed_dict_train)
+            jacobi.rho_optimizer.minimize(sess,feed_dict_train)
 
-    plt.subplot(1, 5, 1)
-    plt.imshow(np.squeeze(resp_data[0]))
-    plt.colorbar()
-    plt.subplot(1, 5, 2)
-    plt.imshow(np.squeeze(pred_hist[-1][0]))
-    plt.colorbar()
-    plt.subplot(1, 5, 3)
-    plt.imshow(np.squeeze(mask_data[0]))
-    plt.colorbar()
-    plt.subplot(1, 5, 4)
-    plt.imshow(np.squeeze(mask_hist[-1][0]))
-    plt.colorbar()
-    plt.subplot(1, 5, 5)
-    plt.imshow(np.squeeze(nicer_mask_hist[-1][0]))
-    plt.colorbar()
-    print('done')
+        # sess.run(jacobi.rho_train_op, feed_dict_train)
 
-
+        loss_hist += [loss_value_i]
+        E1_hist += [E1_value_i]
+        E2_hist += [E2_value_i]
+        mu1_hist += [mu1_value_i]
+        mu2_hist += [mu2_value_i]
+        pred_err_hist += [pred_err_i]
+        pred_hist += [pred_i]
+        mask_err_hist += [mask_err_i]
+        mask_hist += [mask_i]
+        nicer_mask_hist += [nicer_mask_i]
+    #
+    #     if itr%1000==0:
+    #         np.save('micro4_res{}'.format(PROBLEM_SIZE),
+    #                 {'loss_hist': loss_hist, 'E1_hist': E1_hist, 'E2_hist': E2_hist, 'mu1_hist': mu1_hist, 'mu2_hist': mu2_hist,
+    #                  'pred_err_hist': pred_err_hist, 'pred_hist': pred_hist, 'mask_err_hist': mask_err_hist,
+    #                  'mask_hist': mask_hist, 'nicer_mask_hist': nicer_mask_hist})
+    #
+    # plt.subplot(1, 5, 1)
+    # plt.imshow(np.squeeze(resp_data[0]))
+    # plt.colorbar()
+    # plt.subplot(1, 5, 2)
+    # plt.imshow(np.squeeze(pred_hist[-1][0]))
+    # plt.colorbar()
+    # plt.subplot(1, 5, 3)
+    # plt.imshow(np.squeeze(mask_data[0]))
+    # plt.colorbar()
+    # plt.subplot(1, 5, 4)
+    # plt.imshow(np.squeeze(mask_hist[-1][0]))
+    # plt.colorbar()
+    # plt.subplot(1, 5, 5)
+    # plt.imshow(np.squeeze(nicer_mask_hist[-1][0]))
+    # plt.colorbar()
+    # print('done')
+    #
+    #

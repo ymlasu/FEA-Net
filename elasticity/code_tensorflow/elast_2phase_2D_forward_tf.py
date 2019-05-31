@@ -3,10 +3,14 @@ import scipy.io as sio
 import os
 import tensorflow as tf
 
+from tf_ops_cpp.mask_elast_conv import get_dmatrix
+from tf_ops_cpp.mask_elast_conv import mask_conv
+
 
 class Jacobi_block():
     def __init__(self, num_node, load, mask, rho, resp, beta):
         # NOTICE: right now for homogeneous anisotropic material only!!
+        self.u_in = tf.placeholder(tf.float32,shape=(batch_size, num_node, num_node, 2))
         self.num_node = num_node
         self.load = load
         self.mask = mask
@@ -25,7 +29,7 @@ class Jacobi_block():
         self.resp = resp
         self.bc_mask = self.get_bc_mask()
         self.d_matrix = self.get_d_matrix()
-        self.omega = 2./3
+        self.omega = 2
 
     def apply_topology_filter(self, mask, beta):
         r = np.sqrt(2)
@@ -39,7 +43,7 @@ class Jacobi_block():
         return rho
 
     def get_bc_mask(self):
-        bc_mask = np.ones((batch_size, num_node, num_node, 1))
+        bc_mask = np.ones((batch_size, num_node, num_node, 2))
         bc_mask[:, 0, :, :] /= 2
         bc_mask[:, -1, :, :] /= 2
         bc_mask[:, :, 0, :] /= 2
@@ -57,14 +61,12 @@ class Jacobi_block():
         return padded_x
 
     def get_d_matrix(self):
-        from tf_ops_cpp.mask_elast_conv import get_dmatrix
         # be careful here
         padded_mask = self.boundary_padding(self.nicer_mask)
         dmat = get_dmatrix(padded_mask, self.rho)
         return dmat
 
-    def LU_layers(self, input_tensor, mask_tensor):
-        from tf_ops_cpp.mask_elast_conv import mask_conv
+    def FEA_conv(self, input_tensor, mask_tensor):
         padded_input = self.boundary_padding(input_tensor)  # for boundary consideration
         padded_mask = self.boundary_padding(mask_tensor)  # for boundary consideration
         R_u = mask_conv(padded_input, padded_mask, self.rho)
@@ -73,23 +75,11 @@ class Jacobi_block():
         return R_u_bc
 
     def forward_pass(self,resp, mask):
-        R_u = self.LU_layers(resp, mask)
-        wx = R_u + self.resp * self.d_matrix
-        return wx
+        return self.FEA_conv(resp, mask)
 
-    def apply(self, max_itr=10):
-        result = {}
-        u0 = tf.zeros((1, num_node, num_node, 1), 'float32')  # where u is unknown
-        result['u_hist'] = [u0]
-        for itr in range(max_itr):
-            R_u = self.LU_layers(result['u_hist'][-1], self.nicer_mask)
-            # u = (self.load - R_u) / self.d_matrix  # jacobi formulation of linear system of equation solver
-            u = self.omega * (self.load - R_u) / self.d_matrix + (1 - self.omega) * result['u_hist'][-1]
-            result['u_hist'] += [u]
-
-        self.u_hist = result['u_hist']
-        self.prediction = result['u_hist'][-1]
-        return result
+    def apply(self):
+        wx = self.FEA_conv(self.u_in, self.nicer_mask)
+        self.u_out = self.omega * (self.load - wx) * self.d_matrix +  self.u_in
 
 def load_data_elem_3circle():
     if PROBLEM_SIZE == 13:
@@ -169,12 +159,25 @@ def load_data_elem_2circle():
     mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
     return num_node, mask, u_img, f_img, rho
 
+def load_data_forward(inc):
+    if inc == 1:
+        data = sio.loadmat('../data/biphase/forward/2D_elastic_25by25_xy_fixed_1circle.mat')
+    if inc == 2:
+        data = sio.loadmat('../data/biphase/forward/2D_elastic_25by25_xy_fixed_2circle.mat')
+    if inc == 3:
+        data = sio.loadmat('../data/biphase/forward/2D_elastic_25by25_xy_fixed_3circle.mat')
+    num_node = 25
+    u_img = np.concatenate([data['ux'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1), data['uy'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1)], -1) * 1e6
+    f_img = -1 * np.concatenate([data['fx'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1), data['fy'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1)], -1) / 1e6
+    mask = data['mask'].reshape(1, num_node - 1, num_node - 1, 1)
+    rho = [230 / 1e3, 0.36, 200 / 1e3, 0.25]
+    return num_node, mask, u_img, f_img, rho
 
 def load_data_elem_sp():
     num_node = PROBLEM_SIZE
-    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/singlephase/single_phase_xyfixed_case5.mat')
-    u_img = np.concatenate([data['ux'].reshape(1, num_node, num_node, 1), data['uy'].reshape(1, num_node, num_node, 1)], -1) * 1e6
-    f_img = -1 * np.concatenate([data['fx'].reshape(1, num_node, num_node, 1), data['fy'].reshape(1, num_node, num_node, 1)], -1) / 1e6
+    data = sio.loadmat('/home/hope-yao/Documents/FEA_Net/elasticity/data/singlephase/single_phase_xyfixed_case4.mat')
+    u_img = np.concatenate([data['ux'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1), data['uy'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1)], -1) * 1e6
+    f_img = -1 * np.concatenate([data['fx'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1), data['fy'][:num_node,:num_node].transpose().reshape(1, num_node, num_node, 1)], -1) / 1e6
     rho = [200 / 1e3, 0.25, 200 / 1e3, 0.25]
     mask = np.ones((1, num_node - 1, num_node - 1, 1))
     return num_node, mask, u_img, f_img, rho
@@ -189,12 +192,12 @@ if __name__ == "__main__":
     from tqdm import tqdm
 
     EST_MASK = 0
-    PROBLEM_SIZE = 61
+    PROBLEM_SIZE = 25#61#
     FORWARD_SOLVING = 1
     HAS_TO_FILTER = 0
 
-    # num_node, mask_data, resp_data, load_data, rho =load_data_elem_2circle()#load_data_elem_micro()# load_data_elem_3circle()#
-    num_node, mask_data, resp_data, load_data, rho = load_data_elem_sp()
+    num_node, mask_data, resp_data, load_data, rho = load_data_elem_3circle()#load_data_forward(1)
+    # num_node, mask_data, resp_data, load_data, rho = load_data_elem_sp()
 
     # placeholders
     batch_size = 1
@@ -208,9 +211,8 @@ if __name__ == "__main__":
     beta = tf.constant(1.0, tf.float32)#controls the topology mass hyper-parameter
     jacobi = Jacobi_block(num_node, load_pl, mask_pl, rho_pl, resp_pl, beta)
 
-    if FORWARD_SOLVING: # forward solving
-        max_itr = 2000
-        jacobi.apply(max_itr=max_itr)
+    max_itr = 20000
+    result=jacobi.apply()
 
     # initialize
     # FLAGS = tf.app.flags.FLAGS
@@ -226,12 +228,14 @@ if __name__ == "__main__":
     loss_hist = []
     pred_hist = []
     itr_hist = []
+    pred_i = np.zeros((1,num_node,num_node,2))
     for itr in tqdm(range(0, max_itr, 10)):
-        feed_dict_train = {load_pl: load_data.tolist(), resp_pl: resp_data.tolist(), mask_pl: mask_data.tolist(), jacobi.beta:1.}#, mask_pl: mask_data
-        pred_i = sess.run(jacobi.u_hist[itr], feed_dict_train)
+        feed_dict_train = {jacobi.u_in: pred_i, load_pl: load_data.tolist(), mask_pl: mask_data.tolist()}
+        pred_i = sess.run(jacobi.u_out, feed_dict_train)
         pred_err_i = np.mean(np.abs(pred_i-resp_data))
         print("iter:{}  pred_err: {}". format(itr, np.mean(pred_err_i)))
         pred_hist += [pred_i]
         loss_hist += [np.mean(pred_err_i)]
         itr_hist += [itr]
-        np.save('singlephase_inference_convergence_T4',{'iter': itr_hist, 'mask_hist': pred_hist, 'loss_hist': loss_hist})
+
+        np.save('bp_inf_conv_inc3',{'iter': itr_hist, 'mask_hist': pred_hist, 'loss_hist': loss_hist})

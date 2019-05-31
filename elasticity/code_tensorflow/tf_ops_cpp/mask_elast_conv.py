@@ -1,5 +1,6 @@
 import tensorflow as tf
 import _mask_conv_elast_grad
+import numpy as np
 import sys
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -12,12 +13,12 @@ def mask_conv(resp, mask, rho):
 
     return mask_conv_module.maskconv_elast(resp, mask, rho)
 
-def get_dmatrix(flag, mask, rho):
+def get_dmatrix(mask, rho):
     # flag is not used, just as a placeholder that is not well designed
+    flag = 1
     return getdmat_module.getdmat_elast(flag, mask, rho)
 
 
-# import numpy as np
 # def get_dmatrix(mask, rho):
 #     _, dx, dy, _ = mask.get_shape().as_list()
 #     E_1, mu_1, E_2, mu_2 = tf.split(rho,4)

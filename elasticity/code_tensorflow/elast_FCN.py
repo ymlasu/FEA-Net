@@ -92,6 +92,11 @@ def load_data_elem(num_node, noise_mag=0):
     u_img_test23 = np.concatenate([test_u_img2,test_u_img3],0)
     f_img_test23 = np.concatenate([test_f_img2,test_f_img3],0)
 
+    f_img_test23[0, :, :, 0] = f_img_test23[1, :, :, 0].transpose()
+    f_img_test23[0, :, :, 1] = f_img_test23[1, :, :, 1].transpose()
+    u_img_test23[0, :, :, 0] = u_img_test23[1, :, :, 0].transpose()
+    u_img_test23[0, :, :, 1] = u_img_test23[1, :, :, 1].transpose()
+
     return u_img_train, f_img_train, u_img_test01, f_img_test01, u_img_test23, f_img_test23
 
 if __name__ == '__main__':
