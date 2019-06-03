@@ -38,32 +38,37 @@ class FEA_Net_h():
         self.wyy_tf = tf.constant(self.wyy_ref)
         self.wxy_tf = tf.constant(self.wxy_ref)
         self.wyx_tf = tf.constant(self.wyx_ref)
-        self.wtt_tf = tf.constant(self.wtt_ref)
 
         # unknown physics
         self.wtx_np = np.zeros_like(self.wtx_ref) #* 0.9
         self.wty_np = np.zeros_like(self.wty_ref) #* 0.9
         self.wxt_np = np.zeros_like(self.wxt_ref) #* 1.9
         self.wyt_np = np.zeros_like(self.wyt_ref) #* 1.9
+        self.wtt_np = np.zeros_like(self.wtt_ref) #* 1.9
 
         # TF variable vector
         self.trainable_var_np = np.concatenate([self.wtx_np.flatten(),
                                                 self.wty_np.flatten(),
                                                 self.wxt_np.flatten(),
-                                                self.wyt_np.flatten()],0)
-        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9*4,))
+                                                self.wyt_np.flatten(),
+                                                self.wtt_np.flatten()],0)
+        # self.trainable_var_tf = tf.Variable(self.trainable_var_np)
+        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9*5,))
 
-        wtx_tf, wty_tf, wxt_tf, wyt_tf = tf.split(self.trainable_var_pl,4)
+        wtx_tf, wty_tf, wxt_tf, wyt_tf, wtt_tf = tf.split(self.trainable_var_pl,5)
+
         self.wtx_tf = tf.reshape(wtx_tf,(3,3,1,1))
         self.wty_tf = tf.reshape(wty_tf,(3,3,1,1))
         self.wxt_tf = tf.reshape(wxt_tf,(3,3,1,1))
         self.wyt_tf = tf.reshape(wyt_tf,(3,3,1,1))
+        self.wtt_tf = tf.reshape(wtt_tf,(3,3,1,1))
 
         # add constrains
         self.singula_penalty = tf.abs(tf.reduce_sum(self.wtx_tf)) \
                                + tf.abs(tf.reduce_sum(self.wty_tf)) \
                                + tf.abs(tf.reduce_sum(self.wxt_tf))\
-                               + tf.abs(tf.reduce_sum(self.wyt_tf))
+                               + tf.abs(tf.reduce_sum(self.wyt_tf))\
+                               + tf.abs(tf.reduce_sum(self.wtt_tf))
         # self.E = tf.clip_by_value(self.E, 0, 1)
         # self.mu = tf.clip_by_value(self.mu, 0, 0.5)
 
@@ -217,9 +222,9 @@ class Evaluator(object):
 
     def run_newton(self):
         from scipy.optimize import minimize
-        self.result = minimize(self.loss, self.model.trainable_var_np, method='Newton-CG',
+        self.result = minimize(self.loss, self.model.trainable_var_np, method='trust-ncg',
                           jac=self.grads, hess=self.hessian,
-                          options={'gtol': 1e-8, 'disp': True})
+                          options={'gtol': 1e-5, 'disp': True})
         return self.result
 
     def visualize(self, w):
@@ -298,7 +303,8 @@ if __name__ == "__main__":
     result = evaluator.run_newton()
     evaluator.visualize(result.x)
 
-    for i in range(4):
+    for i in range(5):
         mat = result.x[9*i:9*(i+1)]
         print(mat.reshape(3,3))
         print(np.sum(mat))
+

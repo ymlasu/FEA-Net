@@ -34,35 +34,37 @@ class FEA_Net_h():
 
     def apply_physics_constrain(self):
         # known physics
-        self.wxx_tf = tf.constant(self.wxx_np)
-        self.wyy_tf = tf.constant(self.wyy_np)
-        self.wxy_tf = tf.constant(self.wxy_np)
-        self.wyx_tf = tf.constant(self.wyx_np)
-        self.wtt_tf = tf.constant(self.wtt_np)
-        self.wtx_tf = tf.constant(self.wtx_np)
-        self.wty_tf = tf.constant(self.wty_np)
+        self.wxx_tf = tf.constant(self.wxx_ref)
+        self.wyy_tf = tf.constant(self.wyy_ref)
+        self.wxy_tf = tf.constant(self.wxy_ref)
+        self.wyx_tf = tf.constant(self.wyx_ref)
+        self.wtt_tf = tf.constant(self.wtt_ref)
+        self.wtx_tf = tf.constant(self.wtx_ref)
+        self.wty_tf = tf.constant(self.wty_ref)
 
         # unknown physics
-        # TF variable vector
-        self.trainable_var_np = np.concatenate([self.wxt_np.flatten(), self.wyt_np.flatten()],0)
-        # self.trainable_var_tf = tf.Variable(self.trainable_var_np)
-        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(18,))
+        self.wxt_np = np.zeros_like(self.wxt_ref)  # * 1.9
+        self.wyt_np = np.zeros_like(self.wyt_ref)  # * 1.9
 
-        self.wxt_tf = tf.reshape(self.trainable_var_pl[:9],(3,3,1,1))
-        self.wyt_tf = tf.reshape(self.trainable_var_pl[9:],(3,3,1,1))
+        # TF variable vector
+        self.trainable_var_np = np.concatenate([self.wxt_np.flatten(),
+                                                self.wyt_np.flatten()], 0)
+        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9 * 2,))
+
+        wxt_tf, wyt_tf = tf.split(self.trainable_var_pl, 2)
+        self.wxt_tf = tf.reshape(wxt_tf, (3, 3, 1, 1))
+        self.wyt_tf = tf.reshape(wyt_tf, (3, 3, 1, 1))
 
         # add constrains
-        self.singula_penalty = tf.abs(tf.reduce_sum(self.wtx_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wty_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wxt_tf))\
+        self.singula_penalty = tf.abs(tf.reduce_sum(self.wxt_tf)) \
                                + tf.abs(tf.reduce_sum(self.wyt_tf))
         # self.E = tf.clip_by_value(self.E, 0, 1)
         # self.mu = tf.clip_by_value(self.mu, 0, 0.5)
 
         # tf.nn.conv2d filter shape: [filter_height, filter_width, in_channels, out_channels]
-        self.w_filter = tf.concat([tf.concat([self.wxx_tf, self.wxy_tf, self.wxt_tf],2),
-                                   tf.concat([self.wyx_tf, self.wyy_tf, self.wyt_tf],2),
-                                   tf.concat([self.wtx_tf, self.wty_tf, self.wtt_tf],2)],
+        self.w_filter = tf.concat([tf.concat([self.wxx_tf, self.wxy_tf, self.wxt_tf], 2),
+                                   tf.concat([self.wyx_tf, self.wyy_tf, self.wyt_tf], 2),
+                                   tf.concat([self.wtx_tf, self.wty_tf, self.wtt_tf], 2)],
                                   3)
 
     def get_w_matrix_coupling(self):
@@ -80,15 +82,15 @@ class FEA_Net_h():
                                       [0, 0, 0],
                                       [1, 4, 1]]
                                      , dtype='float32').reshape(3,3,1,1)
-        self.wtx_np = self.wtx_ref #* 0.9
-        self.wty_np = self.wty_ref #* 0.9
-        self.wxt_np = np.zeros_like(self.wxt_ref) #* 1.9
-        self.wyt_np = np.zeros_like(self.wyt_ref) #* 1.9
+        self.wtx_ref = self.wtx_ref #* 0.9
+        self.wty_ref = self.wty_ref #* 0.9
+        self.wxt_ref = np.zeros_like(self.wxt_ref) #* 1.9
+        self.wyt_ref = np.zeros_like(self.wyt_ref) #* 1.9
 
     def get_w_matrix_thermal(self):
         w = -1/3. * self.k * np.asarray([[1., 1., 1.], [1., -8., 1.], [1., 1., 1.]])
         w = np.asarray(w, dtype='float32')
-        self.wtt_np = w.reshape(3,3,1,1)
+        self.wtt_ref = w.reshape(3,3,1,1)
 
     def get_w_matrix_elast(self):
         E, mu = self.E, self.mu
@@ -111,10 +113,10 @@ class FEA_Net_h():
             [-4 * (1 - mu / 3.), -8 * (1 + mu / 3.), -4 * (1 - mu / 3.)],
         ], dtype='float32')
 
-        self.wxx_np = wxx.reshape(3,3,1,1)
-        self.wxy_np = wxy.reshape(3,3,1,1)
-        self.wyx_np = wyx.reshape(3,3,1,1)
-        self.wyy_np = wyy.reshape(3,3,1,1)
+        self.wxx_ref = wxx.reshape(3,3,1,1)
+        self.wxy_ref = wxy.reshape(3,3,1,1)
+        self.wyx_ref = wyx.reshape(3,3,1,1)
+        self.wyy_ref = wyy.reshape(3,3,1,1)
 
     def boundary_padding(self,x):
         ''' special symmetric boundary padding '''
@@ -237,7 +239,7 @@ class Evaluator(object):
             plt.colorbar()
         plt.show()
 
-def load_data():
+def load_data(snr=None):
     num_node = 37
     # Purely thermal
     # data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data5.mat')
@@ -250,6 +252,23 @@ def load_data():
 
     load = np.expand_dims(np.stack([-data['fx'], -data['fy'], data['ftem']], -1), 0).astype('float32')
     resp = np.expand_dims(np.stack([data['ux']*1e6, data['uy']*1e6, data['utem']], -1), 0).astype('float32')
+
+    if snr:
+        loading_w_noise = np.zeros_like(load)
+        response_w_noise = np.zeros_like(resp)
+        for i in range(load.shape[0]):
+            for j in range(load.shape[-1]):
+                low_val = load.min() / 10 ** (snr / 20)
+                max_val = load.max() / 10 ** (snr / 20)
+                noise = np.random.uniform(low=low_val, high=max_val, size=(load.shape[1:3]))
+                loading_w_noise[i, :, :, j] = noise + load[i, :, :, j]
+                low_val = resp.min() / 10 ** (snr / 20)
+                max_val = resp.max() / 10 ** (snr / 20)
+                noise = np.random.uniform(low=low_val, high=max_val, size=(resp.shape[1:3]))
+                response_w_noise[i, :, :, j] = noise + resp[i, :, :, j]
+        resp = response_w_noise
+        load = loading_w_noise
+
     rho = [212e3, 0.288, 16., 12e-6] # E, mu, k, alpha
 
     train_load = load
@@ -284,7 +303,7 @@ if __name__ == "__main__":
            }
 
     # load data
-    data = load_data()
+    data = load_data()#snr=100
 
     # build the network
     model = FEA_Net_h(data,cfg)
@@ -293,6 +312,9 @@ if __name__ == "__main__":
     evaluator = Evaluator(model, data)
     result = evaluator.run_newton()
     evaluator.visualize(result.x)
-    print(result.x[:9].reshape(3,3))
-    # # visualize
-    # visualize(data, res_hist)
+
+    for i in range(2):
+        mat = result.x[9*i:9*(i+1)]
+        print(mat.reshape(3,3))
+        print(np.sum(mat))
+
