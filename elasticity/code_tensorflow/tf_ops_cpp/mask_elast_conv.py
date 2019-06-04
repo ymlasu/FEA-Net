@@ -10,7 +10,10 @@ mask_conv_module=tf.load_op_library( '/home/hope-yao/Documents/FEA_Net/elasticit
 getdmat_module=tf.load_op_library( '/home/hope-yao/Documents/FEA_Net/elasticity/code_tensorflow/tf_ops_cpp/build/lib_getdmat_elast.so')
 
 def mask_conv(resp, mask, rho):
-
+    # auto E_1 = rho_tensor(0);
+    # auto mu_1 = rho_tensor(1);
+    # auto E_2 = rho_tensor(2);
+    # auto mu_2 = rho_tensor(3);
     return mask_conv_module.maskconv_elast(resp, mask, rho)
 
 def get_dmatrix(mask, rho):

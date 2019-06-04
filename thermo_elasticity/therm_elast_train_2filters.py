@@ -18,12 +18,12 @@ class FEA_Net_h():
         self.E, self.mu, self.k, self.alpha = self.rho = data['rho'] #
 
         # 3 dimensional in and out, defined on the nodes
-        self.load_pl = tf.placeholder(tf.float32, shape=(None, data['num_node'], data['num_node'], 3))
-        self.resp_pl = tf.placeholder(tf.float32, shape=(None, data['num_node'], data['num_node'], 3))
+        self.load_pl = tf.placeholder(tf.float32, shape=(None, data['num_node'], data['num_node'], 3), name='load_pl')
+        self.resp_pl = tf.placeholder(tf.float32, shape=(None, data['num_node'], data['num_node'], 3), name='resp_pl')
 
         # get filters
         self.get_w_matrix()
-        self.load_pred = self.forward_pass()
+        self.load_pred = self.u2v_map()
 
 
     def get_w_matrix(self):
@@ -49,7 +49,7 @@ class FEA_Net_h():
         # TF variable vector
         self.trainable_var_np = np.concatenate([self.wxt_np.flatten(),
                                                 self.wyt_np.flatten()], 0)
-        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9 * 2,))
+        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9 * 2,), name='filter_vector')
 
         wxt_tf, wyt_tf = tf.split(self.trainable_var_pl, 2)
         self.wxt_tf = tf.reshape(wxt_tf, (3, 3, 1, 1))
@@ -67,6 +67,11 @@ class FEA_Net_h():
                                    tf.concat([self.wtx_tf, self.wty_tf, self.wtt_tf], 2)],
                                   3)
 
+        self.w_filter_ref = np.concatenate([np.concatenate([self.wxx_ref, self.wxy_ref, self.wxt_ref], 2),
+                                   np.concatenate([self.wyx_ref, self.wyy_ref, self.wyt_ref], 2),
+                                   np.concatenate([self.wtx_ref, self.wty_ref, self.wtt_ref], 2)],
+                                  3)
+
     def get_w_matrix_coupling(self):
         E, v = self.E, self.mu
         alpha = self.alpha
@@ -82,10 +87,6 @@ class FEA_Net_h():
                                       [0, 0, 0],
                                       [1, 4, 1]]
                                      , dtype='float32').reshape(3,3,1,1)
-        self.wtx_ref = self.wtx_ref #* 0.9
-        self.wty_ref = self.wty_ref #* 0.9
-        self.wxt_ref = np.zeros_like(self.wxt_ref) #* 1.9
-        self.wyt_ref = np.zeros_like(self.wyt_ref) #* 1.9
 
     def get_w_matrix_thermal(self):
         w = -1/3. * self.k * np.asarray([[1., 1., 1.], [1., -8., 1.], [1., 1., 1.]])
@@ -128,15 +129,16 @@ class FEA_Net_h():
         padded_x = tf.concat([upper, padded_x, down], 1)
         return padded_x
 
-    def forward_pass(self):
+    def u2v_map(self):
         padded_resp = self.boundary_padding(self.resp_pl)  # for boundary consideration
         wx = tf.nn.conv2d(input=padded_resp, filter=self.w_filter, strides=[1, 1, 1, 1], padding='VALID')
         return wx
 
     def get_loss(self):
         self.diff = self.load_pred - self.load_pl
-        self.diff_no_on_bc = self.diff[:,1:-1,1:-1,:]
-        self.l1_error = tf.reduce_mean(self.diff_no_on_bc**2)
+        self.diff_not_on_bc = self.diff[:,1:-1,1:-1,:]
+        # self.l1_error = tf.reduce_mean(self.diff_not_on_bc**2)
+        self.l1_error = tf.reduce_mean((self.diff_not_on_bc*self.resp_pl[:,1:-1,1:-1,:])**2)
         self.loss = self.l1_error #+ self.singula_penalty
         return self.loss
 
@@ -148,173 +150,43 @@ class FEA_Net_h():
         self.rho_hessian = tf.hessians(self.loss, self.trainable_var_pl)
         return self.rho_hessian
 
+    # V2U mapping functions
+    def apply_bc(self, x):
+        x_bc = tf.pad(x[:, 1:-1, 1:-1, :], ((0,0), (1, 1),(1, 1), (0, 0)), "constant")  # for boundary consideration
+        return x_bc
 
+    def FEA_conv(self, w, x):
+        padded_input = self.boundary_padding(x)  # for boundary consideration
+        wx = tf.nn.conv2d(input=padded_input, filter=w, strides=[1, 1, 1, 1], padding='VALID')
+        wx_bc = wx * self.bc_mask # boundary_corrrect
+        return wx_bc
 
-class Evaluator(object):
-    def __init__(self, model, data):
-        self.model = model
+    def v2u_layer(self, w, x):
+        wx = self.FEA_conv(w, x)
+        wx_bc = self.apply_bc(wx)
+        return wx_bc
 
-        self.data = data
-        self.init_w = np.zeros((3,3,1,1))
+    def get_dmat(self):
+        d_matrix = tf.stack([self.wxx_tf[1,1,0,0], self.wyy_tf[1,1,0,0], self.wtt_tf[1,1,0,0]])  # x, y, and t components
+        return tf.reshape(d_matrix,(1,1,1,3))
 
-        self.loss_value = None
-        self.grads_value = None
+    def get_bc_mask(self):
+        bc_mask = np.ones_like(self.new_load)
+        bc_mask[:, 0, :, :] /= 2
+        bc_mask[:, -1, :, :] /= 2
+        bc_mask[:, :, 0, :] /= 2
+        bc_mask[:, :, -1, :] /= 2
+        return bc_mask
 
-        self.loss_tf = self.model.get_loss()
-        self.grad_tf = self.model.get_grad()
-        self.hessian_tf = self.model.get_hessian()
-        self.initial_graph()
+    def init_solve(self, load, omega):
+        self.omega = omega
+        self.new_load = load
+        self.d_matrix = self.get_dmat()
+        self.bc_mask = self.get_bc_mask()
+        self.u_in = tf.placeholder(tf.float32, load.shape, name='u_in')
+        self.u_out = self.apply(self.u_in)
 
-    def initial_graph(self):
-        # initialize
-        FLAGS = tf.app.flags.FLAGS
-        tfconfig = tf.ConfigProto(
-            allow_soft_placement=True,
-            log_device_placement=True,
-        )
-        tfconfig.gpu_options.allow_growth = True
-        self.sess = tf.Session(config=tfconfig)
-        init = tf.global_variables_initializer()
-        self.sess.run(init)
-
-    def loss(self, w):
-        self.feed_dict = {self.model.load_pl: data['train_load'],
-                          self.model.resp_pl: data['train_resp'],
-                          self.model.trainable_var_pl: w}
-        self.loss_value = self.sess.run(self.loss_tf, self.feed_dict).astype('float64')
-        return self.loss_value
-
-    def grads(self, w):
-        self.feed_dict = {self.model.load_pl: data['train_load'],
-                          self.model.resp_pl: data['train_resp'],
-                          self.model.trainable_var_pl: w}
-        self.grads_value = self.sess.run(self.grad_tf, self.feed_dict)[0].flatten().astype('float64')
-        return self.grads_value
-
-    def hessian(self, w):
-        self.feed_dict = {self.model.load_pl: data['train_load'],
-                          self.model.resp_pl: data['train_resp'],
-                          self.model.trainable_var_pl: w}
-        self.hessian_value = self.sess.run(self.hessian_tf, self.feed_dict)[0].astype('float64')
-        return self.hessian_value
-
-    def pred(self,w):
-        feed_dict = {self.model.load_pl: data['train_load'],
-                      self.model.resp_pl: data['train_resp'],
-                      self.model.trainable_var_pl: w.astype('float32')}
-        pred_value = self.sess.run(self.model.load_pred, feed_dict)
-        return pred_value
-
-    def run_BFGS(self):
-        from scipy.optimize import fmin_l_bfgs_b
-        x, min_val, info = fmin_l_bfgs_b(self.loss, self.init_w.flatten(),
-                                         fprime=self.grads, maxiter=200, maxfun=200,
-                                         disp= True)
-        print('    loss: {}'.format(min_val))
-        pass
-
-    def run_newton(self):
-        from scipy.optimize import minimize
-        self.result = minimize(self.loss, self.model.trainable_var_np, method='Newton-CG',
-                          jac=self.grads, hess=self.hessian,
-                          options={'xtol': 1e-8, 'disp': True})
-        return self.result
-
-    def visualize(self, w):
-        pred_value = self.pred(w)
-        plt.figure(figsize=(6, 6))
-        idx = 0  # which data to visualize
-        for i in range(3):
-            plt.subplot(4, 3, i + 1)
-            plt.imshow(self.data['test_resp'][idx, 1:-1, 1:-1, i])
-            plt.colorbar()
-            plt.subplot(4, 3, 3 + i + 1)
-            plt.imshow(self.data['test_load'][idx, 1:-1, 1:-1, i])
-            plt.colorbar()
-            plt.subplot(4, 3, 6 + i + 1)
-            plt.imshow(pred_value[idx, 1:-1, 1:-1, i])
-            plt.colorbar()
-            plt.subplot(4, 3, 9 + i + 1)
-            plt.imshow(self.data['test_load'][idx, 1:-1, 1:-1, i] - pred_value[idx, 1:-1, 1:-1, i])
-            plt.colorbar()
-        plt.show()
-
-def load_data(snr=None):
-    num_node = 37
-    # Purely thermal
-    # data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data5.mat')
-
-    # purely structural
-    #data = sio.loadmat('/home/hope-yao/Documents/MG_net/data/heat_transfer/Downloads/2D_thermoelastic_36by36_xy_fixed_single_data2.mat')
-
-    # coupled loading
-    data = sio.loadmat('2D_thermoelastic_36by36_xy_fixed_single_data4.mat')
-
-    load = np.expand_dims(np.stack([-data['fx'], -data['fy'], data['ftem']], -1), 0).astype('float32')
-    resp = np.expand_dims(np.stack([data['ux']*1e6, data['uy']*1e6, data['utem']], -1), 0).astype('float32')
-
-    if snr:
-        loading_w_noise = np.zeros_like(load)
-        response_w_noise = np.zeros_like(resp)
-        for i in range(load.shape[0]):
-            for j in range(load.shape[-1]):
-                low_val = load.min() / 10 ** (snr / 20)
-                max_val = load.max() / 10 ** (snr / 20)
-                noise = np.random.uniform(low=low_val, high=max_val, size=(load.shape[1:3]))
-                loading_w_noise[i, :, :, j] = noise + load[i, :, :, j]
-                low_val = resp.min() / 10 ** (snr / 20)
-                max_val = resp.max() / 10 ** (snr / 20)
-                noise = np.random.uniform(low=low_val, high=max_val, size=(resp.shape[1:3]))
-                response_w_noise[i, :, :, j] = noise + resp[i, :, :, j]
-        resp = response_w_noise
-        load = loading_w_noise
-
-    rho = [212e3, 0.288, 16., 12e-6] # E, mu, k, alpha
-
-    train_load = load
-    train_resp = resp
-    test_load = load
-    test_resp = resp
-    data = {'num_node': num_node,
-            'rho': rho,
-            'train_load': train_load,
-            'train_resp': train_resp,
-            'test_load': test_load,
-            'test_resp': test_resp,
-            }
-
-    # num_node = 3
-    # data = {'num_node': num_node,
-    #         'rho': rho,
-    #         'train_load': train_load[:,17:20,17:20,:],
-    #         'train_resp': train_resp[:,17:20,17:20,:],
-    #         'test_load': test_load[:,17:20,17:20,:],
-    #         'test_resp': test_resp[:,17:20,17:20,:],
-    #         }
-
-    return data
-
-if __name__ == "__main__":
-    import os
-    os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    cfg = {'lr': 0.001,
-           'epoch': 1,
-           }
-
-    # load data
-    data = load_data()#snr=100
-
-    # build the network
-    model = FEA_Net_h(data,cfg)
-
-    # train the network
-    evaluator = Evaluator(model, data)
-    result = evaluator.run_newton()
-    evaluator.visualize(result.x)
-
-    for i in range(2):
-        mat = result.x[9*i:9*(i+1)]
-        print(mat.reshape(3,3))
-        print(np.sum(mat))
-
+    def apply(self, u_in):
+        wx = self.v2u_layer(self.w_filter, u_in)
+        u_out = self.omega * (self.new_load - wx) * self.d_matrix +  u_in
+        return u_out
