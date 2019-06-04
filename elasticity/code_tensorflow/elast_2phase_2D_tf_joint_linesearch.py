@@ -2,6 +2,7 @@ import numpy as np
 import scipy.io as sio
 import os
 import tensorflow as tf
+from scipy import ndimage
 
 
 class Jacobi_block():
@@ -129,7 +130,10 @@ class Jacobi_block():
     def get_grad(self, v):
         feed_dict = {self.trainable_var_pl: v}
         grads_np = self.sess.run(self.grads, feed_dict)[0]
-        return grads_np
+        phase_grads = grads_np[:-4].reshape(num_node-1,num_node-1)
+        blurred_phase_grads = ndimage.gaussian_filter(phase_grads, sigma=0.01)
+        blurred_grads_np = np.concatenate([blurred_phase_grads.flatten(), grads_np[-4:]],-1)
+        return blurred_grads_np
 
     def get_hessian(self, v):
         feed_dict = {self.trainable_var_pl: v}
@@ -269,7 +273,7 @@ if __name__ == "__main__":
                       stepmx=100,
                       pgtol=1e-9,
                       ftol=1e-15,
-                      maxfun=10000,
+                      maxfun=20000,
                       disp='True')
 
     print(jacobi.get_loss(train_var_np))
@@ -280,8 +284,11 @@ if __name__ == "__main__":
     print(np.mean(np.abs(jacobi.get_grad(result[0]))))
     print(np.mean(np.abs(jacobi.get_grad(train_var_ref))))
 
+    plt.subplot(1,2,1)
     plt.imshow(result[0][:-4].reshape(num_node-1,num_node-1))
     plt.colorbar()
+    plt.subplot(1,2,2)
+    plt.imshow(np.round(result[0][:-4].reshape(num_node-1,num_node-1)))
     plt.show()
     print(result[0][-4:])
     pass
