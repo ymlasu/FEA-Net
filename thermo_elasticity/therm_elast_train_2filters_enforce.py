@@ -33,64 +33,44 @@ class FEA_Net_h():
         self.apply_physics_constrain()
 
     def apply_physics_constrain(self):
+        # known physics
+        self.wxx_tf = tf.constant(self.wxx_ref)
+        self.wyy_tf = tf.constant(self.wyy_ref)
+        self.wxy_tf = tf.constant(self.wxy_ref)
+        self.wyx_tf = tf.constant(self.wyx_ref)
+        self.wtt_tf = tf.constant(self.wtt_ref)
+        self.wtx_tf = tf.constant(self.wtx_ref)
+        self.wty_tf = tf.constant(self.wty_ref)
 
         # unknown physics
-        self.wtx_np = np.zeros_like(self.wtx_ref) #* 0.9
-        self.wty_np = np.zeros_like(self.wty_ref) #* 0.9
-        self.wxt_np = np.zeros_like(self.wxt_ref) #* 1.9
-        self.wyt_np = np.zeros_like(self.wyt_ref) #* 1.9
-        self.wtt_np = np.zeros_like(self.wtt_ref) #* 1.9
-        self.wxx_np = np.zeros_like(self.wxx_ref) #* 0.9
-        self.wyx_np = np.zeros_like(self.wyx_ref) #* 0.9
-        self.wxy_np = np.zeros_like(self.wxy_ref) #* 1.9
-        self.wyy_np = np.zeros_like(self.wyy_ref) #* 1.9
+        self.wxt_np = np.zeros((8,))
+        self.wyt_np = np.zeros((8,))
 
         # TF variable vector
-        self.trainable_var_np = np.concatenate([self.wtx_np.flatten(),
-                                                self.wty_np.flatten(),
-                                                self.wxt_np.flatten(),
-                                                self.wyt_np.flatten(),
-                                                self.wtt_np.flatten(),
-                                                self.wxx_np.flatten(),
-                                                self.wyx_np.flatten(),
-                                                self.wxy_np.flatten(),
-                                                self.wyy_np.flatten(),
-                                                ],0)
-        self.trainable_var_ref = np.concatenate([self.wtx_ref.flatten(),
-                                                self.wty_ref.flatten(),
-                                                self.wxt_ref.flatten(),
-                                                self.wyt_ref.flatten(),
-                                                self.wtt_ref.flatten(),
-                                                self.wxx_ref.flatten(),
-                                                self.wyx_ref.flatten(),
-                                                self.wxy_ref.flatten(),
-                                                self.wyy_ref.flatten(),
-                                                ],0)
-        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9*9,))
+        self.trainable_var_np = np.concatenate([self.wxt_np.flatten(),
+                                                self.wyt_np.flatten()], 0)
+        idx = [0,1,2,3,5,6,7,8,9,10,11,12,14,15,16,17]
+        self.trainable_var_ref = np.concatenate([self.wxt_ref.flatten(),
+                                                self.wyt_ref.flatten()], 0)[idx]
+        self.trainable_var_pl = tf.placeholder(tf.float32, shape=(8 * 2,), name='filter_vector')
 
-        wtx_tf, wty_tf, wxt_tf, wyt_tf, wtt_tf, wxx_tf, wyx_tf, wxy_tf, wyy_tf = tf.split(self.trainable_var_pl,9)
-
-        self.wtx_tf = tf.reshape(wtx_tf,(3,3,1,1))
-        self.wty_tf = tf.reshape(wty_tf,(3,3,1,1))
-        self.wxt_tf = tf.reshape(wxt_tf,(3,3,1,1))
-        self.wyt_tf = tf.reshape(wyt_tf,(3,3,1,1))
-        self.wtt_tf = tf.reshape(wtt_tf,(3,3,1,1))
-        self.wxx_tf = tf.reshape(wxx_tf,(3,3,1,1))
-        self.wxy_tf = tf.reshape(wxy_tf,(3,3,1,1))
-        self.wyx_tf = tf.reshape(wyx_tf,(3,3,1,1))
-        self.wyy_tf = tf.reshape(wyy_tf,(3,3,1,1))
+        wxt_tf, wyt_tf = tf.split(self.trainable_var_pl, 2)
+        wxt_tf_res = -tf.reduce_sum(wxt_tf)
+        wxt_tf_enforce = tf.stack([[wxt_tf[0], wxt_tf[1], wxt_tf[2]],
+                                   [wxt_tf[3], wxt_tf_res, wxt_tf[4]],
+                                   [wxt_tf[5], wxt_tf[6], wxt_tf[7]]])
+        self.wxt_tf = tf.reshape(wxt_tf_enforce, (3, 3, 1, 1))
+        wyt_tf_res = -tf.reduce_sum(wyt_tf)
+        wyt_tf_enforce = tf.stack([[wyt_tf[0], wyt_tf[1], wyt_tf[2]],
+                                   [wyt_tf[3], wyt_tf_res, wyt_tf[4]],
+                                   [wyt_tf[5], wyt_tf[6], wyt_tf[7]]])
+        self.wyt_tf = tf.reshape(wyt_tf_enforce, (3, 3, 1, 1))
 
         # add constrains
-        self.singula_penalty = tf.abs(tf.reduce_sum(self.wtx_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wty_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wxt_tf))\
-                               + tf.abs(tf.reduce_sum(self.wyt_tf))\
-                               + tf.abs(tf.reduce_sum(self.wtt_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wxx_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wxy_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wyx_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wyy_tf))
-            # self.E = tf.clip_by_value(self.E, 0, 1)
+        self.singula_penalty = (tf.reduce_sum(self.wxt_tf)
+                              + tf.reduce_sum(self.wyt_tf)
+                                )**2
+        # self.E = tf.clip_by_value(self.E, 0, 1)
         # self.mu = tf.clip_by_value(self.mu, 0, 0.5)
 
         # tf.nn.conv2d filter shape: [filter_height, filter_width, in_channels, out_channels]

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="004af070-4a0a-4fb6-896d-48c838746d10" name="Default" comment="2, 4, 5 filters are trained well, 9 filters are not">
-      <change afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/thermo_elasticity/data_loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/thermo_elasticity/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_4filters_elast.py" afterDir="false" />
+    <list default="true" id="004af070-4a0a-4fb6-896d-48c838746d10" name="Default" comment="joint estimation with filter on phase gradient">
+      <change afterPath="$PROJECT_DIR$/thermo_elasticity/result/noise0.01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/thermo_elasticity/result/noise0.1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters_enforce.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_elast_conv.py" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_elast_conv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thermo_elasticity/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/thermo_elasticity/data_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thermo_elasticity/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/thermo_elasticity/evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="157" column="23" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
+            <state relative-caret-position="561">
+              <caret line="133" selection-start-line="133" selection-end-line="133" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -34,39 +36,55 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thermo_elasticity/evaluation.py">
+        <entry file="file://$PROJECT_DIR$/thermo_elasticity/data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="75" column="54" selection-start-line="75" selection-start-column="50" selection-end-line="75" selection-end-column="54" />
+            <state relative-caret-position="380">
+              <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="77" column="36" selection-start-line="77" selection-start-column="36" selection-end-line="77" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters_enforce.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1903">
+              <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py">
+        <entry file="file://$PROJECT_DIR$/thermo_elasticity/evaluation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="271" column="35" lean-forward="true" selection-start-line="271" selection-start-column="35" selection-end-line="271" selection-end-column="35" />
-              <folding>
-                <element signature="e#4294#5356#0" />
-                <element signature="e#5392#6346#0" />
-                <element signature="e#6383#6987#0" />
-                <element signature="e#7027#7565#0" />
-              </folding>
+            <state relative-caret-position="254">
+              <caret line="178" column="33" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_elast_conv.py">
+        <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="437">
+              <caret line="271" column="63" selection-start-line="271" selection-start-column="63" selection-end-line="271" selection-end-column="63" />
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#4294#5356#0" />
+                <element signature="e#5392#6346#0" />
+                <element signature="e#6383#6987#0" />
+                <element signature="e#7027#7565#0" />
               </folding>
             </state>
           </provider>
@@ -83,36 +101,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_np</find>
-      <find>u_out</find>
-      <find>wyy_ref</find>
-      <find>grad</find>
-      <find>l</find>
-      <find>w_filter</find>
-      <find>session</find>
-      <find>get_optimizer</find>
-      <find>gradient</find>
-      <find>trainable_var_pl</find>
-      <find>resp_pl</find>
-      <find>batch</find>
+      <find>newtwon</find>
+      <find>pred</find>
+      <find>train</find>
+      <find>data</find>
       <find>get_loss</find>
-      <find>bc_mask</find>
-      <find>d</find>
-      <find>disp</find>
+      <find>singula_penalty</find>
       <find>loss</find>
-      <find>nicer_mask</find>
-      <find>stepmx</find>
-      <find>float32</find>
-      <find>prei</find>
-      <find>4</find>
-      <find>moduleTNC</find>
-      <find>train_var_pl</find>
-      <find>rho</find>
-      <find>self.rho</find>
-      <find>HAS_TO_FILTER</find>
-      <find>3000</find>
-      <find>1</find>
-      <find>12</find>
+      <find>TF</find>
+      <find>9*2</find>
+      <find>9</find>
+      <find>pl</find>
+      <find>_pl</find>
+      <find>18</find>
+      <find>trainable_var_np</find>
+      <find>4*</find>
+      <find>trainable_var_pl</find>
+      <find>omega</find>
+      <find>init_solve</find>
+      <find>penalty</find>
+      <find>8*</find>
+      <find>8 *</find>
+      <find>$PROJECT_DIR$/thermo_elasticity/evaluation.py</find>
+      <find>_NP</find>
+      <find>resp_ref</find>
+      <find>trainable_var_ref</find>
+      <find>run_forward</find>
+      <find>train_resp</find>
+      <find>size</find>
+      <find>0.1</find>
+      <find>0.01</find>
     </findStrings>
     <replaceStrings>
       <replace>num_node</replace>
@@ -130,7 +148,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/thermal/code_tensorflow/mask_conv.py" />
         <option value="$PROJECT_DIR$/thermal/code_python/thermal_2phase_2D_np_bc1.py" />
         <option value="$PROJECT_DIR$/code_testing/Untitled Document 3" />
@@ -172,15 +189,16 @@
         <option value="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_forward_tf.py" />
         <option value="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint.py" />
         <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train.py" />
-        <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py" />
         <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_4filters.py" />
         <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_5filters.py" />
         <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_4filters_elast.py" />
-        <option value="$PROJECT_DIR$/thermo_elasticity/data_loader.py" />
-        <option value="$PROJECT_DIR$/thermo_elasticity/evaluation.py" />
-        <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py" />
         <option value="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_elast_conv.py" />
         <option value="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py" />
+        <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py" />
+        <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters_enforce.py" />
+        <option value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py" />
+        <option value="$PROJECT_DIR$/thermo_elasticity/data_loader.py" />
+        <option value="$PROJECT_DIR$/thermo_elasticity/evaluation.py" />
       </list>
     </option>
   </component>
@@ -209,19 +227,6 @@
               <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
               <item name="elasticity" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
-              <item name="elasticity" type="462c0819:PsiDirectoryNode" />
-              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FEA_Net" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FEA_Net" type="462c0819:PsiDirectoryNode" />
-              <item name="elasticity" type="462c0819:PsiDirectoryNode" />
-              <item name="code_tensorflow" type="462c0819:PsiDirectoryNode" />
-              <item name="tf_ops_cpp" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -231,9 +236,9 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/elasticity/code_tensorflow" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/thermo_elasticity/result" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf.py" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -244,8 +249,8 @@
       <recent name="$PROJECT_DIR$/testing_code" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/elasticity/code_tensorflow" />
       <recent name="$PROJECT_DIR$/thermo_elasticity" />
+      <recent name="$PROJECT_DIR$/elasticity/code_tensorflow" />
       <recent name="$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp" />
       <recent name="$PROJECT_DIR$/thermal/code_tensorflow" />
       <recent name="$PROJECT_DIR$/thermal/code_tensorflow/tf_ops_cpp" />
@@ -263,7 +268,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.elast_2phase_2D_tf_joint_linesearch">
+  <component name="RunManager" selected="Python.evaluation">
     <configuration name="elast_2phase_2D_tf_joint_linesearch" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true">
       <module name="MG_net" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -330,28 +335,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="therm_elast_train_4filters" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MG_net" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thermo_elasticity" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_4filters.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="therm_elast_train_4filters_elast" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true">
       <module name="MG_net" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -374,20 +357,42 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="therm_elast_train_9filters" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MG_net" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thermo_elasticity" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.therm_elast_train" />
-      <item itemvalue="Python.therm_elast_train_4filters" />
       <item itemvalue="Python.therm_elast_train_4filters_elast" />
       <item itemvalue="Python.evaluation" />
       <item itemvalue="Python.elast_2phase_2D_tf_joint_linesearch" />
+      <item itemvalue="Python.therm_elast_train_9filters" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.elast_2phase_2D_tf_joint_linesearch" />
         <item itemvalue="Python.evaluation" />
-        <item itemvalue="Python.therm_elast_train_4filters_elast" />
+        <item itemvalue="Python.therm_elast_train_9filters" />
         <item itemvalue="Python.therm_elast_train" />
-        <item itemvalue="Python.therm_elast_train_4filters" />
+        <item itemvalue="Python.elast_2phase_2D_tf_joint_linesearch" />
+        <item itemvalue="Python.therm_elast_train_4filters_elast" />
       </list>
     </recent_temporary>
   </component>
@@ -406,7 +411,7 @@
       <workItem from="1557855001759" duration="2575000" />
       <workItem from="1557858780861" duration="136134000" />
       <workItem from="1559012528228" duration="83645000" />
-      <workItem from="1559585036104" duration="21976000" />
+      <workItem from="1559585036104" duration="59822000" />
     </task>
     <task id="LOCAL-00001" summary="finished Jacobi, V cycle, full cycle. waiting for Laplacian data to test.&#10;Also not sure pooling or smoothing which is better, need to be tested.">
       <created>1523080509831</created>
@@ -737,7 +742,21 @@
       <option name="project" value="LOCAL" />
       <updated>1559549395657</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="1. joint optimization with line search is successful&#10;2. coupling filter is good, but inference is way off.">
+      <created>1559622087414</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1559622087415</updated>
+    </task>
+    <task id="LOCAL-00049" summary="joint estimation with filter on phase gradient">
+      <created>1559665268967</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1559665268967</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -773,7 +792,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="245676000" />
+    <option name="totallyTimeSpent" value="283522000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -787,7 +806,7 @@
   <component name="ToolWindowManager">
     <frame x="1984" y="-4" width="1857" height="1085" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48600882" visible="true" weight="0.25761774" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48600882" visible="true" weight="0.2504155" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5139912" side_tool="true" weight="0.16177285" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
@@ -797,17 +816,17 @@
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.3283433" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.2704591" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.29441118" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="8" visible="true" weight="0.3223553" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.30838323" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.2744511" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.22255489" />
+      <window_info anchor="bottom" id="Debug" order="9" visible="true" weight="0.17964073" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" internal_type="SLIDING" order="3" visible="true" weight="0.26703602" />
-      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="SciView" internal_type="SLIDING" order="3" weight="0.27700832" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32963988" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -854,8 +873,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="organized simple 2d heat code in numpy for students to test" />
-    <MESSAGE value="code backup" />
     <MESSAGE value="ready to release to students" />
     <MESSAGE value="minor modifications with new data on single phase heat" />
     <MESSAGE value="+new data on bi phase heat&#10;+weighted jacobi reference data" />
@@ -879,7 +896,9 @@
     <MESSAGE value="modified forward inference of elasticity to cpp. tested joint optimizing property and phase but not successful yet." />
     <MESSAGE value="training on coupling field with Newton's method is working well on both 2 filter version and 4 filter version" />
     <MESSAGE value="2, 4, 5 filters are trained well, 9 filters are not" />
-    <option name="LAST_COMMIT_MESSAGE" value="2, 4, 5 filters are trained well, 9 filters are not" />
+    <MESSAGE value="1. joint optimization with line search is successful&#10;2. coupling filter is good, but inference is way off." />
+    <MESSAGE value="joint estimation with filter on phase gradient" />
+    <option name="LAST_COMMIT_MESSAGE" value="joint estimation with filter on phase gradient" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1135,29 +1154,39 @@
           <option name="timeStamp" value="1009" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/thermo_elasticity/evaluation.py</url>
-          <line>113</line>
-          <option name="timeStamp" value="1015" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py</url>
-          <line>50</line>
+          <line>51</line>
           <option name="timeStamp" value="1026" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py</url>
-          <line>286</line>
+          <line>293</line>
           <option name="timeStamp" value="1028" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py</url>
-          <line>245</line>
-          <option name="timeStamp" value="1029" />
+          <line>134</line>
+          <option name="timeStamp" value="1031" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py</url>
-          <line>113</line>
-          <option name="timeStamp" value="1030" />
+          <line>242</line>
+          <option name="timeStamp" value="1032" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermo_elasticity/evaluation.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="1040" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermo_elasticity/evaluation.py</url>
+          <line>203</line>
+          <option name="timeStamp" value="1056" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/thermo_elasticity/data_loader.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="1071" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -1174,8 +1203,8 @@
     <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf_joint_LBFGS.coverage" NAME="elast_2phase_2D_tf_joint_LBFGS Coverage Results" MODIFIED="1559016697723" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
     <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train_5filters.coverage" NAME="therm_elast_train_5filters Coverage Results" MODIFIED="1559547861438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
     <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf_joint_activeset.coverage" NAME="elast_2phase_2D_tf_joint_activeset Coverage Results" MODIFIED="1558988799249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
-    <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train.coverage" NAME="therm_elast_train Coverage Results" MODIFIED="1559549339539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
-    <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf_joint_linesearch.coverage" NAME="elast_2phase_2D_tf_joint_linesearch Coverage Results" MODIFIED="1559609000050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
+    <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf_joint_linesearch.coverage" NAME="elast_2phase_2D_tf_joint_linesearch Coverage Results" MODIFIED="1559665619311" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
+    <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train.coverage" NAME="therm_elast_train Coverage Results" MODIFIED="1559666412505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
     <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train_4filters.coverage" NAME="therm_elast_train_4filters Coverage Results" MODIFIED="1559549088956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
     <SUITE FILE_PATH="coverage/FEA_Net$elast_1phase_2D_np.coverage" NAME="elast_1phase_2D_np Coverage Results" MODIFIED="1558633969672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_python" />
     <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_forward_tf.coverage" NAME="elast_2phase_2D_forward_tf Coverage Results" MODIFIED="1559275126283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
@@ -1183,54 +1212,66 @@
     <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf_activeset.coverage" NAME="elast_2phase_2D_tf_activeset Coverage Results" MODIFIED="1559016668301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
     <SUITE FILE_PATH="coverage/FEA_Net$elast_FCN.coverage" NAME="elast_FCN Coverage Results" MODIFIED="1559247499025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
     <SUITE FILE_PATH="coverage/FEA_Net$elast_2phase_2D_tf.coverage" NAME="elast_2phase_2D_tf Coverage Results" MODIFIED="1559180028708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/elasticity/code_tensorflow" />
-    <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train_9filters.coverage" NAME="therm_elast_train_9filters Coverage Results" MODIFIED="1559548721514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
-    <SUITE FILE_PATH="coverage/FEA_Net$evaluation.coverage" NAME="evaluation Coverage Results" MODIFIED="1559595378744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
+    <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train_9filters.coverage" NAME="therm_elast_train_9filters Coverage Results" MODIFIED="1559857937449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
+    <SUITE FILE_PATH="coverage/FEA_Net$evaluation.coverage" NAME="evaluation Coverage Results" MODIFIED="1559879194188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
     <SUITE FILE_PATH="coverage/FEA_Net$therm_elast_train_4filters_elast.coverage" NAME="therm_elast_train_4filters_elast Coverage Results" MODIFIED="1559581426175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thermo_elasticity" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>print(result[0][-4:])</expression-string>
+        <expression-string>plt.imshow(data['train_resp'][0,:,:,0])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(result[-4:])</expression-string>
+        <expression-string>plt.imshow(data['test_resp'][0,:,:,0])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>jacobi.sess.run(jacobi.rho,{train_var_pl:result[0]})</expression-string>
+        <expression-string>plt.imshow(data['test_resp'][0,:,:,0]-data['train_resp'][0,:,:,0])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>jacobi.sess.run(jacobi.rho,{train_var_pl:train_var_ref})</expression-string>
+        <expression-string>plt.imshow(data['test_resp'][0,:,:,0])</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>jacobi.sess.run(jacobi.rho)</expression-string>
+        <expression-string>plt.imshow(data['test_resp'])</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sess.run(jacobi.rho)</expression-string>
+        <expression-string>plt.imshow(data['train_resp'][0,:,:,2]-data['test_resp'][0,:,:,2])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>jacobi.rho</expression-string>
+        <expression-string>plt.imshow(data['train_resp'][0,:,:,1]-data['test_resp'][0,:,:,1])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>result[0][-4:]</expression-string>
+        <expression-string>plt.imshow(data['train_resp'][0,:,:,0]-data['test_resp'][0,:,:,0])
+plt.colorbar()
+plt.show()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>plt.imshow(result[0][:-4].reshape(12,12))
+        <expression-string>plt.imshow(data['train_load'][0,:,:,0])
 plt.colorbar()
 plt.show()</expression-string>
         <language-id>Python</language-id>
@@ -1348,27 +1389,6 @@ plt.show()</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tqdm/_tqdm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1584">
-          <caret line="99" selection-start-line="99" selection-end-line="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/matplotlib/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="599" selection-start-line="599" selection-end-line="599" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/training/momentum.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="43" column="44" selection-start-line="43" selection-start-column="36" selection-end-line="43" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_1phase_2D_tf_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1332">
@@ -1405,7 +1425,7 @@ plt.show()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <element signature="e#23#90#1" expanded="false" />
+            <element signature="e#23#90#1" />
           </folding>
         </state>
       </provider>
@@ -1526,13 +1546,6 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-572095004/numpy/random/mtrand.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="1997" column="30" lean-forward="true" selection-start-line="1997" selection-start-column="30" selection-end-line="1997" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_activeset.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
@@ -1571,13 +1584,6 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/gen_nn_ops.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="590" column="8" selection-start-line="587" selection-start-column="8" selection-end-line="590" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/scipy/optimize/zeros.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
@@ -1599,13 +1605,6 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="315" selection-start-line="315" selection-end-line="319" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_4filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="497">
@@ -1624,16 +1623,6 @@ plt.show()</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="51" lean-forward="true" selection-start-line="44" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thermo_elasticity/data_loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="44" column="22" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1696,16 +1685,6 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="157" column="23" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -1734,16 +1713,6 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thermo_elasticity/evaluation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="75" column="54" selection-start-line="75" selection-start-column="50" selection-end-line="75" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/tf_ops_cpp/mask_elast_conv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1754,16 +1723,86 @@ plt.show()</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/scipy/optimize/_trustregion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/array_ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="467" selection-start-line="467" selection-end-line="467" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/tensorflow/python/ops/gen_nn_ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="613" selection-start-line="613" selection-end-line="613" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-572095004/numpy/random/mtrand.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="1596" column="35" selection-start-line="1596" selection-start-column="31" selection-end-line="1596" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters_enforce.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1903">
+          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_2filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermo_elasticity/data_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermo_elasticity/therm_elast_train_9filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="77" column="36" selection-start-line="77" selection-start-column="36" selection-end-line="77" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/elasticity/code_tensorflow/elast_2phase_2D_tf_joint_linesearch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="271" column="35" lean-forward="true" selection-start-line="271" selection-start-column="35" selection-end-line="271" selection-end-column="35" />
+        <state relative-caret-position="437">
+          <caret line="271" column="63" selection-start-line="271" selection-start-column="63" selection-end-line="271" selection-end-column="63" />
           <folding>
+            <element signature="e#0#18#0" expanded="true" />
             <element signature="e#4294#5356#0" />
             <element signature="e#5392#6346#0" />
             <element signature="e#6383#6987#0" />
             <element signature="e#7027#7565#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thermo_elasticity/evaluation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="178" column="33" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
         </state>
       </provider>
     </entry>

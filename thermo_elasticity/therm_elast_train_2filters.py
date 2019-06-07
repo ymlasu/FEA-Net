@@ -49,6 +49,8 @@ class FEA_Net_h():
         # TF variable vector
         self.trainable_var_np = np.concatenate([self.wxt_np.flatten(),
                                                 self.wyt_np.flatten()], 0)
+        self.trainable_var_ref = np.concatenate([self.wxt_ref.flatten(),
+                                                self.wyt_ref.flatten()], 0)
         self.trainable_var_pl = tf.placeholder(tf.float32, shape=(9 * 2,), name='filter_vector')
 
         wxt_tf, wyt_tf = tf.split(self.trainable_var_pl, 2)
@@ -56,8 +58,9 @@ class FEA_Net_h():
         self.wyt_tf = tf.reshape(wyt_tf, (3, 3, 1, 1))
 
         # add constrains
-        self.singula_penalty = tf.abs(tf.reduce_sum(self.wxt_tf)) \
-                               + tf.abs(tf.reduce_sum(self.wyt_tf))
+        self.singula_penalty = (tf.reduce_sum(self.wxt_tf)
+                              + tf.reduce_sum(self.wyt_tf)
+                                )**2
         # self.E = tf.clip_by_value(self.E, 0, 1)
         # self.mu = tf.clip_by_value(self.mu, 0, 0.5)
 
@@ -136,9 +139,9 @@ class FEA_Net_h():
 
     def get_loss(self):
         self.diff = self.load_pred - self.load_pl
-        self.diff_not_on_bc = self.diff[:,1:-1,1:-1,:]
-        # self.l1_error = tf.reduce_mean(self.diff_not_on_bc**2)
-        self.l1_error = tf.reduce_mean((self.diff_not_on_bc*self.resp_pl[:,1:-1,1:-1,:])**2)
+        diff_not_on_bc = self.apply_bc(self.diff)
+        self.l1_error = tf.reduce_mean(diff_not_on_bc**2)
+        # self.l1_error = tf.reduce_mean((self.diff_not_on_bc*self.resp_pl[:,1:-1,1:-1,:])**2)
         self.loss = self.l1_error #+ self.singula_penalty
         return self.loss
 
@@ -188,5 +191,5 @@ class FEA_Net_h():
 
     def apply(self, u_in):
         wx = self.v2u_layer(self.w_filter, u_in)
-        u_out = self.omega * (self.new_load - wx) * self.d_matrix +  u_in
+        u_out = self.omega * (self.new_load - wx) / self.d_matrix +  u_in
         return u_out

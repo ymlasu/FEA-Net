@@ -235,11 +235,11 @@ if __name__ == "__main__":
     from tqdm import tqdm
 
     EST_MASK = 0
-    PROBLEM_SIZE = 49
+    PROBLEM_SIZE = 73
     FORWARD_SOLVING = 0
     HAS_TO_FILTER = 0
 
-    num_node, mask_data, resp_data, load_data, rho = load_data_elem_3circle()#load_data_elem_1circle()#load_data_elem_micro_noise()#load_data_elem_micro()#
+    num_node, mask_data, resp_data, load_data, rho = load_data_elem_micro()#load_data_elem_3circle()#load_data_elem_1circle()#load_data_elem_micro_noise()#
     load_pl= load_data.astype('float32')
     resp_pl= resp_data.astype('float32')
     # mask_data= mask_data[:, 23:25,23:25,:].astype('float32')
@@ -250,11 +250,11 @@ if __name__ == "__main__":
     tt_num_elems = (num_node-1)**2
     initial_mask = np.random.rand(tt_num_elems).astype('float32')
     initial_rho = np.random.rand(4).astype('float32')#np.asarray([0.1,0.1,0.1,0.1])
-    train_var_np = np.concatenate([initial_mask, initial_rho],-1)
+    train_var_np = np.copy(np.concatenate([initial_mask, initial_rho],-1))
 
     initial_mask = mask_data.flatten()
     initial_rho = np.asarray([0.23,0.36,0.2,0.25])#
-    train_var_ref = np.concatenate([initial_mask, initial_rho],-1)
+    train_var_ref = np.copy(np.concatenate([initial_mask, initial_rho],-1))
 
     train_var_pl = tf.Variable(initial_value=train_var_np,dtype=tf.float32, name='mask_pl') #defined on the elements
 
@@ -271,7 +271,7 @@ if __name__ == "__main__":
                       fprime=jacobi.get_grad,
                       bounds=zip([0]*(tt_num_elems+4), [1]*(tt_num_elems+4)),
                       stepmx=100,
-                      pgtol=1e-9,
+                      pgtol=1e-15,
                       ftol=1e-15,
                       maxfun=20000,
                       disp='True')
